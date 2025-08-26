@@ -1,2 +1,2 @@
-# bleep
-This is a grocery delivery platform.
+# Bleep - Grocery Delivery Platform
+A responsive web application for seamless online grocery shopping, powered by Next.js. The platform provides an intuitive user interface where customers can browse products, manage shopping carts, and place orders with ease. Designed with a mobile-first approach, it features dynamic product listings, smooth page transitions, optimized performance, and real-time order updates. Leveraging Next.js’s server-side rendering and routing, the frontend delivers a fast, reliable, and engaging shopping experience.
