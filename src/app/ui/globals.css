@@ -57,6 +57,17 @@
 }
 
 :root {
+   --color-primary-50:  #FFE5E6;
+   --color-primary-100: #FFB8BA;
+   --color-primary-200: #FF8A8D;
+   --color-primary-300: #FF5C60;
+   --color-primary-400: #FF2E33;
+   --color-primary-500: #F50006;
+   --color-primary-600: #D60005;
+   --color-primary-700: #B80004;
+   --color-primary-800: #E40002;
+   --color-primary-900: #8A0002;
+   
    --radius:  0.625rem;
    --background:  oklch(1 0 0);
    --foreground:  oklch(0.145 0 0);
@@ -64,8 +75,10 @@
    --card-foreground:  oklch(0.145 0 0);
    --popover:  oklch(1 0 0);
    --popover-foreground:  oklch(0.145 0 0);
-   --primary:  oklch(0.205 0 0);
-   --primary-foreground:  oklch(0.985 0 0);
+
+   --primary: var(--color-primary-800);
+   --primary-foreground: #ffffff;
+
    --secondary:  oklch(0.97 0 0);
    --secondary-foreground:  oklch(0.205 0 0);
    --muted:  oklch(0.97 0 0);
@@ -83,8 +96,10 @@
    --chart-5:  oklch(0.769 0.188 70.08);
    --sidebar:  oklch(0.985 0 0);
    --sidebar-foreground:  oklch(0.145 0 0);
-   --sidebar-primary:  oklch(0.205 0 0);
-   --sidebar-primary-foreground:  oklch(0.985 0 0);
+
+   --sidebar-primary: var(--color-primary-800);
+   --sidebar-primary-foreground: #ffffff;
+
    --sidebar-accent:  oklch(0.97 0 0);
    --sidebar-accent-foreground:  oklch(0.205 0 0);
    --sidebar-border:  oklch(0.922 0 0);
