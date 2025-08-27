@@ -47,7 +47,7 @@ export default function LoginForm() {
          <Card className="w-full max-w-sm">
             <CardHeader>
                <CardTitle className="text-lg font-semibold">Welcome Back!</CardTitle>
-               <CardDescription>Login to your existing account</CardDescription>
+               <CardDescription>Login to your existing bleep account</CardDescription>
             </CardHeader>
             <CardContent>
                <Form {...form}>
