@@ -3,10 +3,10 @@
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import React from "react";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button"
 import {
    Card,
    CardAction,
@@ -24,7 +24,6 @@ import {
    InputOTPGroup,
    InputOTPSlot,
 } from "@/components/ui/input-otp"
-import React from "react";
 
 const formSchema = z.object({
    otp: z.string()
@@ -34,7 +33,8 @@ const formSchema = z.object({
 
 
 export default function SignupForm() {
-   const [value, setValue] = React.useState("")
+   const [value, setValue] = React.useState("");
+   
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -72,17 +72,16 @@ export default function SignupForm() {
                               name="otp"
                               render={({ field }) => (
                                  <InputOTP 
-                                 className="w-full"
-                                 maxLength={6}
-                                 value={value}
-                                 onChange={(val) => setValue(val.replace(/[^0-9]/g, ""))}
+                                    className="w-full"
+                                    maxLength={6}
+                                    value={value}
+                                    onChange={(val) => setValue(val.replace(/[^0-9]/g, ""))}
                                  >
-                                 {/* Center the group */}
-                                 <InputOTPGroup className="flex justify-center w-full">
-                                    {[...Array(6)].map((_, i) => (
-                                       <InputOTPSlot key={i} index={i} className="w-12 h-12 text-center"/>
-                                    ))}
-                                 </InputOTPGroup>
+                                    <InputOTPGroup className="flex justify-center w-full">
+                                       {[...Array(6)].map((_, i) => (
+                                          <InputOTPSlot key={i} index={i} className="w-12 h-12 text-center"/>
+                                       ))}
+                                    </InputOTPGroup>
                                  </InputOTP>
                               )}
                            />
