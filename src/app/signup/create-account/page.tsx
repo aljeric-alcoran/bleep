@@ -25,13 +25,13 @@ import {
 
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
    email: z.email(),
    firstName: z.string().max(50).min(2, "First name must be at least 2 characters"),
    lastName: z.string().max(50).min(2, "Last name must be at least 2 characters"),
-   phoneNumber: z.string().min(10, "Phone number is too short"),
+   phoneNumber: z.string().length(10, "Phone number must be 10 digits"),
    countryCode: z.string().nonempty("Select a code"),
 })
 
@@ -58,7 +58,8 @@ export default function RegistrationForm() {
    })
 
    function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
+      const fullPhoneNumber = values.countryCode + values.phoneNumber;
+      console.log({ ...values, phoneNumber: fullPhoneNumber });
    }
 
    return (
@@ -144,9 +145,10 @@ export default function RegistrationForm() {
 
                                           <Input type="tel" placeholder="9123456789"
                                              {...field}
-                                             onChange={(e) =>
-                                                field.onChange(e.target.value.replace(/\D/g, ""))
-                                             }
+                                             onChange={(e) => {
+                                                const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+                                                field.onChange(digits);
+                                             }}
                                              className="flex-1"
                                           />
                                        </div>
