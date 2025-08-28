@@ -1,5 +1,8 @@
 'use client'
 
+import { useRouter } from "next/navigation";
+import { useSignup } from "@/app/context/SignupContext";
+
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +33,9 @@ const formSchema = z.object({
 })
 
 export default function SignupForm() {
+   const router = useRouter();
+   const { setEmail } = useSignup();
+
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -38,6 +44,9 @@ export default function SignupForm() {
    })
 
    function onSubmit(values: z.infer<typeof formSchema>) {
+      setEmail(values.email);
+      router.push("/signup/verify-otp");
+
       console.log(values)
    }
 
