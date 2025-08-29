@@ -1,4 +1,4 @@
-import GoogleSignup from "@/app/signup/google";
+import GoogleSignup from "@/components/google";
 import SignupForm from "@/app/signup/form";
 import { Button } from "@/components/ui/button"
 import {

@@ -1,5 +1,7 @@
-export default function LoginForm() {
+export default async function Dashboard() {
    return (
-      <div>Dashboard</div>
-   )
+      <div>
+         <h1>Welcome to dashboard</h1>
+      </div>
+   );
 }
