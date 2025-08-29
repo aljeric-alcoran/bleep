@@ -21,6 +21,7 @@ import {
 import loginUser from "@/lib/api/login";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
    email: z.email(),
@@ -28,6 +29,7 @@ const formSchema = z.object({
 })
 
 export default function LoginForm() {
+   const router = useRouter();
    const [error, setError] = useState<string | null>(null);
 
    const form = useForm<z.infer<typeof formSchema>>({
@@ -41,8 +43,11 @@ export default function LoginForm() {
    async function onSubmit(values: z.infer<typeof formSchema>) {
       const data = await loginUser(values);
       if (data.error) setError(data.error);
-      
-      console.log(data);
+      else {
+         router.push("/dashboard");
+         console.log(data);
+
+      }
    }
 
    return (
