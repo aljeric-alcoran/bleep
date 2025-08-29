@@ -21,8 +21,6 @@ export default function VerifyOTP() {
    useEffect(() => {
       if (!email) router.replace("/signup");
    }, [email, router]);
-  
-   if (!email) return null;
 
    return (
       <div className="flex justify-center items-center h-dvh">

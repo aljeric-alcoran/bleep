@@ -11,8 +11,8 @@ interface SignupContextType {
 const SignupContext = createContext<SignupContextType | undefined>(undefined);
 
 export function SignupProvider({ children }: { children: React.ReactNode }) {
-   const [email, setEmail] = useState<string | null>(null);
-   const [otp, setOtp] = useState<string | null>(null);
+   const [email, setEmail] = useState<string>('');
+   const [otp, setOtp] = useState<string>('');
 
    return (
       <SignupContext.Provider value={{ email, setEmail, otp, setOtp }}>

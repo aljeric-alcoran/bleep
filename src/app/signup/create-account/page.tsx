@@ -18,10 +18,8 @@ export default function Registration() {
    const { email, otp } = useSignup();
 
    useEffect(() => {
-      if (!email && !otp) router.replace("/signup");
-   }, [email, router]);
-  
-   if (!email) return null;
+      if (!email || !otp) router.replace("/signup");
+   }, [email, otp, router]);
 
    return (
       <div className="flex justify-center items-center h-dvh">

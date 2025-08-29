@@ -28,18 +28,17 @@ const formSchema = z.object({
    countryCode: z.string().nonempty("Select a code"),
 })
 
-
 export default function RegistrationForm({
    verifiedEmail,
    otp
 }: Readonly<{
-   verifiedEmail: string | undefined;
+   verifiedEmail: string | null;
    otp: string | null;
 }>) {
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         email: verifiedEmail,
+         email: verifiedEmail  ?? "",
          firstName: "",
          lastName: "",
          countryCode: "+63",
