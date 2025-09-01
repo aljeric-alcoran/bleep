@@ -21,6 +21,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Bell, ChevronsUpDown, CircleUserRound, LogOut } from "lucide-react"
+import { logoutUser } from "@/lib/api/auth"
+
 export function NavUser({
   user,
 }: {
@@ -85,7 +87,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logoutUser}>
               <LogOut />
               Log out
             </DropdownMenuItem>
