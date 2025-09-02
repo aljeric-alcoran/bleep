@@ -1,4 +1,6 @@
-import { NextRequest } from "next/server";
+'use server';
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function loginUser({ email, password }: { email: string, password: string }) {
    const response = await fetch('/api/auth/login', {
@@ -44,14 +46,27 @@ export async function redirectUser() {
    return response.json();
 }
 
-export async function requestAccessToken(refreshToken: string, req: NextRequest) {
-   const response = await fetch(`${req.nextUrl.origin}/api/auth/refresh`, {
+export async function requestAccessToken() {
+   const cookieStore = await cookies();
+   const refreshToken = cookieStore.get('refreshToken')?.value;
+ 
+   if (!refreshToken) {
+      return NextResponse.json({ message: 'No refresh token found' }, { status: 401 });
+   }
+ 
+   const response = await fetch(`http://localhost:3002/api/auth/refresh`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Bearer ${refreshToken}`
       },
       body: JSON.stringify({ refreshToken }),
    });
-   return response.json();
+ 
+   const data = await response.json();
+ 
+   if (!data.accessToken) {
+      return NextResponse.json({ message: 'Failed to refresh token' }, { status: response.status });
+   }
+ 
+   return NextResponse.json(data, { status: 200 });
 }

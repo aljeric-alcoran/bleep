@@ -1,6 +1,12 @@
 import AppBreadcrumb from "@/components/app-breadcrumb";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+   title: "Dashboard",
+};
+
 
 export default function DashboardLayout({ 
    children, 
