@@ -11,6 +11,16 @@ export async function loginUser({ email, password }: { email: string, password: 
    return response.json();
 }
 
+export async function googleLogin() {
+   const response = await fetch('/api/auth/google', {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json'
+      }
+   });
+   return response.json();
+}
+
 export async function logoutUser() {
    const response = await fetch('/api/auth/logout', {
       method: 'POST',
@@ -24,6 +34,14 @@ export async function logoutUser() {
    } else {
       console.error('Logout failed.');
    }
+}
+
+export async function redirectUser() {
+   const response = await fetch('/api/auth/me', {
+      method: 'GET',
+      credentials: 'include',
+   });
+   return response.json();
 }
 
 export async function requestAccessToken(refreshToken: string, req: NextRequest) {
