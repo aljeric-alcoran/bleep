@@ -1,13 +1,12 @@
 import { NextRequest } from "next/server";
 
-export async function requestAccessToken(refreshToken: string, req: NextRequest) {
-   const response = await fetch(`${req.nextUrl.origin}/api/auth/refresh`, {
+export async function loginUser({ email, password }: { email: string, password: string }) {
+   const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${refreshToken}`
+         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ refreshToken }),
+      body: JSON.stringify({ email, password })
    });
    return response.json();
 }
@@ -25,4 +24,16 @@ export async function logoutUser() {
    } else {
       console.error('Logout failed.');
    }
+}
+
+export async function requestAccessToken(refreshToken: string, req: NextRequest) {
+   const response = await fetch(`${req.nextUrl.origin}/api/auth/refresh`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${refreshToken}`
+      },
+      body: JSON.stringify({ refreshToken }),
+   });
+   return response.json();
 }
