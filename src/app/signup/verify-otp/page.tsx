@@ -1,6 +1,6 @@
 'use client'
 
-import VerifyOTPForm from "./form";
+import VerifyOTPForm from "./Form";
 import { useEffect } from "react";
 import { useSignup } from "@/app/context/SignupContext";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,7 @@ export default function VerifyOTP() {
                <CardDescription>Please enter the one-time password sent to your email.</CardDescription>
             </CardHeader>
             <CardContent>
-               <VerifyOTPForm setOtp={setOtp} />
+               <VerifyOTPForm setOtp={setOtp} email={email} />
             </CardContent>
          </Card>
       </div>
