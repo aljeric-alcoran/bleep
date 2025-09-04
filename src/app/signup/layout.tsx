@@ -2,7 +2,7 @@ import { SignupProvider } from "@/app/context/SignupContext";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-   title: "Signup",
+   title: "Bleep |Signup",
 };
 
 export default function SignupLayout({ 

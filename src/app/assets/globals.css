@@ -3,21 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-   --color-primary-50:  #FFE5E6;
-   --color-primary-100: #FFB8BA;
-   --color-primary-200: #FF8A8D;
-   --color-primary-300: #FF5C60;
-   --color-primary-400: #FF2E33;
-   --color-primary-500: #F50006;
-   --color-primary-600: #D60005;
-   --color-primary-700: #B80004;
-   --color-primary-800: #E40002;
-   --color-primary-900: #8A0002;
-
-   --color-primary: var(--color-primary-800);
-}
-
 @theme inline {
    --radius-sm:  calc(var(--radius) - 4px);
    --radius-md:  calc(var(--radius) - 2px);

@@ -54,7 +54,7 @@ export default function LoginForm() {
          {error ? (
             <Alert className="mb-6 bg-red-50 text-red-700">
                <CircleX />
-               <AlertTitle>{error}</AlertTitle>
+               <AlertTitle className="text-xs mt-0.5 -ml-1">{error}</AlertTitle>
             </Alert>
          ) : null}
          <Form {...form}>
