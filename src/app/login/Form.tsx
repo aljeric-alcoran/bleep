@@ -18,7 +18,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/ui/form"
-import loginUser from "@/lib/api/login";
+import { loginUser } from "@/lib/api/auth";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -46,7 +46,6 @@ export default function LoginForm() {
       else {
          router.push("/dashboard");
          console.log(data);
-
       }
    }
 

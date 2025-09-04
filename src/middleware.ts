@@ -11,11 +11,11 @@ export async function middleware(req: NextRequest) {
 
    if (accessToken) {
       try {
-         const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+         const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET!);
          await jwtVerify(accessToken, secret);
          isAccessTokenValid = true;
-      } catch (err) {
-         console.log("Access Token Verification Error:", err);
+      } catch (error: { code: string } | any) {
+         console.log("Access Token Verification Error:", error);
       }
    }
 
@@ -26,11 +26,12 @@ export async function middleware(req: NextRequest) {
    } else {
       if (refreshToken) {
          try {
-            const { accessToken } = await requestAccessToken(refreshToken, req);
-
-            if (accessToken) {
+            const { accessToken: newAccessToken } = await requestAccessToken(refreshToken);
+            console.log("Middleware: New Access Token:", newAccessToken);
+            if (newAccessToken) {
                const responseWithNewToken = NextResponse.next();
-               responseWithNewToken.cookies.set("accessToken", accessToken, { httpOnly: true, secure: process.env.NODE_ENV !== "development", sameSite: "strict" });
+               responseWithNewToken.cookies.set("accessToken", newAccessToken, { httpOnly: true, secure: process.env.NODE_ENV !== "development", sameSite: "strict" });
+               NextResponse.redirect(new URL("/dashboard", req.url));
                return responseWithNewToken;
             } else {
                if (pathname.startsWith("/dashboard")) {
