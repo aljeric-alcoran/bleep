@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+const bleepUrLApi = "http://localhost:3000";
 
 const nextConfig: NextConfig = {
    /* config options here */
@@ -7,7 +8,7 @@ const nextConfig: NextConfig = {
       return [
          {
             source: "/api/auth/logout",
-            destination: "http://localhost:3000/api/auth/logout",
+            destination: `${bleepUrLApi}/api/auth/logout`,
          },
       ];
    }

@@ -13,11 +13,6 @@ export async function loginUser({ email, password }: { email: string, password: 
    return await response.json();
 }
 
-export async function googleLogin() {
-   const response = await fetch('/api/auth/google');
-   return response.json();
-}
-
 export async function logoutUser() {
    const response = await fetch('/api/auth/logout', {
       method: 'POST',

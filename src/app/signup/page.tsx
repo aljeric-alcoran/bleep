@@ -1,5 +1,5 @@
 import GoogleSignup from "@/components/google";
-import SignupForm from "@/app/signup/form";
+import SignupForm from "@/app/signup/Form";
 import { Button } from "@/components/ui/button"
 import {
    Card,
