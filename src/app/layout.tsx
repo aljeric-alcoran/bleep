@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { poppins } from "@/app/ui/fonts";
-import "@/app/ui/globals.css";
+import { Poppins } from "next/font/google";
+import "@/app/assets/globals.css";
 
 export const metadata: Metadata = {
    title: "Bleep"
 };
+
+export const poppins = Poppins({
+   subsets: ["latin"],
+   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export default function RootLayout({
    children,
@@ -13,7 +18,7 @@ export default function RootLayout({
 }>) {
    return (
       <html lang="en">
-         <body className={`${poppins.className} antialiased`}>
+         <body className={`${poppins.className} antialiased`} suppressHydrationWarning={true}>
             {children}
          </body>
       </html>

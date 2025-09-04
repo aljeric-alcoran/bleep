@@ -1,16 +1,30 @@
 'use server';
+
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+
+// export async function loginUser({ email, password }: { email: string, password: string }) {
+//    const response = await fetch(`http://localhost:3002/api/auth/login`, {
+//       method: 'POST',
+//       headers: {
+//          'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ email, password }),
+//    });
+ 
+//    const data = await response.json();
+//    return data; 
+//  }
 
 export async function loginUser({ email, password }: { email: string, password: string }) {
-   const response = await fetch('/api/auth/login', {
+   const response = await fetch(`http://localhost:3000/api/auth/login`, {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include', 
    });
-   return response.json();
+
+   return await response.json();
 }
 
 export async function googleLogin() {
