@@ -35,3 +35,30 @@ export const verifyEmail = async (email: string | null, otp: string) => {
       return { status: response.status, message: data.message };
    }
 }
+
+type User = {
+   otp: string;
+   firstname: string;
+   lastname: string;
+   email: string;
+   password: string;
+   phoneNumber: string;
+}
+
+export const registerUser = async (userObject: User) => {
+   const response = await fetch(`${baseURL}/api/register/`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userObject }),
+   });
+
+   if (!response.ok) {
+      const errorData = await response.json();
+      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
+   } else {
+      const data = await response.json();
+      return { status: response.status, message: data.message };
+   }
+}

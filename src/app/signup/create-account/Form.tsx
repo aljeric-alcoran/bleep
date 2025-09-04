@@ -1,3 +1,6 @@
+'use client'
+
+import { registerUser } from "@/lib/api/registration";
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +24,13 @@ import {
 } from "@/components/ui/form"
 
 const formSchema = z.object({
+   otp: z.string(),
    email: z.email(),
-   firstName: z.string().max(50).min(2, "First name must be at least 2 characters"),
-   lastName: z.string().max(50).min(2, "Last name must be at least 2 characters"),
+   firstname: z.string().max(50).min(2, "First name must be at least 2 characters"),
+   lastname: z.string().max(50).min(2, "Last name must be at least 2 characters"),
    phoneNumber: z.string().length(10, "Phone number must be 10 digits"),
    countryCode: z.string().nonempty("Select a code"),
+   password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
 export default function RegistrationForm({
@@ -38,17 +43,21 @@ export default function RegistrationForm({
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
+         otp: otp ?? "",
          email: verifiedEmail  ?? "",
-         firstName: "",
-         lastName: "",
+         firstname: "",
+         lastname: "",
+         password: "",
          countryCode: "+63",
          phoneNumber: "",
       },
    })
 
-   function onSubmit(values: z.infer<typeof formSchema>) {
-      const fullPhoneNumber = values.countryCode + values.phoneNumber;
-      console.log({ ...values, phoneNumber: fullPhoneNumber, otp });
+   async function onSubmit(values: z.infer<typeof formSchema>) {
+      values.phoneNumber = values.countryCode + values.phoneNumber;
+      const {countryCode,...userObject} = values;
+      const response  = await registerUser(userObject);
+      console.log({ userObject });
    }
 
    return (
@@ -73,7 +82,7 @@ export default function RegistrationForm({
                   <div className="grid grid-cols-2 gap-4 items-start">
                      <FormField
                         control={form.control}
-                        name="firstName"
+                        name="firstname"
                         render={({ field }) => (
                            <FormItem>
                               <FormLabel>First Name</FormLabel>
@@ -87,7 +96,7 @@ export default function RegistrationForm({
 
                      <FormField
                         control={form.control}
-                        name="lastName"
+                        name="lastname"
                         render={({ field }) => (
                            <FormItem>
                               <FormLabel>Last Name</FormLabel>
@@ -139,6 +148,19 @@ export default function RegistrationForm({
                         </FormItem>
                      )}
                   />
+                  <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Password</FormLabel>
+                              <FormControl>
+                                 <Input type="password" placeholder="Enter your password..." {...field} />
+                              </FormControl>
+                              <FormMessage className="text-xs"/>
+                           </FormItem>
+                        )}
+                     />
                </div>
             </div>
             <Button type="submit" className="w-full">Submit</Button>

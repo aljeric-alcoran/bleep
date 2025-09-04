@@ -1,6 +1,6 @@
 'use client'
 
-import RegistrationForm from "@/app/signup/create-account/form";
+import RegistrationForm from "@/app/signup/create-account/Form";
 import { useEffect } from "react";
 import { useSignup } from "@/app/context/SignupContext";
 import { useRouter } from "next/navigation";
