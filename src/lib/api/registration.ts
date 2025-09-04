@@ -51,12 +51,13 @@ export const registerUser = async (userObject: User) => {
       headers: {
          'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userObject }),
+      credentials: 'include',
+      body: JSON.stringify(userObject),
    });
 
    if (!response.ok) {
       const errorData = await response.json();
-      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
+      return { status: response.status, message: errorData.message };
    } else {
       const data = await response.json();
       return { status: response.status, message: data.message };
