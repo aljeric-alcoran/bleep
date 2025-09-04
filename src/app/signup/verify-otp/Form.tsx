@@ -51,10 +51,8 @@ export default function VerifyOTPForm({
 
       if (response.status === 200) {
          router.push("/signup/create-account");
-         console.log(values)
       } else {
          setError(response.message);
-         console.log(response.message);
       }
    }
 
@@ -69,7 +67,7 @@ export default function VerifyOTPForm({
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                <div className="flex flex-col gap-4">
-                  <div className="text-gray-900 dark:text-white pt-6 w-full">
+                  <div className="text-gray-900 dark:text-white pt-4 w-full">
                      <FormField
                         control={form.control}
                         name="otp"
@@ -80,7 +78,10 @@ export default function VerifyOTPForm({
                                     className="w-full"
                                     maxLength={6}
                                     value={field.value}
-                                    onChange={(val) => field.onChange(val)}
+                                    onChange={(val) => {
+                                       field.onChange(val);
+                                       setError(null);
+                                    }}
                                  >
                                     <InputOTPGroup className="flex justify-center w-full">
                                        {[...Array(6)].map((_, i) => (
