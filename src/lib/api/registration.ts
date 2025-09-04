@@ -11,7 +11,25 @@ export const requestEmailVerification = async (email: string) => {
 
    if (!response.ok) {
       const errorData = await response.json();
-      return { status: response.status, message: errorData.error };
+      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
+   } else {
+      const data = await response.json();
+      return { status: response.status, message: data.message };
+   }
+}
+
+export const verifyEmail = async (email: string | null, otp: string) => {
+   const response = await fetch(`${baseURL}/api/register/verify-otp`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, otp }),
+   });
+
+   if (!response.ok) {
+      const errorData = await response.json();
+      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
    } else {
       const data = await response.json();
       return { status: response.status, message: data.message };
