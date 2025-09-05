@@ -1,12 +1,20 @@
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export async function loginUser({ email, password }: { email: string, password: string }) {
-   const response = await fetch(`${baseURL}/api/auth/login`, {
+export async function loginUser({ 
+   email, 
+   password, 
+   remember 
+}: { 
+   email: string, 
+   password: string, 
+   remember?: boolean 
+}) {
+   const response = await fetch(`${baseURL}/auth/login`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, remember }),
       credentials: 'include', 
    });
 
@@ -23,7 +31,7 @@ export async function logoutUser() {
 }
 
 export async function redirectUser() {
-   const response = await fetch(`${baseURL}/api/auth/me`, {
+   const response = await fetch(`${baseURL}/auth/me`, {
       method: 'GET',
       credentials: 'include',
    });
@@ -31,7 +39,7 @@ export async function redirectUser() {
 }
 
 export async function requestAccessToken(refreshToken: string) {
-   const response = await fetch(`${baseURL}/api/auth/refresh`, {
+   const response = await fetch(`${baseURL}/auth/refresh`, {
       method: 'GET',
       headers: {
          'Content-Type': 'application/json',
