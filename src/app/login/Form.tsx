@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
    email: z.email(),
    password: z.string().min(8, "Password must be at least 8 characters").max(14),
+   remember: z.boolean().optional(),
 })
 
 export default function LoginForm() {
@@ -37,6 +38,7 @@ export default function LoginForm() {
       defaultValues: {
          email: "",
          password: "",
+         remember: false,
       },
    })
 
@@ -92,11 +94,20 @@ export default function LoginForm() {
                   </div>
                </div>
                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                     <Checkbox id="terms" />
-                     <Label htmlFor="terms" className="text-xs">Remember me</Label>
-                  </div>
-                  <Link href="/forgot-password" className="text-xs text-gray-400 dark:text-white">Forgot Password</Link>
+                  <FormField
+                     control={form.control}
+                     name="remember"
+                     render={({ field }) => (
+                        <FormItem className="flex items-center gap-2">
+                           <FormControl>
+                              <Checkbox checked={field.value} onCheckedChange={field.onChange} id="remember" />
+                           </FormControl>
+                           <FormLabel className="text-xs text-gray-500 dark:text-white">Remember me</FormLabel>
+                           <FormMessage className="text-xs" />
+                        </FormItem>
+                     )}
+                  />
+                  <Link href="/forgot-password" className="text-xs text-gray-500 dark:text-white">Forgot Password</Link>
                </div>
                <Button type="submit" className="w-full">Submit</Button>
             </form>

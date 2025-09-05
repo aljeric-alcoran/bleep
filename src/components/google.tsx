@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function GoogleSignup() {
    async function handleClick() {
-      window.location.href = "http://localhost:3000/api/auth/google"
+      window.location.href = "http://localhost:3000/api/v1/auth/google"
    }
    return (
       <Button type="button" onClick={handleClick} className="w-full bg-gray-100 text-gray-900 flex items-center justify-center hover:bg-gray-200">
