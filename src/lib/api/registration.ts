@@ -1,7 +1,7 @@
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const requestEmailVerification = async (email: string) => {
-   const response = await fetch(`${baseURL}/api/register/request-otp`, {
+   const response = await fetch(`${baseURL}/register/request-otp`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const requestEmailVerification = async (email: string) => {
 }
 
 export const verifyEmail = async (email: string | null, otp: string) => {
-   const response = await fetch(`${baseURL}/api/register/verify-otp`, {
+   const response = await fetch(`${baseURL}/register/verify-otp`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ type User = {
 }
 
 export const registerUser = async (userObject: User) => {
-   const response = await fetch(`${baseURL}/api/register/`, {
+   const response = await fetch(`${baseURL}/register/`, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
