@@ -1,15 +1,13 @@
-'use client'
-
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Link } from "lucide-react";
 import {
    Form,
    FormControl,
@@ -18,7 +16,7 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/ui/form"
-import { validateResetToken } from "@/lib/helpers";
+import { resetPassword } from "@/lib/api/users";
 
 export const PasswordSchema = z
    .object({
@@ -38,12 +36,10 @@ export const PasswordSchema = z
       }
    });
 
-export default function ResetPasswordForm() {
-   const searchParams = useSearchParams();
-   const token = searchParams.get("token") || "";
-
+export default function ResetPasswordForm({token}: {token: string}) {
    const router = useRouter();
-   const [error, setError] = useState<string | null>(null);
+   const [message, setMessage] = useState<string | null>(null);
+   const [success, setSuccess] = useState<boolean>(false);
 
    const form = useForm<z.infer<typeof PasswordSchema>>({
       resolver: zodResolver(PasswordSchema),
@@ -54,26 +50,24 @@ export default function ResetPasswordForm() {
    })
 
    async function onSubmit(values: z.infer<typeof PasswordSchema>) {
-      console.log(values);
-   }
-
-   async function verifyToken() {
-      const isValid = await validateResetToken(token);
-      if (!isValid) {
-         setError("Sorry, link is invalid or expired!");
+      const response = await resetPassword(token, values.confirmPassword);
+      if (response.status === 200) {
+         setMessage(response.message);
+         setSuccess(true);
+         setTimeout(() => {
+            router.push("/login");
+         }, 2000)
+      } else {
+         setMessage(response.message);
       }
    }
 
-   useEffect(() => {
-      verifyToken();
-   }, []);
-
    return (
       <>
-         {error ? (
-            <Alert className="mb-6 bg-red-50 text-red-700">
+         {message ? (
+            <Alert className="mb-6 bg-green-50 text-green-700">
                <CircleX />
-               <AlertTitle className="text-xs mt-0.5 -ml-1">{error}</AlertTitle>
+               <AlertTitle className="text-xs mt-0.5 -ml-1">{message}</AlertTitle>
             </Alert>
          ) : null}
          <Form {...form}>
@@ -87,7 +81,7 @@ export default function ResetPasswordForm() {
                            <FormItem>
                               <FormLabel>Enter password</FormLabel>
                               <FormControl>
-                                 <Input type="password" placeholder="" {...field} onKeyUp={(e) => setError(null)} />
+                                 <Input type="password" placeholder="" {...field} onKeyUp={(e) => setMessage(null)} />
                               </FormControl>
                               <FormMessage className="text-xs"/>
                            </FormItem>
@@ -102,7 +96,7 @@ export default function ResetPasswordForm() {
                            <FormItem>
                               <FormLabel>Confirm Password</FormLabel>
                               <FormControl>
-                                 <Input type="password" placeholder="" {...field} onKeyUp={(e) => setError(null)} />
+                                 <Input type="password" placeholder="" {...field} onKeyUp={(e) => setMessage(null)} />
                               </FormControl>
                               <FormMessage className="text-xs" />
                            </FormItem>
@@ -110,7 +104,7 @@ export default function ResetPasswordForm() {
                      />
                   </div>
                </div>
-               <Button type="submit" disabled={!!error} className="w-full">Reset Password</Button>
+               <Button type="submit" disabled={success} className="w-full">Reset Password</Button>
             </form>
          </Form>
       </>
