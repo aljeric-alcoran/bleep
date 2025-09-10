@@ -1,12 +1,14 @@
-import AppBreadcrumb from "@/components/app-breadcrumb";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import Image from "next/image";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import { NavUser } from "@/components/navbar-user";
 
 export const metadata: Metadata = {
    title: "Dashboard",
 };
-
 
 export default function DashboardLayout({ 
    children, 
@@ -15,16 +17,14 @@ export default function DashboardLayout({
 }) {
    return (
       <SidebarProvider>
-         <AppSidebar />
          <main className="w-full">
-            <div className="w-full flex items-center gap-2 border-b py-4 px-3">
-               <SidebarTrigger />
-               <AppBreadcrumb />
+            <div className="w-full flex items-center justify-center border-b py-4 px-3">
+               
             </div>
-            <div className="p-5">
+            <div className="p-5 w-max-screen">
                {children}
             </div>
          </main>
-    </SidebarProvider>
+      </SidebarProvider>
    );
 }
