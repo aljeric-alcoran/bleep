@@ -1,3 +1,4 @@
+import { SignupProvider } from "@/app/context/SignupContext";
 import type { Metadata } from "next";
 import { rubik } from "./fonts";
 import "@/app/assets/globals.css";
@@ -14,7 +15,9 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body className={`${rubik.className} antialiased`} suppressHydrationWarning={true}>
-            {children}
+            <SignupProvider>
+               {children}
+            </SignupProvider>
          </body>
       </html>
    );
