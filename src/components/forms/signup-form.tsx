@@ -1,8 +1,5 @@
-'use client'
-
 import { requestEmailVerification } from "@/lib/api/registration";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useSignup } from "@/app/context/SignupContext";
 
 import { z } from "zod"
@@ -27,7 +24,6 @@ const formSchema = z.object({
 })
 
 export default function SignupForm() {
-   const router = useRouter();
    const { setEmail, setStep } = useSignup();
    const [error, setError] = useState<string | null>(null);
 
@@ -76,7 +72,7 @@ export default function SignupForm() {
                      />
                   </div>
                </div>
-               <Button type="submit" className="w-full">Send Verification Code</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Send Verification Code</Button>
             </form>
          </Form>
       </>

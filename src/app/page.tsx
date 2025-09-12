@@ -5,8 +5,8 @@ import AppSearch from "@/components/app-search";
 export default function Home() {
    return (
       <>
-         <header className="border-b pb-6">
-            <nav className="bg-white border-gray-200 px-4 lg:px-6 dark:bg-gray-800 mx-auto max-w-screen-xl">
+         <header className="border-b pb-6 bg-linear-to-t from-red-600 to-red-800 text-white">
+            <nav className="bg-transparent border-gray-200 px-4 lg:px-6 mx-auto max-w-screen-xl">
                <div className="w-full flex flex-wrap justify-between items-center">
                   <AppHeader />
                   <AppSearch />

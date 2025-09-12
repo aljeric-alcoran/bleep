@@ -1,9 +1,11 @@
 'use client';
 
-import { useSignup } from "@/app/context/SignupContext";
 import GoogleSignup from "@/components/google";
+import VerifyOTPForm from "./forms/verify-otp-form";
 import SignupForm from "./forms/signup-form";
 import Image from "next/image";
+import { useSignup } from "@/app/context/SignupContext";
+import { useEffect } from "react";
 import {
    Card,
    CardAction,
@@ -13,12 +15,10 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/ui/card"
-import { useEffect, useState } from "react";
-import VerifyOTPForm from "./forms/verify-otp-form";
-import { title } from "process";
+import RegistrationForm from "./forms/create-account-form";
 
 export default function Signup() {
-   const { email, step, setStep, setOtp } = useSignup();
+   const { email, otp, step, setStep, setOtp } = useSignup();
    const cardDescriptions = [
       {
          title: "Welcome to Bleep",
@@ -33,6 +33,7 @@ export default function Signup() {
          description: "Please fill out the following information to register.",
       }
    ]
+   const cardDescription = cardDescriptions[step - 1];
 
    useEffect(() => {
       setStep(step);
@@ -41,8 +42,8 @@ export default function Signup() {
       <div className="w-full flex justify-center items-center">
          <Card className="w-full shadow-none border-transparent p-0">
             <CardHeader className="p-0">
-               <CardTitle className="text-lg font-semibold">{cardDescriptions[step - 1].title}</CardTitle>
-               <CardDescription>{cardDescriptions[step - 1].description}</CardDescription>
+               <CardTitle className="text-lg font-semibold">{cardDescription.title}</CardTitle>
+               <CardDescription>{cardDescription.description}</CardDescription>
                <CardAction>
                   <Image
                      src="/logo.png"
@@ -55,7 +56,8 @@ export default function Signup() {
             </CardHeader>
             <CardContent className="p-0 pt-4">
                { step === 1 && <SignupForm /> }
-               { step === 2 && <VerifyOTPForm setOtp={setOtp} email={email}/> }
+               { step === 2 && <VerifyOTPForm /> }
+               { step === 3 && <RegistrationForm /> }
             </CardContent>
             { step === 1 && (
                <CardFooter className="flex flex-col gap-4 p-0">

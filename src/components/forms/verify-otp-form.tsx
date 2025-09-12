@@ -1,9 +1,6 @@
-'use client'
-
 import { z } from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { verifyEmail } from "@/lib/api/registration";
 import { useState } from "react";
 
@@ -22,20 +19,15 @@ import {
 } from "@/components/ui/input-otp"
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
+import { useSignup } from "@/app/context/SignupContext";
 
 const formSchema = z.object({
    otp: z.string()
    .length(6, "OTP must be 6 digits"),
 })
 
-export default function VerifyOTPForm({ 
-   setOtp, 
-   email 
-}: {
-   setOtp: (otp: string) => void; 
-   email: string | null
-}) {
-   const router = useRouter();
+export default function VerifyOTPForm() {
+   const {email,  setStep, setOtp}  = useSignup();
    const [error, setError] = useState<string | null>(null);
    
    const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +42,7 @@ export default function VerifyOTPForm({
       const response = await verifyEmail(email, values.otp);
 
       if (response.status === 200) {
-         router.push("/signup/create-account");
+         setStep(3);
       } else {
          setError(response.message);
       }
@@ -96,7 +88,7 @@ export default function VerifyOTPForm({
                      />
                   </div>
                </div>
-               <Button type="submit" className="w-full">Verify OTP</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Verify OTP</Button>
             </form>
          </Form>
       </>

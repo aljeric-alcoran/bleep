@@ -109,7 +109,7 @@ export default function LoginForm() {
                   />
                   <Link href="/forgot-password" className="text-xs text-gray-500 dark:text-white">Forgot Password</Link>
                </div>
-               <Button type="submit" className="w-full">Submit</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Submit</Button>
             </form>
          </Form>
       </>
