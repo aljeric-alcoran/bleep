@@ -28,11 +28,11 @@ export default function Login() {
                   />
                </CardAction>
             </CardHeader>
-            <CardContent className="p-0 py-4">
+            <CardContent className="p-0 pt-4">
                <LoginForm/>
             </CardContent>
             <CardFooter className="flex flex-col gap-4 p-0">
-               <p className="text-xs text-gray-400 dark:text-white">Or sign in using</p>
+               <p className="text-xs text-gray-400 dark:text-white">Or login using</p>
                <GoogleSignup />
             </CardFooter>
          </Card>

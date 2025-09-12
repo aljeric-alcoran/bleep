@@ -1,3 +1,5 @@
+import Login from "./app-login"; 
+import Signup from "./app-signup";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import {
    Dialog,
@@ -7,7 +9,6 @@ import {
    DialogTitle,
    DialogTrigger,
  } from "@/components/ui/dialog"
-import Login from "./app-login"; 
 
 export default function AppHeader() {
    return (
@@ -33,7 +34,7 @@ export default function AppHeader() {
          <div className="flex items-center gap-4 text-sm">
             <Dialog>
                <DialogTrigger className="uppercase">Login</DialogTrigger>
-               <DialogContent showCloseButton={false}>
+               <DialogContent showCloseButton={false} className="sm:max-w-md">
                   <DialogHeader>
                      <DialogTitle className="sr-only">Login Dialog</DialogTitle>
                      <DialogDescription className="sr-only"/>
@@ -44,11 +45,11 @@ export default function AppHeader() {
 
             <Dialog>
                <DialogTrigger className="uppercase">Signup</DialogTrigger>
-               <DialogContent showCloseButton={false}>
+               <DialogContent showCloseButton={false} className="sm:max-w-md">
                   <DialogHeader>
                      <DialogTitle className="sr-only">Login Dialog</DialogTitle>
                      <DialogDescription className="sr-only"/>
-                     <Login/>
+                     <Signup/>
                   </DialogHeader>
                </DialogContent>
             </Dialog>
