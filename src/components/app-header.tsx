@@ -44,13 +44,11 @@ export default function AppHeader() {
 
             <Dialog>
                <DialogTrigger className="uppercase">Signup</DialogTrigger>
-               <DialogContent>
+               <DialogContent showCloseButton={false}>
                   <DialogHeader>
-                     <DialogTitle>Are you absolutely sure?</DialogTitle>
-                     <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                     </DialogDescription>
+                     <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                     <DialogDescription className="sr-only"/>
+                     <Login/>
                   </DialogHeader>
                </DialogContent>
             </Dialog>

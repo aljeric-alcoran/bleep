@@ -8,7 +8,7 @@ export default function AppSearch() {
    return (
       <div className="w-full max-w-7xl flex flex-wrap justify-between items-center py-5">
          <div className="w-full flex items-center justify-between gap-10">
-            <div className="flex gap-4 items-center mr-4">
+            <div className="flex gap-2 items-center mr-4">
                <Image
                   src="/logo.png"
                   width={40}
