@@ -1,4 +1,13 @@
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import {
+   Dialog,
+   DialogContent,
+   DialogDescription,
+   DialogHeader,
+   DialogTitle,
+   DialogTrigger,
+ } from "@/components/ui/dialog"
+import Login from "./app-login"; 
 
 export default function AppHeader() {
    return (
@@ -21,9 +30,30 @@ export default function AppHeader() {
                </span>
             </div>
          </div>
-         <div className="flex items-center gap-4 uppercase text-sm">
-            <span>Login</span>
-            <span>Signup</span>
+         <div className="flex items-center gap-4 text-sm">
+            <Dialog>
+               <DialogTrigger className="uppercase">Login</DialogTrigger>
+               <DialogContent showCloseButton={false}>
+                  <DialogHeader>
+                     <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                     <DialogDescription className="sr-only"/>
+                     <Login/>
+                  </DialogHeader>
+               </DialogContent>
+            </Dialog>
+
+            <Dialog>
+               <DialogTrigger className="uppercase">Signup</DialogTrigger>
+               <DialogContent>
+                  <DialogHeader>
+                     <DialogTitle>Are you absolutely sure?</DialogTitle>
+                     <DialogDescription>
+                        This action cannot be undone. This will permanently delete your account
+                        and remove your data from our servers.
+                     </DialogDescription>
+                  </DialogHeader>
+               </DialogContent>
+            </Dialog>
          </div>
       </div>
    );
