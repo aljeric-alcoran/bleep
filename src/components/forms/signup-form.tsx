@@ -28,7 +28,7 @@ const formSchema = z.object({
 
 export default function SignupForm() {
    const router = useRouter();
-   const { setEmail } = useSignup();
+   const { setEmail, setStep } = useSignup();
    const [error, setError] = useState<string | null>(null);
 
    const form = useForm<z.infer<typeof formSchema>>({
@@ -43,7 +43,7 @@ export default function SignupForm() {
       const response = await requestEmailVerification(values.email);
 
       if (response.status === 200) {
-         router.push("/signup/verify-otp");
+         setStep(2);
       } else {
          setError(response.message);
       }
