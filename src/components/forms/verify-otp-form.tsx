@@ -18,7 +18,7 @@ import {
    InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Loader } from "lucide-react";
 import { useSignup } from "@/app/context/SignupContext";
 
 const formSchema = z.object({
@@ -29,6 +29,7 @@ const formSchema = z.object({
 export default function VerifyOTPForm() {
    const {email,  setStep, setOtp}  = useSignup();
    const [error, setError] = useState<string | null>(null);
+   const [loading, setLoading] = useState<boolean>(false);
    
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -38,10 +39,12 @@ export default function VerifyOTPForm() {
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
+      setLoading(true);
       setOtp(values.otp);
       const response = await verifyEmail(email, values.otp);
 
       if (response.status === 200) {
+         setLoading(false);
          setStep(3);
       } else {
          setError(response.message);
@@ -88,7 +91,10 @@ export default function VerifyOTPForm() {
                      />
                   </div>
                </div>
-               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Verify OTP</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">
+                  Verify OTP
+                  {loading && <Loader className="animate-spin"/>}
+               </Button>
             </form>
          </Form>
       </>

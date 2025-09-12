@@ -17,7 +17,7 @@ import {
    FormMessage,
  } from "@/components/ui/form"
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Loader } from "lucide-react";
 
 const formSchema = z.object({
    email: z.email(),
@@ -26,6 +26,7 @@ const formSchema = z.object({
 export default function SignupForm() {
    const { setEmail, setStep } = useSignup();
    const [error, setError] = useState<string | null>(null);
+   const [loading, setLoading] = useState<boolean>(false);
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -35,10 +36,12 @@ export default function SignupForm() {
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
+      setLoading(true);
       setEmail(values.email);
       const response = await requestEmailVerification(values.email);
 
       if (response.status === 200) {
+         setLoading(false);
          setStep(2);
       } else {
          setError(response.message);
@@ -72,7 +75,10 @@ export default function SignupForm() {
                      />
                   </div>
                </div>
-               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Send Verification Code</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">
+                  Send Verification Code
+                  {loading && <Loader className="animate-spin"/>}
+               </Button>
             </form>
          </Form>
       </>

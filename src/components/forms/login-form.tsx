@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form"
 import { loginUser } from "@/lib/api/auth";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -32,6 +32,7 @@ const formSchema = z.object({
 export default function LoginForm() {
    const router = useRouter();
    const [error, setError] = useState<string | null>(null);
+   const [loading, setLoading] = useState<boolean>(false);
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -43,9 +44,11 @@ export default function LoginForm() {
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
+      setLoading(true);
       const data = await loginUser(values);
       if (data.error) setError(data.error);
       else {
+         setLoading(false);
          router.push("/dashboard");
          console.log(data);
       }
@@ -109,7 +112,10 @@ export default function LoginForm() {
                   />
                   <Link href="/forgot-password" className="text-xs text-gray-500 dark:text-white">Forgot Password</Link>
                </div>
-               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">Submit</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">
+                  Submit
+                  {loading && <Loader className="animate-spin"/>}
+               </Button>
             </form>
          </Form>
       </>
