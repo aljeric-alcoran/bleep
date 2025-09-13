@@ -16,17 +16,18 @@ export default function Login() {
       <div className="w-full flex justify-center items-center">
          <Card className="w-full shadow-none border-transparent p-0">
             <CardHeader className="p-0">
-               <CardTitle className="text-lg font-semibold">Welcome Back!</CardTitle>
-               <CardDescription>Login to your existing bleep account</CardDescription>
-               <CardAction>
+               <CardTitle className="text-lg font-semibold text-center">
                   <Image
+                     className="mx-auto mb-2"
                      src="/logo.png"
                      width={40}
                      height={40}
                      alt="Bleep logo"
                      priority
                   />
-               </CardAction>
+                  Welcome Back!
+               </CardTitle>
+               <CardDescription className="text-center">Login to your existing bleep account</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pt-4">
                <LoginForm/>

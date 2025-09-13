@@ -2,8 +2,10 @@
 import { createContext, useContext, useState } from "react";
 
 interface SignupContextType {
+   step: number;
    email: string | null;
    otp: string | null;
+   setStep: (step: number) => void;
    setEmail: (email: string) => void;
    setOtp: (otp: string) => void;
 }
@@ -13,9 +15,10 @@ const SignupContext = createContext<SignupContextType | undefined>(undefined);
 export function SignupProvider({ children }: { children: React.ReactNode }) {
    const [email, setEmail] = useState<string>('');
    const [otp, setOtp] = useState<string>('');
+   const [step, setStep] = useState<number>(1);
 
    return (
-      <SignupContext.Provider value={{ email, setEmail, otp, setOtp }}>
+      <SignupContext.Provider value={{ email, setEmail, otp, setOtp, step, setStep }}>
          {children}
       </SignupContext.Provider>
    );
