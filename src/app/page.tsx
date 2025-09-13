@@ -1,3 +1,4 @@
+import AppFooter from "@/components/app-footer";
 import AppHeader from "@/components/app-header";
 import AppHomeCategories from "@/components/app-home-categories";
 import AppSearch from "@/components/app-search";
@@ -18,6 +19,7 @@ export default function Home() {
                <AppHomeCategories />
             </div>
          </div>
+         <AppFooter />
       </>
    );
 }
