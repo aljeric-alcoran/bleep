@@ -31,7 +31,11 @@ export default function AppHeader() {
          <div className="flex items-center gap-2 text-sm">
             <Dialog>
                <DialogTrigger className="cursor-pointer hover:underline">Login</DialogTrigger>
-               <DialogContent showCloseButton={false} className="sm:max-w-md">
+               <DialogContent 
+                  className="sm:max-w-md"
+                  onInteractOutside={(e) => e.preventDefault()}
+                  onEscapeKeyDown={(e) => e.preventDefault()}
+               >
                   <DialogHeader>
                      <DialogTitle className="sr-only">Login Dialog</DialogTitle>
                      <DialogDescription className="sr-only"/>
@@ -42,7 +46,11 @@ export default function AppHeader() {
             |
             <Dialog>
                <DialogTrigger className="cursor-pointer hover:underline">Signup</DialogTrigger>
-               <DialogContent showCloseButton={false} className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}>
+               <DialogContent 
+                  className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}
+                  onInteractOutside={(e) => e.preventDefault()}
+                  onEscapeKeyDown={(e) => e.preventDefault()}
+               >
                   <DialogHeader>
                      <DialogTitle className="sr-only">Login Dialog</DialogTitle>
                      <DialogDescription className="sr-only"/>

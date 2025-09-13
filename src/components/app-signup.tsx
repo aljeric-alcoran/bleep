@@ -42,17 +42,18 @@ export default function Signup() {
       <div className="w-full flex justify-center items-center">
          <Card className="w-full shadow-none border-transparent p-0">
             <CardHeader className="p-0">
-               <CardTitle className="text-lg font-semibold">{cardDescription.title}</CardTitle>
-               <CardDescription>{cardDescription.description}</CardDescription>
-               <CardAction>
+               <CardTitle className="text-lg font-semibold text-center">
                   <Image
+                     className="mx-auto mb-2"
                      src="/logo.png"
                      width={40}
                      height={40}
                      alt="Bleep logo"
                      priority
                   />
-               </CardAction>
+                  {cardDescription.title}
+               </CardTitle>
+               <CardDescription className="text-center">{cardDescription.description}</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pt-4">
                { step === 1 && <SignupForm /> }
