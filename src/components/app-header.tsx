@@ -10,11 +10,29 @@ import {
    DialogHeader,
    DialogTitle,
    DialogTrigger,
- } from "@/components/ui/dialog"
+} from "@/components/ui/dialog"
 import { useSignup } from "@/app/context/SignupContext";
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/store/useUserStore";
+import { toast } from "sonner";
+import UserDropdown from "./header/user-dropdown";
 
 export default function AppHeader() {
    const { step } = useSignup();
+   const [open, setOpen] = useState(false);
+   const { user, justLoggedIn, setJustLoggedIn, refresh } = useUserStore();
+
+   useEffect(() => {
+      if (justLoggedIn && user) {
+         toast.success("Login successful.", {
+            description: `Welcome back, ${
+               user ? `${user.firstname} ${user.lastname}` : "User"
+            }!`,
+         });
+         setJustLoggedIn(false);
+      }
+   }, [justLoggedIn, user, setJustLoggedIn]);
+
    return (
       <div className="w-full max-w-7xl flex items-center justify-between gap-2 pb-4 pt-1">
          <div className="flex items-center text-sm gap-1 pt-2">
@@ -28,37 +46,43 @@ export default function AppHeader() {
                <Instagram className="w-5 h-5"/>
             </div>
          </div>
-         <div className="flex items-center gap-2 text-sm">
-            <Dialog>
-               <DialogTrigger className="cursor-pointer hover:underline">Login</DialogTrigger>
-               <DialogContent 
-                  className="sm:max-w-md"
-                  onInteractOutside={(e) => e.preventDefault()}
-                  onEscapeKeyDown={(e) => e.preventDefault()}
-               >
-                  <DialogHeader>
-                     <DialogTitle className="sr-only">Login Dialog</DialogTitle>
-                     <DialogDescription className="sr-only"/>
-                     <Login/>
-                  </DialogHeader>
-               </DialogContent>
-            </Dialog>
-            |
-            <Dialog>
-               <DialogTrigger className="cursor-pointer hover:underline">Signup</DialogTrigger>
-               <DialogContent 
-                  className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}
-                  onInteractOutside={(e) => e.preventDefault()}
-                  onEscapeKeyDown={(e) => e.preventDefault()}
-               >
-                  <DialogHeader>
-                     <DialogTitle className="sr-only">Login Dialog</DialogTitle>
-                     <DialogDescription className="sr-only"/>
-                     <Signup/>
-                  </DialogHeader>
-               </DialogContent>
-            </Dialog>
-         </div>
+         {!user ? (
+            <div className="flex items-center gap-2 text-sm">
+               <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger className="cursor-pointer hover:underline">Login</DialogTrigger>
+                  <DialogContent 
+                     className="sm:max-w-md"
+                     onInteractOutside={(e) => e.preventDefault()}
+                     onEscapeKeyDown={(e) => e.preventDefault()}
+                  >
+                     <DialogHeader>
+                        <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                        <DialogDescription className="sr-only"/>
+                        <Login onSuccess={() => setOpen(false)}/>
+                     </DialogHeader>
+                  </DialogContent>
+               </Dialog>
+               |
+               <Dialog>
+                  <DialogTrigger className="cursor-pointer hover:underline">Signup</DialogTrigger>
+                  <DialogContent 
+                     className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}
+                     onInteractOutside={(e) => e.preventDefault()}
+                     onEscapeKeyDown={(e) => e.preventDefault()}
+                  >
+                     <DialogHeader>
+                        <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                        <DialogDescription className="sr-only"/>
+                        <Signup/>
+                     </DialogHeader>
+                  </DialogContent>
+               </Dialog>
+            </div>
+         ) : (
+            <div className="flex items-center gap-2 text-sm">
+               <UserDropdown user={user} />
+            </div>
+         )}
       </div>
    );
 }
