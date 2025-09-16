@@ -1,4 +1,5 @@
-import { jwtVerify } from "jose";
+import { jwtVerify, decodeJwt } from "jose";
+import { useUserStore } from "@/store/useUserStore";
 
 export const validateResetToken = async(token: string): Promise<boolean> => {
    try {
@@ -10,3 +11,25 @@ export const validateResetToken = async(token: string): Promise<boolean> => {
       return false;
    }
 };
+
+export const validateAccessToken = async(token: string): Promise<{ user: any, status: boolean }> => {
+   try {
+      const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET!);
+      const { payload } = await jwtVerify(token, secret);
+      
+      return { user: payload, status: true };
+   } catch (error: any) {
+      return { user: {}, status: false };
+   }
+};
+
+export function scheduleRefresh(accessToken: string) {
+   const { exp } = decodeJwt(accessToken);
+   console.log(exp);
+   if (!exp) return;
+
+   const msUntilExpiry = exp * 1000 - Date.now() - 60_000; // refresh 1 min early
+   if (msUntilExpiry > 0) {
+      setTimeout(() => useUserStore.getState().refresh(), msUntilExpiry);
+   }
+}
