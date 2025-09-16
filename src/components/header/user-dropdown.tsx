@@ -7,9 +7,10 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Bell, ChevronsUpDown, CircleUserRound, Cog, LogOut } from "lucide-react"
+import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
+import { getNameInitials } from "@/lib/helpers"
 
 interface User {
    firstname: string
@@ -26,8 +27,8 @@ export default function UserDropdown({
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
             <div className="cursor-pointer flex items-center gap-1">
-               {user?.firstname } {user?.lastname}
-               <ChevronsUpDown className="ml-auto size-4" />
+               Hi, {user?.firstname }
+               <ChevronDown className="ml-auto size-4" />
             </div>
          </DropdownMenuTrigger>
          <DropdownMenuContent className="w-56" align="end">
@@ -35,13 +36,13 @@ export default function UserDropdown({
                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                      {/* <AvatarImage src={user.avatar} alt={user.firstname} /> */}
-                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                     <AvatarFallback className="rounded-lg">{
+                        getNameInitials(user?.firstname, user?.lastname)
+                     }</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                      <span className="truncate font-medium">{user?.firstname } {user?.lastname}</span>
-                     <span className="text-muted-foreground truncate text-xs">
-                     {user.email}
-                     </span>
+                     <span className="text-muted-foreground truncate text-xs">{user.email}</span>
                   </div>
                </div>
             </DropdownMenuLabel>
@@ -49,11 +50,11 @@ export default function UserDropdown({
             <DropdownMenuGroup>
                <DropdownMenuItem>
                   <CircleUserRound />
-                  Account
+                  Manage Account
                </DropdownMenuItem>
                <DropdownMenuItem>
-                  <Bell />
-                  Notifications
+                  <ShoppingBasket />
+                  My Orders
                </DropdownMenuItem>
                <DropdownMenuItem>
                   <Cog/>

@@ -48,8 +48,8 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       if (data.error) setError(data.error);
       else {
          setLoading(false);
-         const user = await validateAccessToken(data.accessToken);
-         useUserStore.getState().setUser(user.user, data.accessToken);
+         const { user } = await validateAccessToken(data.accessToken);
+         useUserStore.getState().setUser(user, data.accessToken);
          onSuccess();
       }
    }

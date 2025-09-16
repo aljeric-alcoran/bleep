@@ -12,7 +12,7 @@ import {
    DialogTrigger,
 } from "@/components/ui/dialog"
 import { useSignup } from "@/app/context/SignupContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
 import UserDropdown from "./header/user-dropdown";
@@ -20,15 +20,18 @@ import UserDropdown from "./header/user-dropdown";
 export default function AppHeader() {
    const { step } = useSignup();
    const [open, setOpen] = useState(false);
-   const { user, justLoggedIn, setJustLoggedIn, refresh } = useUserStore();
+   const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
+   const toastShown = useRef(false);
 
    useEffect(() => {
-      if (justLoggedIn && user) {
+      if (justLoggedIn && user && !toastShown.current) {
+         console.log("Called: justLoggedIn", justLoggedIn);
          toast.success("Login successful.", {
             description: `Welcome back, ${
                user ? `${user.firstname} ${user.lastname}` : "User"
             }!`,
          });
+         toastShown.current = true;
          setJustLoggedIn(false);
       }
    }, [justLoggedIn, user, setJustLoggedIn]);
