@@ -18,7 +18,7 @@ interface User {
    email: string
 }
 
-export default function UserDropdown({ 
+export default function UserProfileDropdown({ 
    user
 } : { 
    user: User 

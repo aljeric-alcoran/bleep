@@ -15,7 +15,7 @@ import { useSignup } from "@/app/context/SignupContext";
 import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
-import UserDropdown from "./header/user-dropdown";
+import UserProfileDropdown from "./header/user-profile-dropdown";
 
 export default function AppHeader() {
    const { step } = useSignup();
@@ -83,7 +83,7 @@ export default function AppHeader() {
             </div>
          ) : (
             <div className="flex items-center gap-2 text-sm">
-               <UserDropdown user={user} />
+               <UserProfileDropdown user={user} />
             </div>
          )}
       </div>
