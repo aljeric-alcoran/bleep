@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label";
 import {
    Form,
    FormControl,
@@ -21,7 +20,8 @@ import {
 import { loginUser } from "@/lib/api/auth";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX, Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { validateAccessToken } from "@/lib/helpers";
+import { useUserStore } from "@/store/useUserStore";
 
 const formSchema = z.object({
    email: z.email(),
@@ -29,8 +29,7 @@ const formSchema = z.object({
    remember: z.boolean().optional(),
 })
 
-export default function LoginForm() {
-   const router = useRouter();
+export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
    const [error, setError] = useState<string | null>(null);
    const [loading, setLoading] = useState<boolean>(false);
 
@@ -49,8 +48,9 @@ export default function LoginForm() {
       if (data.error) setError(data.error);
       else {
          setLoading(false);
-         router.push("/dashboard");
-         console.log(data);
+         const user = await validateAccessToken(data.accessToken);
+         useUserStore.getState().setUser(user.user, data.accessToken);
+         onSuccess();
       }
    }
 
