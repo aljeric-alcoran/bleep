@@ -11,7 +11,6 @@ import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucid
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
 import { getNameInitials } from "@/lib/helpers"
-import { useUserStore } from "@/store/useUserStore"
 
 interface User {
    firstname: string
@@ -37,9 +36,9 @@ export default function UserDropdown({
                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                      {/* <AvatarImage src={user.avatar} alt={user.firstname} /> */}
-                     <AvatarFallback className="rounded-lg">{
-                        getNameInitials(user?.firstname, user?.lastname)
-                     }</AvatarFallback>
+                     <AvatarFallback className="rounded-lg">
+                        { getNameInitials(user?.firstname, user?.lastname) }
+                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                      <span className="truncate font-medium">{user?.firstname } {user?.lastname}</span>
