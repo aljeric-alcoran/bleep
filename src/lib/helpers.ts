@@ -33,3 +33,13 @@ export function scheduleRefresh(accessToken: string) {
       setTimeout(() => useUserStore.getState().refresh(), msUntilExpiry);
    }
 }
+
+export function getNameInitials(firstname?: string, lastname?: string): string {
+   const getFirstLetter = (value?: string): string =>
+     value && value.trim().length > 0 ? value.trim().charAt(0).toUpperCase() : "";
+ 
+   const firstInitial = getFirstLetter(firstname);
+   const lastInitial = getFirstLetter(lastname);
+ 
+   return `${firstInitial}${lastInitial}`;
+}
