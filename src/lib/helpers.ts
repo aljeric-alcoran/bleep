@@ -25,9 +25,7 @@ export const validateAccessToken = async(token: string): Promise<{ user: any, st
 
 export function scheduleRefresh(accessToken: string) {
    const { exp } = decodeJwt(accessToken);
-   console.log(exp);
    if (!exp) return;
-
    const msUntilExpiry = exp * 1000 - Date.now() - 60_000; // refresh 1 min early
    if (msUntilExpiry > 0) {
       setTimeout(() => useUserStore.getState().refresh(), msUntilExpiry);

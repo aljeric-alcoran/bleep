@@ -11,6 +11,7 @@ import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucid
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
 import { getNameInitials } from "@/lib/helpers"
+import { useUserStore } from "@/store/useUserStore"
 
 interface User {
    firstname: string
@@ -27,7 +28,7 @@ export default function UserDropdown({
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
             <div className="cursor-pointer flex items-center gap-1">
-               Hi, {user?.firstname }
+               Hi, {user?.firstname } {user?.lastname}
                <ChevronDown className="ml-auto size-4" />
             </div>
          </DropdownMenuTrigger>
