@@ -6,6 +6,8 @@ import { redirectUser } from "@/lib/api/auth";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner"
+import { validateAccessToken } from "@/lib/helpers";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function Callback() {
    const router = useRouter();
@@ -16,12 +18,10 @@ export default function Callback() {
             const response = await redirectUser();
             
             if (response.accessToken) {
+               const { user } = await validateAccessToken(response.accessToken);
+               useUserStore.getState().setUser(user, response.accessToken);
                router.replace("/");
-               toast.success("Login successful.", {
-                  description: "You are now logged in."
-               })
-            }
-            else {
+            } else {
                router.replace("/?error=auth_failed");
                toast.error("Login failed!", {
                   description: "Authentication failed. Please try again."
