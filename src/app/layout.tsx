@@ -1,6 +1,7 @@
 import { SignupProvider } from "@/app/context/SignupContext";
 import type { Metadata } from "next";
 import { rubik } from "./fonts";
+import { Toaster } from "@/components/ui/sonner"
 import "@/app/assets/globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
             <SignupProvider>
                {children}
             </SignupProvider>
+            <Toaster position="top-right" richColors/>
          </body>
       </html>
    );

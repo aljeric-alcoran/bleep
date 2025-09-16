@@ -6,6 +6,7 @@ export async function middleware(req: NextRequest) {
    const accessToken = req.cookies.get("accessToken")?.value;
    const refreshToken = req.cookies.get("refreshToken")?.value;
    const { pathname } = req.nextUrl;
+   console.log("Access Token: ",accessToken);
    
    let isAccessTokenValid = false;
 
@@ -20,9 +21,7 @@ export async function middleware(req: NextRequest) {
    }
 
    if (isAccessTokenValid) {
-      if (pathname.startsWith("/login")) {
-         return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
+      return NextResponse.redirect(new URL("/dashboard", req.url));
    } else {
       if (refreshToken) {
          try {
@@ -31,22 +30,22 @@ export async function middleware(req: NextRequest) {
             if (newAccessToken) {
                const responseWithNewToken = NextResponse.next();
                responseWithNewToken.cookies.set("accessToken", newAccessToken, { httpOnly: true, secure: process.env.NODE_ENV !== "development", sameSite: "strict" });
-               NextResponse.redirect(new URL("/dashboard", req.url));
+               NextResponse.redirect(new URL("/", req.url));
                return responseWithNewToken;
             } else {
                if (pathname.startsWith("/dashboard")) {
-                  return NextResponse.redirect(new URL("/login", req.url));
+                  return NextResponse.redirect(new URL("/", req.url));
                }
             }
          } catch (err) {
             console.error("Token refresh failed:", err);
             if (pathname.startsWith("/dashboard")) {
-               return NextResponse.redirect(new URL("/login", req.url));
+               return NextResponse.redirect(new URL("/", req.url));
             }
          }
       } else {
          if (pathname.startsWith("/dashboard")) {
-            return NextResponse.redirect(new URL("/login", req.url));
+            return NextResponse.redirect(new URL("/", req.url));
          }
       }
    }
@@ -55,5 +54,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-   matcher: ["/login", "/dashboard", "/dashboard/:path*"],
+   matcher: ["/dashboard", "/dashboard/:path*"],
 };

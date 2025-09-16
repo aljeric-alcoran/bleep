@@ -3,7 +3,6 @@ import GoogleSignup from "./google";
 import Image from "next/image";
 import {
    Card,
-   CardAction,
    CardContent,
    CardDescription,
    CardFooter,
@@ -11,7 +10,7 @@ import {
    CardTitle,
 } from "@/components/ui/card"
 
-export default function Login() {
+export default function Login({ onSuccess }: { onSuccess: () => void }) {
    return (
       <div className="w-full flex justify-center items-center">
          <Card className="w-full shadow-none border-transparent p-0">
@@ -30,7 +29,7 @@ export default function Login() {
                <CardDescription className="text-center">Login to your existing bleep account</CardDescription>
             </CardHeader>
             <CardContent className="p-0 pt-4">
-               <LoginForm/>
+               <LoginForm onSuccess={onSuccess}/>
             </CardContent>
             <CardFooter className="flex flex-col gap-4 p-0">
                <p className="text-xs text-gray-400 dark:text-white">Or login using</p>
