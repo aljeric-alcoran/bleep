@@ -1,5 +1,3 @@
-'use client'
-
 import { registerUser } from "@/lib/api/registration";
 import { z } from "zod"
 import { useForm } from "react-hook-form";
@@ -25,7 +23,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { CircleX } from "lucide-react";
+import { CircleX, Loader } from "lucide-react";
+import { useSignup } from "@/app/context/SignupContext";
 
 const formSchema = z.object({
    otp: z.string(),
@@ -37,21 +36,17 @@ const formSchema = z.object({
    password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
-export default function RegistrationForm({
-   verifiedEmail,
-   otp
-}: Readonly<{
-   verifiedEmail: string | null;
-   otp: string | null;
-}>) {
+export default function RegistrationForm() {
    const router = useRouter();
+   const { email, otp } = useSignup();
    const [error, setError] = useState<string | null>(null);
+   const [loading, setLoading] = useState<boolean>(false);
 
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
          otp: otp ?? "",
-         email: verifiedEmail  ?? "",
+         email: email  ?? "",
          firstname: "",
          lastname: "",
          password: "",
@@ -61,11 +56,13 @@ export default function RegistrationForm({
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
+      setLoading(true);
       values.phoneNumber = values.countryCode + values.phoneNumber;
       const { countryCode,...userObject } = values;
       const response  = await registerUser(userObject);
 
       if (response.status === 200) {
+         setLoading(false);
          router.push("/dashboard");
       } else {
          setError(response.message);
@@ -182,7 +179,10 @@ export default function RegistrationForm({
                         />
                   </div>
                </div>
-               <Button type="submit" className="w-full">Submit</Button>
+               <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">
+                  Submit
+                  {loading && <Loader className="animate-spin"/>}
+               </Button>
             </form>
          </Form>
       </>

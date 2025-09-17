@@ -1,3 +1,4 @@
+import { useUserStore } from "@/store/useUserStore";
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function loginUser({ 
@@ -26,7 +27,9 @@ export async function logoutUser() {
       method: 'POST',
    });
 
-   if (response.ok) window.location.href = '/login'; 
+   if (response.ok) {
+      useUserStore.getState().clearUser();
+   }
    else console.error('Logout failed.');
 }
 

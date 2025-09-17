@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { redirectUser } from "@/lib/api/auth";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner"
+import { validateAccessToken } from "@/lib/helpers";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function Callback() {
    const router = useRouter();
@@ -14,10 +17,21 @@ export default function Callback() {
          try {
             const response = await redirectUser();
             
-            if (response.accessToken) router.replace("/dashboard");
-            else router.replace("/login?error=auth_failed");
+            if (response.accessToken) {
+               const { user } = await validateAccessToken(response.accessToken);
+               useUserStore.getState().setUser(user, response.accessToken);
+               router.replace("/");
+            } else {
+               router.replace("/?error=auth_failed");
+               toast.error("Login failed!", {
+                  description: "Authentication failed. Please try again."
+               })
+            }
          } catch (err) {
-            router.replace("/login?error=network_error");
+            router.replace("/?error=network_error");
+            toast.error("Login failed!", { 
+               description: "Network error. Please try again." 
+            })
          }
       };
       checkAuth();
