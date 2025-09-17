@@ -18,9 +18,6 @@ export default function DashboardLayout({
    return (
       <SidebarProvider>
          <main className="w-full">
-            <div className="w-full flex items-center justify-center border-b py-4 px-3">
-               
-            </div>
             <div className="p-5 w-max-screen">
                {children}
             </div>
