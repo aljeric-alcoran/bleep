@@ -11,6 +11,7 @@ import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucid
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
 import { getNameInitials } from "@/lib/helpers"
+import Link from "next/link"
 
 interface User {
    firstname: string
@@ -53,12 +54,14 @@ export default function UserProfileDropdown({
                   Manage Account
                </DropdownMenuItem>
                <DropdownMenuItem>
-                  <ShoppingBasket />
-                  My Orders
+                     <ShoppingBasket />
+                     My Orders
                </DropdownMenuItem>
                <DropdownMenuItem>
-                  <Cog/>
-                  Settings
+                  <Link href="/settings" className="flex items-center gap-2">
+                     <Cog/>
+                     Settings
+                  </Link>
                </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
