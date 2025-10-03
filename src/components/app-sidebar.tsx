@@ -1,65 +1,55 @@
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react"
-import Image from "next/image"
-import { NavUser } from "./navbar-user"
+import { 
+   CircleGauge, 
+   CircleUserRound, 
+   Settings, ShoppingBasket, 
+   CircleQuestionMark
+} from "lucide-react"
 import {
-  Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { NavSecondary } from "./nav-secondary";
  
-const data = {
-   user: {
-     name: "Al Jeric",
-     email: "alcoran@gmailcom",
-     avatar: "/logo.png",
-   },
-}
 const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+   {
+      title: "Dashboard",
+      url: "#",
+      icon: CircleGauge,
+   },
+   {
+      title: "My Account",
+      url: "#",
+      icon: CircleUserRound,
+   },
+   {
+      title: "My Orders",
+      url: "#",
+      icon: ShoppingBasket,
+   }
+]
+
+const navSecondary = [
+   {
+     title: "Settings",
+     url: "#",
+     icon: Settings,
+   },
+   {
+     title: "Get Help",
+     url: "#",
+     icon: CircleQuestionMark,
+   },
 ]
  
 export function AppSidebar() {
    return (
-      <Sidebar>
+      <div className="w-54 bg-white">
          <SidebarContent>
             <SidebarGroup>
-               <SidebarGroupLabel>
-                  <div className="flex items-center justify-center gap-2">
-                     <Image src="/logo.png" width={30} height={30} alt="Bleep logo" />
-                     <span className="text-lg font-semibold whitespace-nowrap dark:text-white">Bleep</span>
-                  </div>
-               </SidebarGroupLabel>
                <SidebarGroupContent className="py-5">
                   <SidebarMenu>
                      {items.map((item) => (
@@ -75,10 +65,8 @@ export function AppSidebar() {
                   </SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
+            <NavSecondary items={navSecondary} className="mt-auto" />
          </SidebarContent>
-         <SidebarFooter>
-            <NavUser user={data.user}/>
-         </SidebarFooter>
-      </Sidebar>
+      </div>
    )
 }
