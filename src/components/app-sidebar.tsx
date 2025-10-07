@@ -63,7 +63,7 @@ export function AppSidebar() {
    return (
       <div className="w-54 pb-10 bg-white">
          <SidebarContent>
-            <SidebarGroup>
+            <SidebarGroup className="pl-0">
                <SidebarGroupContent className="py-5">
                   <SidebarMenu>
                      {items.map((item) => {

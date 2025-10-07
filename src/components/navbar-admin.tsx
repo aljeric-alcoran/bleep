@@ -19,7 +19,7 @@ export function NavAdmin({
 }) {
    const pathname = usePathname();
    return (
-      <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroup className="group-data-[collapsible=icon]:hidden pl-0">
          <SidebarGroupLabel>Admin</SidebarGroupLabel>
          <SidebarMenu>
             {items.map((item) => {

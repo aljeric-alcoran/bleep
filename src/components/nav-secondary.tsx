@@ -21,7 +21,7 @@ export function NavSecondary({
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
    const pathname = usePathname()
    return (
-      <SidebarGroup {...props}>
+      <SidebarGroup {...props} className="pl-0">
          <SidebarGroupContent>
             <SidebarMenu>
                {items.map((item) => {
