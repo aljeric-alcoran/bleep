@@ -18,6 +18,7 @@ import {
 import { NavSecondary } from "./navigation/nav-secondary";
 import { NavAdmin } from "./navigation/navbar-admin";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
  
 const items = [
    {
@@ -52,7 +53,7 @@ const navSecondary = [
 
 const adminItems = [
    {
-     name: "Category",
+     name: "Categories",
      url: "categories",
      icon: LayoutList,
    }
@@ -74,10 +75,10 @@ export function AppSidebar() {
                               className={isActive ? "bg-gray-100 rounded-sm" : ""}
                            >
                               <SidebarMenuButton asChild>
-                                 <a href={item.url} className="flex items-center gap-2">
+                                 <Link href={item.url} className="flex items-center gap-2">
                                     <item.icon/>
                                     <span>{item.title}</span>
-                                 </a>
+                                 </Link>
                               </SidebarMenuButton>
                            </SidebarMenuItem>
                         );
