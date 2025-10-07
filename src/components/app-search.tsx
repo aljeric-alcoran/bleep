@@ -19,7 +19,7 @@ export default function AppSearch() {
                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Bleep</span>
             </div>
             <div className="flex w-full items-center gap-2 relative pl-10">
-               <Input type="input" placeholder="Search here..." className="py-[20px] rounded-[4px] px-6 bg-white" />
+               <Input id="main-search" type="input" placeholder="Search here..." className="py-[20px] rounded-[4px] px-6 bg-white" />
                <Button type="submit" variant="outline" className="absolute cursor-pointer hover:text-white right-[3px] w-18 bg-primary hover:bg-primary/80 text-white rounded-[4px]">
                   <Search/>
                </Button>
