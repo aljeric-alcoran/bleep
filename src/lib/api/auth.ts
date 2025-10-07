@@ -1,4 +1,5 @@
 import { useUserStore } from "@/store/useUserStore";
+import { redirect } from "next/navigation";
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function loginUser({ 
@@ -29,6 +30,7 @@ export async function logoutUser() {
 
    if (response.ok) {
       useUserStore.getState().clearUser();
+      redirect('/');
    }
    else console.error('Logout failed.');
 }
