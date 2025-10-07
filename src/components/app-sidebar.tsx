@@ -16,7 +16,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { NavSecondary } from "./nav-secondary";
-import { NavAdmin } from "./navbar-item";
+import { NavAdmin } from "./navbar-admin";
 import { usePathname } from "next/navigation";
  
 const items = [
