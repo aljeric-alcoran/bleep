@@ -22,17 +22,17 @@ import { usePathname } from "next/navigation";
 const items = [
    {
       title: "Dashboard",
-      url: "#",
+      url: "dashboard",
       icon: CircleGauge,
    },
    {
       title: "My Account",
-      url: "#",
+      url: "my-account",
       icon: CircleUserRound,
    },
    {
       title: "My Orders",
-      url: "#",
+      url: "my-orders",
       icon: ShoppingBasket,
    }
 ]
