@@ -13,18 +13,20 @@ export default function DashboardLayout({
    children: React.ReactNode;
 }) {
    return (
-      <SidebarProvider>
-         <main className="w-full bg-gray-50">
-            <div className="max-w-7xl mx-auto">
-               <div className="flex mx-6">
-                  <AppSidebar/>
-                  <div className="w-full py-7 px-6 border-l bg-white">
-                     {children}
+      <>
+         <SidebarProvider className="min-h-auto">
+            <div className="w-full bg-white">
+               <div className="max-w-7xl mx-auto">
+                  <div className="flex mx-6">
+                     <AppSidebar/>
+                     <div className="w-full py-7 px-6 border-l bg-white">
+                        {children}
+                     </div>
                   </div>
                </div>
-               <AppFooter/>
             </div>
-         </main>
-      </SidebarProvider>
+         </SidebarProvider>
+         <AppFooter/>
+      </>
    );
 }
