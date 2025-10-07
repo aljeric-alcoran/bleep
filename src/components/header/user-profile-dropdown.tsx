@@ -50,12 +50,16 @@ export default function UserProfileDropdown({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                <DropdownMenuItem>
-                  <CircleUserRound />
-                  My Account
+                  <Link href="/my-account" className="flex items-center gap-2">
+                     <CircleUserRound />
+                     My Account
+                  </Link>
                </DropdownMenuItem>
                <DropdownMenuItem>
-                  <ShoppingBasket />
-                  My Orders
+                  <Link href="/my-orders" className="flex items-center gap-2">
+                     <ShoppingBasket />
+                     My Orders
+                  </Link>
                </DropdownMenuItem>
                <DropdownMenuItem>
                   <Link href="/settings" className="flex items-center gap-2">
