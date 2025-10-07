@@ -1,10 +1,10 @@
-import { SignupProvider } from "@/app/context/SignupContext";
 import type { Metadata } from "next";
 import { rubik } from "./fonts";
-import { Toaster } from "@/components/ui/sonner"
+import "@/app/assets/globals.css";
+import { Toaster } from "sonner";
+import { SignupProvider } from "./context/SignupContext";
 import AppHeader from "@/components/app-header";
 import AppSearch from "@/components/app-search";
-import "@/app/assets/globals.css";
 
 export const metadata: Metadata = {
    title: "Bleep"

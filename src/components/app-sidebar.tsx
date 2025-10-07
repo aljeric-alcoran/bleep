@@ -1,84 +1,93 @@
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react"
-import Image from "next/image"
-import { NavUser } from "./navbar-user"
+"use client"
+
+import { 
+   CircleGauge, 
+   CircleUserRound, 
+   Settings, ShoppingBasket, 
+   CircleQuestionMark,
+   LayoutList
+} from "lucide-react"
 import {
-  Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { NavSecondary } from "./navigation/nav-secondary";
+import { NavAdmin } from "./navigation/navbar-admin";
+import { usePathname } from "next/navigation";
  
-const data = {
-   user: {
-     name: "Al Jeric",
-     email: "alcoran@gmailcom",
-     avatar: "/logo.png",
-   },
-}
 const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+   {
+      title: "Dashboard",
+      url: "dashboard",
+      icon: CircleGauge,
+   },
+   {
+      title: "My Account",
+      url: "my-account",
+      icon: CircleUserRound,
+   },
+   {
+      title: "My Orders",
+      url: "my-orders",
+      icon: ShoppingBasket,
+   }
+]
+
+const navSecondary = [
+   {
+     title: "Settings",
+     url: "settings",
+     icon: Settings,
+   },
+   {
+     title: "Get Help",
+     url: "#",
+     icon: CircleQuestionMark,
+   },
+]
+
+const adminItems = [
+   {
+     name: "Category",
+     url: "categories",
+     icon: LayoutList,
+   }
 ]
  
 export function AppSidebar() {
+   const pathname = usePathname()
    return (
-      <Sidebar>
+      <div className="w-54 pb-10 bg-white">
          <SidebarContent>
-            <SidebarGroup>
-               <SidebarGroupLabel>
-                  <div className="flex items-center justify-center gap-2">
-                     <Image src="/logo.png" width={30} height={30} alt="Bleep logo" />
-                     <span className="text-lg font-semibold whitespace-nowrap dark:text-white">Bleep</span>
-                  </div>
-               </SidebarGroupLabel>
+            <SidebarGroup className="pl-0">
                <SidebarGroupContent className="py-5">
                   <SidebarMenu>
-                     {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                           <SidebarMenuButton asChild>
-                           <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                           </a>
-                           </SidebarMenuButton>
-                        </SidebarMenuItem>
-                     ))}
+                     {items.map((item) => {
+                        const isActive = pathname.startsWith(`/${item.url}`);
+                        return (
+                           <SidebarMenuItem
+                              key={item.title}
+                              className={isActive ? "bg-gray-100 rounded-sm" : ""}
+                           >
+                              <SidebarMenuButton asChild>
+                                 <a href={item.url} className="flex items-center gap-2">
+                                    <item.icon/>
+                                    <span>{item.title}</span>
+                                 </a>
+                              </SidebarMenuButton>
+                           </SidebarMenuItem>
+                        );
+                     })}
                   </SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
+            <NavAdmin items={adminItems} />
+            <NavSecondary items={navSecondary} className="mt-auto" />
          </SidebarContent>
-         <SidebarFooter>
-            <NavUser user={data.user}/>
-         </SidebarFooter>
-      </Sidebar>
+      </div>
    )
 }

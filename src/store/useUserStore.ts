@@ -10,6 +10,7 @@ interface User {
    lastname: string;
    phoneNumber: string;
    email: string;
+   avatar: string;
 }
 
 interface UserStore {
