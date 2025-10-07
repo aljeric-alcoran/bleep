@@ -1,8 +1,11 @@
+"use client"
+
 import { 
    CircleGauge, 
    CircleUserRound, 
    Settings, ShoppingBasket, 
-   CircleQuestionMark
+   CircleQuestionMark,
+   LayoutList
 } from "lucide-react"
 import {
   SidebarContent,
@@ -13,6 +16,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { NavSecondary } from "./nav-secondary";
+import { NavAdmin } from "./navbar-item";
+import { usePathname } from "next/navigation";
  
 const items = [
    {
@@ -35,7 +40,7 @@ const items = [
 const navSecondary = [
    {
      title: "Settings",
-     url: "#",
+     url: "settings",
      icon: Settings,
    },
    {
@@ -44,27 +49,43 @@ const navSecondary = [
      icon: CircleQuestionMark,
    },
 ]
+
+const adminItems = [
+   {
+     name: "Category",
+     url: "categories",
+     icon: LayoutList,
+   }
+]
  
 export function AppSidebar() {
+   const pathname = usePathname()
    return (
-      <div className="w-54 bg-white">
+      <div className="w-54 pb-10 bg-white">
          <SidebarContent>
             <SidebarGroup>
                <SidebarGroupContent className="py-5">
                   <SidebarMenu>
-                     {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                           <SidebarMenuButton asChild>
-                           <a href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                           </a>
-                           </SidebarMenuButton>
-                        </SidebarMenuItem>
-                     ))}
+                     {items.map((item) => {
+                        const isActive = pathname.startsWith(`/${item.url}`);
+                        return (
+                           <SidebarMenuItem
+                              key={item.title}
+                              className={isActive ? "bg-gray-100 rounded-sm" : ""}
+                           >
+                              <SidebarMenuButton asChild>
+                                 <a href={item.url} className="flex items-center gap-2">
+                                    <item.icon/>
+                                    <span>{item.title}</span>
+                                 </a>
+                              </SidebarMenuButton>
+                           </SidebarMenuItem>
+                        );
+                     })}
                   </SidebarMenu>
                </SidebarGroupContent>
             </SidebarGroup>
+            <NavAdmin items={adminItems} />
             <NavSecondary items={navSecondary} className="mt-auto" />
          </SidebarContent>
       </div>
