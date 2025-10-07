@@ -27,7 +27,7 @@ export default function UserProfileDropdown({
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <div className="cursor-pointer flex items-center gap-1">
+            <div className="cursor-pointer flex items-center">
                Hi, {user?.firstname } {user?.lastname}
                <ChevronDown className="ml-auto size-4" />
             </div>
@@ -51,11 +51,11 @@ export default function UserProfileDropdown({
             <DropdownMenuGroup>
                <DropdownMenuItem>
                   <CircleUserRound />
-                  Manage Account
+                  My Account
                </DropdownMenuItem>
                <DropdownMenuItem>
-                     <ShoppingBasket />
-                     My Orders
+                  <ShoppingBasket />
+                  My Orders
                </DropdownMenuItem>
                <DropdownMenuItem>
                   <Link href="/settings" className="flex items-center gap-2">
