@@ -46,5 +46,13 @@ export const config = {
    matcher: [
       "/dashboard",
       "/dashboard/:path*",
+      "/categories",
+      "/categories/:path*",
+      "/my-account",
+      "/my-account/:path*",
+      "/my-orders",
+      "/my-orders/:path*",
+      "/settings",
+      "/settings/:path*"
    ],
 };
