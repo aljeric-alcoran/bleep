@@ -25,8 +25,8 @@ export default function Signup() {
          description: "Register a new account",
       },
       {
-         title: "One-Time Password",
-         description: "Please enter the one-time password sent to your email.",
+         title: "Enter verification code",
+         description: "We sent a 6-digit code to your email.",
       },
       {
          title: "Create your account",
