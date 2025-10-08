@@ -44,6 +44,7 @@ export default function SignupForm() {
          setLoading(false);
          setStep(2);
       } else {
+         setLoading(false);
          setError(response.message);
       }
    }
