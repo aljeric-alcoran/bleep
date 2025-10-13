@@ -29,12 +29,14 @@ import { DataTableViewOptions } from "./data-table-view-options";
  
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[]
-   data: TData[]
+   data: TData[],
+   addActionSlot?: React.ReactNode
 }
  
 export function DataTable<TData, TValue>({
    columns,
    data,
+   addActionSlot
 }: DataTableProps<TData, TValue>) {
    const [sorting, setSorting] = useState<SortingState>([]);
    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -73,7 +75,10 @@ export function DataTable<TData, TValue>({
                   className="w-96 max-w-sm"
                />
             </div>
-            <DataTableViewOptions table={table} />
+            <div className="flex justify-center items-center gap-2">
+               <DataTableViewOptions table={table} />
+               {addActionSlot && (addActionSlot)}
+            </div>
          </div>
          <div className="overflow-hidden rounded-md border">
             <Table>

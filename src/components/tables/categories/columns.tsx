@@ -18,7 +18,7 @@ export type Category = {
    id: string
    name: string
    order: number
-   isActive: "Active" | "Inactive"
+   isActive: boolean
 }
  
 export const columns: ColumnDef<Category>[] = [
@@ -59,6 +59,20 @@ export const columns: ColumnDef<Category>[] = [
    {
       accessorKey: "isActive",
       header: "Status",
+      cell: ({ row }) => {
+         const active = row.getValue("isActive");
+         return (
+            <span
+               className={
+                  active
+                     ? "text-green-600 font-medium"
+                     : "text-red-500 font-medium"
+               }
+            >
+               {active ? "Active" : "Inactive"}
+            </span>
+         );
+      },
    },
    {
       id: "actions",
