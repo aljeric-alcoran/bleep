@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Category } from "@/lib/types/category-type";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 
 export function AddCategoryForm({ 
    categories 
@@ -72,23 +73,36 @@ export function AddCategoryForm({
                      />
                   </div>
                </div>
-                  <DialogDescription className="mt-4">
-                     Metadata
-                  </DialogDescription>
-               <div className="grid gap-4">
-                  <div className="grid gap-3">
-                     <Label htmlFor="name">Title</Label>
-                     <Input id="category-name" name="name" />
-                  </div>
-                  <div className="grid gap-3">
-                     <Label htmlFor="parent">Description</Label>
-                     <Input id="parent-category" name="parent" />
-                  </div>
-                  <div className="grid gap-3">
-                     <Label htmlFor="description">Keywords</Label>
-                     <Input id="category-description" name="description" />
-                  </div>
-               </div>
+                  <Accordion
+                     type="single"
+                     collapsible
+                     className="w-full"
+                  >
+                     <AccordionItem value="item-1">
+                        <AccordionTrigger>Add Metadata</AccordionTrigger>
+                        <AccordionContent className="flex flex-col gap-4 text-balance">
+                           <div className="grid gap-4">
+                              <div className="grid gap-3">
+                                 <Label htmlFor="title">Title</Label>
+                                 <Input id="metadata-title" name="title" />
+                              </div>
+                              <div className="grid gap-3">
+                                 <Label htmlFor="metadata-desc">Description</Label>
+                                 <Input id="metadata-desc" name="metadata-desc" />
+                              </div>
+                              <div className="grid gap-3">
+                                 <Label htmlFor="keywords">Keywords</Label>
+                                 <Textarea
+                                    id="keywords"
+                                    name="keywords"
+                                    placeholder="e.g. hello world people"
+                                    rows={6}
+                                 />
+                              </div>
+                           </div>
+                        </AccordionContent>
+                     </AccordionItem>
+                  </Accordion>
                <DialogFooter>
                   <DialogClose asChild>
                      <Button variant="outline">Discard</Button>
