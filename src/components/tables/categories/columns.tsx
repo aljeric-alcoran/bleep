@@ -51,10 +51,14 @@ export const columns: ColumnDef<Category>[] = [
       ),
    },
    {
-      accessorKey: "order",
+      accessorKey: "description",
       header: ({ column }) => (
-         <DataTableColumnHeader column={column} title="Order" />
+         <DataTableColumnHeader column={column} title="Description" />
       ),
+      cell: ({row}) => {
+         const description = row.getValue("description")
+         return ( description ? description : 'No description provided.')
+      }
    },
    {
       accessorKey: "isActive",
