@@ -8,18 +8,17 @@ import { allCategories } from '@/lib/api/categories';
 import { useEffect, useState } from 'react';
 
 export default function Categories() {
-   const [categories, setCategories] = useState([])
-
+   const [categories, setCategories] = useState([]);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       async function fetchCategories() {
-        const { data } = await allCategories();
-        setCategories(data)
-        console.log(data);
+         const { data } = await allCategories();
+         setCategories(data);
+         setLoading(false)
       }
-  
       fetchCategories();
-    }, []);
+   }, []);
 
    return (
       <>
@@ -30,10 +29,11 @@ export default function Categories() {
 
          <div className="container mx-auto pt-5 pb-10">
             <DataTable 
+               loading={loading}
                columns={columns} 
                data={categories} 
                addActionSlot={
-                  <AddCategoryForm/>
+                  <AddCategoryForm categories={categories}/>
                }
             />
          </div>
