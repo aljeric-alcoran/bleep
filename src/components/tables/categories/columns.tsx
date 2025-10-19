@@ -94,13 +94,11 @@ export const columns: ColumnDef<Category>[] = [
                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem
-                     onClick={() => navigator.clipboard.writeText(payment.id)}
+                     onClick={() => navigator.clipboard.writeText("copied")}
                   >
-                     Copy payment ID
+                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>View customer</DropdownMenuItem>
-                  <DropdownMenuItem>View payment details</DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
                </DropdownMenuContent>
             </DropdownMenu>
          )
