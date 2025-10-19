@@ -1,6 +1,6 @@
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export async function allCategories() {
+export async function fetchCategories() {
    const response = await fetch(`${baseURL}/categories`, {
       method: 'GET',
       headers: {

@@ -4,7 +4,7 @@ import { columns } from '@/components/tables/categories/columns'
 import { DataTable } from '@/components/tables/data-table';
 import { AddCategoryForm } from '@/components/forms/add-category-form';
 import { LayoutList } from 'lucide-react';
-import { allCategories } from '@/lib/api/categories';
+import { fetchCategories } from '@/lib/api/categories';
 import { useEffect, useState } from 'react';
 
 export default function Categories() {
@@ -12,12 +12,12 @@ export default function Categories() {
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {
-      async function fetchCategories() {
-         const { data } = await allCategories();
+      async function allCategories() {
+         const { data } = await fetchCategories();
          setCategories(data);
          setLoading(false)
       }
-      fetchCategories();
+      allCategories();
    }, []);
 
    return (
