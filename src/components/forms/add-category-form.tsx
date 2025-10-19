@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Switch } from "../ui/switch";
 import { addCategory } from "@/lib/api/categories";
+import { useCategoryStore } from '@/store/useCategoryStore';
 
 const formSchema = z.object({
    name: z.string().trim().min(1, "Name cannot be empty"),
@@ -36,11 +37,8 @@ const formSchema = z.object({
       })
 });
 
-export function AddCategoryForm({ 
-   categories 
-} : { 
-   categories: Category[] 
-}) {
+export function AddCategoryForm() {
+   const categories = useCategoryStore((state) => state.categories);
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
