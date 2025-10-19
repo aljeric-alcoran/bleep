@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Switch } from "../ui/switch";
+import { addCategory } from "@/lib/api/categories";
 
 const formSchema = z.object({
    name: z.string().trim().min(1, "Name cannot be empty"),
@@ -29,11 +30,10 @@ const formSchema = z.object({
    isActive: z.boolean(),
    order: z.number(),
    metadata: z.object({
-         keywords: z.string(),
-         seoTitle: z.string(),
-         seoDescription: z.string(),
+         keywords: z.string().optional(),
+         seoTitle: z.string().optional(),
+         seoDescription: z.string().optional(),
       })
-      .optional(),
 });
 
 export function AddCategoryForm({ 
@@ -58,7 +58,18 @@ export function AddCategoryForm({
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values);
+      const { metadata, parent, ...data } = values;
+      const payload = {
+         ...data,
+         parent: parent === '' ? null : parent,
+         metadata: {
+            keywords: metadata?.keywords?.split(" "),
+            seoTitle: metadata.seoTitle,
+            seoDescription: metadata.seoDescription
+         }
+      }
+      const response = await addCategory(payload);
+      console.log(response);
    }
 
    return (
