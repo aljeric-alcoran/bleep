@@ -1,3 +1,9 @@
+type Metadata = {
+   keywords?: string[];
+   seoTitle?: string;
+   seoDescription?: string;
+}
+
 export type Category = {
    _id?: string;
    name: string;
@@ -7,11 +13,7 @@ export type Category = {
    image?: string;
    isActive?: boolean;
    order?: number;
-   metadata?: {
-      keywords?: string[];
-      seoTitle?: string;
-      seoDescription?: string;
-   };
+   metadata?: Metadata;
    createdAt?: string;
    updatedAt?: string;
 };
