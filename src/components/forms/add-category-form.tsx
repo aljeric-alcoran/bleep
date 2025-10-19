@@ -12,17 +12,18 @@ import {
    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Category } from "@/lib/types/category-type";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Switch } from "../ui/switch";
-import { addCategory } from "@/lib/api/categories";
+import { addNewCategory } from "@/lib/api/categories";
 import { useCategoryStore } from '@/store/useCategoryStore';
+import { useState } from "react";
+import { Alert, AlertTitle } from "../ui/alert";
+import { CircleX } from "lucide-react";
 
 const formSchema = z.object({
    name: z.string().trim().min(1, "Name cannot be empty"),
@@ -31,14 +32,17 @@ const formSchema = z.object({
    isActive: z.boolean(),
    order: z.number(),
    metadata: z.object({
-         keywords: z.string().optional(),
-         seoTitle: z.string().optional(),
-         seoDescription: z.string().optional(),
-      })
+      keywords: z.string().optional(),
+      seoTitle: z.string().optional(),
+      seoDescription: z.string().optional(),
+   })
 });
 
 export function AddCategoryForm() {
-   const categories = useCategoryStore((state) => state.categories);
+   const { categories, addToCategoryStore } = useCategoryStore((state) => state);
+   const [open, setOpen] = useState(false);
+   const [error, setError] = useState<string | null>(null);
+
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -56,23 +60,28 @@ export function AddCategoryForm() {
    })
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
-      const { metadata, parent, ...data } = values;
-      const payload = {
-         ...data,
-         parent: parent === '' ? null : parent,
-         metadata: {
-            keywords: metadata?.keywords?.split(" "),
-            seoTitle: metadata.seoTitle,
-            seoDescription: metadata.seoDescription
+      try {
+         const { metadata, parent, ...data } = values;
+         const payload = {
+            ...data,
+            parent: parent === '' ? null : parent,
+            metadata: {
+               keywords: metadata?.keywords?.split(" "),
+               seoTitle: metadata.seoTitle,
+               seoDescription: metadata.seoDescription
+            }
          }
+         const response = await addNewCategory(payload);
+         addToCategoryStore(response.data);
+         setOpen(false);
+      } catch (error: any) {
+         setError(error.message)
+         console.log(error);
       }
-      const response = await addCategory(payload);
-      console.log(response);
    }
 
    return (
-      
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
          <DialogTrigger asChild>
             <Button>Add Category</Button>
          </DialogTrigger>
@@ -83,6 +92,12 @@ export function AddCategoryForm() {
                   Fill in the details below to create a new category.
                </DialogDescription>
             </DialogHeader>
+            {error ? (
+               <Alert className="mb-6 bg-red-50 text-red-700">
+                  <CircleX />
+                  <AlertTitle className="text-xs mt-0.5 -ml-1">{error}</AlertTitle>
+               </Alert>
+            ) : null}
             <Form {...form}>
                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="grid gap-6 mb-4">
