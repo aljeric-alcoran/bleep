@@ -15,10 +15,10 @@ import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "../data-table-column-header";
  
 export type Category = {
-   id: string
+   _id?: string
    name: string
-   order: number
-   isActive: boolean
+   order?: number
+   isActive?: boolean
 }
  
 export const columns: ColumnDef<Category>[] = [
