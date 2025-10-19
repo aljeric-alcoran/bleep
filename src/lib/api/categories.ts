@@ -1,8 +1,9 @@
 import { Category } from "../types/category-type";
+import { AddCategoryResponse, CategoryResponse } from "../types/response-types";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export async function fetchCategories() {
+export async function fetchCategories(): Promise<CategoryResponse> {
    const response = await fetch(`${baseURL}/categories`, {
       method: 'GET',
       headers: {
@@ -12,11 +13,10 @@ export async function fetchCategories() {
    });
 
    const data = await response.json();
-   return { status: response.status, message: data.message, data: data.data };
+   return data;
 }
 
-export async function addCategory(categoryObject: Category) {
-   console.log(categoryObject);
+export async function addNewCategory(categoryObject: Category): Promise<AddCategoryResponse> {
    const response = await fetch(`${baseURL}/categories`, {
       method: 'POST',
       headers: {
