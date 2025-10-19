@@ -56,8 +56,8 @@ export const columns: ColumnDef<Category>[] = [
          <DataTableColumnHeader column={column} title="Description" />
       ),
       cell: ({row}) => {
-         const description = row.getValue("description")
-         return ( description ? description : 'No description provided.')
+         const description = row.getValue("description") as string | undefined;
+         return ( description ? <div className="w-90 truncate">{description}</div> : 'No description provided.')
       }
    },
    {
