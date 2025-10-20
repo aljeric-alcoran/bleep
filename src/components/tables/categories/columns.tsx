@@ -81,8 +81,6 @@ export const columns: ColumnDef<Category>[] = [
    {
       id: "actions",
       cell: ({ row }) => {
-         const payment = row.original
-      
          return (
             <DropdownMenu>
                <DropdownMenuTrigger asChild>
@@ -94,7 +92,7 @@ export const columns: ColumnDef<Category>[] = [
                <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem
-                     onClick={() => navigator.clipboard.writeText("copied")}
+                     onClick={() => console.log(row.original)}
                   >
                      Edit
                   </DropdownMenuItem>

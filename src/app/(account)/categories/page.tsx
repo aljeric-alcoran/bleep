@@ -2,11 +2,11 @@
 
 import { columns } from '@/components/tables/categories/columns'
 import { DataTable } from '@/components/tables/data-table';
-import { AddCategoryForm } from '@/components/forms/add-category-form';
 import { LayoutList } from 'lucide-react';
 import { fetchCategories } from '@/lib/api/categories';
 import { useEffect, useState } from 'react';
 import { useCategoryStore } from '@/store/useCategoryStore';
+import { AddCategory } from './add-category';
 
 export default function Categories() {
    const { categories, setCategories } = useCategoryStore(state => state);
@@ -34,7 +34,7 @@ export default function Categories() {
                columns={columns} 
                data={categories} 
                addActionSlot={
-                  <AddCategoryForm/>
+                  <AddCategory/>
                }
             />
          </div>
