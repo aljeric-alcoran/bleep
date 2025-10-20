@@ -35,9 +35,7 @@ export function DeleteCategory({
 }) {
    const form = useForm<z.infer<typeof categorySchema>>({
       resolver: zodResolver(categorySchema),
-      defaultValues: {
-         name: "",
-      },
+      defaultValues: { name: "" },
    });
    const removeCategoryFromStore = useCategoryStore((state) => state.removeCategoryFromStore);
    const [error, setError] = useState<string | null>(null);
@@ -46,10 +44,8 @@ export function DeleteCategory({
       if (values.name !== category.name) {
          setError("Incorrect text was entered.")
       } else {
-         console.log("Correct");
          try {
-            const response = await deleteCategory(category._id);
-            console.log(response);
+            await deleteCategory(category._id);
             removeCategoryFromStore(category._id);
             toast.success("Success!", { 
                description: `Category ${category.name} has been deleted!` 
