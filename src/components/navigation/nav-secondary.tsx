@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { type LucideIcon   } from "lucide-react"
+import { CircleQuestionMark, Settings, type LucideIcon   } from "lucide-react"
 import {
    SidebarGroup,
    SidebarGroupContent,
@@ -11,16 +11,22 @@ import {
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 
+const items = [
+   {
+     title: "Settings",
+     url: "settings",
+     icon: Settings,
+   },
+   {
+     title: "Get Help",
+     url: "#",
+     icon: CircleQuestionMark,
+   },
+]
+
 export function NavSecondary({
-   items,
    ...props
-}: {
-   items: {
-      title: string
-      url: string
-      icon: LucideIcon 
-   }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+} : React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
    const pathname = usePathname()
    return (
       <SidebarGroup {...props} className="pl-0">
