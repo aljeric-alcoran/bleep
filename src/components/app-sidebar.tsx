@@ -1,93 +1,70 @@
 "use client"
 
 import { 
+   LayoutList,
    CircleGauge, 
-   CircleUserRound, 
-   Settings, ShoppingBasket, 
-   CircleQuestionMark,
-   LayoutList
+   CircleUserRound,
+   ShoppingBasket,
 } from "lucide-react"
-import {
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { SidebarContent } from "@/components/ui/sidebar"
+import { NavMain } from "./navigation/navbar-main";
 import { NavSecondary } from "./navigation/nav-secondary";
-import { NavAdmin } from "./navigation/navbar-admin";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
- 
-const items = [
+
+const navbarItems = [
    {
-      title: "Dashboard",
-      url: "dashboard",
-      icon: CircleGauge,
+      label: 'General',
+      items: [
+         {
+            title: "Home",
+            url: "/",
+            icon: CircleUserRound,
+         },
+         {
+            title: "Dashboard",
+            url: "/dashboard",
+            icon: CircleGauge,
+         }
+      ]
    },
    {
-      title: "My Account",
-      url: "my-account",
-      icon: CircleUserRound,
+      label: 'My Account',
+      items: [
+         {
+            title: "My Account",
+            url: "/my-account",
+            icon: CircleUserRound,
+         },
+         {
+            title: "My Orders",
+            url: "/my-orders",
+            icon: ShoppingBasket,
+         }
+      ]
    },
    {
-      title: "My Orders",
-      url: "my-orders",
-      icon: ShoppingBasket,
+      label: 'Admin',
+      items:  [
+         {
+           title: "Categories",
+           url: "/categories",
+           icon: LayoutList,
+         }
+      ]
    }
 ]
 
-const navSecondary = [
-   {
-     title: "Settings",
-     url: "settings",
-     icon: Settings,
-   },
-   {
-     title: "Get Help",
-     url: "#",
-     icon: CircleQuestionMark,
-   },
-]
-
-const adminItems = [
-   {
-     name: "Categories",
-     url: "categories",
-     icon: LayoutList,
-   }
-]
- 
 export function AppSidebar() {
-   const pathname = usePathname()
    return (
       <div className="w-54 pb-10 bg-white">
          <SidebarContent>
-            <SidebarGroup className="pl-0">
-               <SidebarGroupContent className="py-5">
-                  <SidebarMenu>
-                     {items.map((item) => {
-                        const isActive = pathname.startsWith(`/${item.url}`);
-                        return (
-                           <SidebarMenuItem
-                              key={item.title}
-                              className={isActive ? "bg-gray-100 rounded-sm" : ""}
-                           >
-                              <SidebarMenuButton asChild>
-                                 <Link href={item.url} className="flex items-center gap-2">
-                                    <item.icon/>
-                                    <span>{item.title}</span>
-                                 </Link>
-                              </SidebarMenuButton>
-                           </SidebarMenuItem>
-                        );
-                     })}
-                  </SidebarMenu>
-               </SidebarGroupContent>
-            </SidebarGroup>
-            <NavAdmin items={adminItems} />
-            <NavSecondary items={navSecondary} className="mt-auto" />
+            {navbarItems.map((item) => (
+               <NavMain 
+                  key={item.label} 
+                  items={item.items} 
+                  label={item.label}
+               />
+            ))}
+            <NavSecondary className="mt-auto" />
          </SidebarContent>
       </div>
    )
