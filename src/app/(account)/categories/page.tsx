@@ -1,8 +1,43 @@
+"use client"
+
+import { columns } from '@/components/tables/categories/columns'
+import { DataTable } from '@/components/tables/data-table';
+import { LayoutList } from 'lucide-react';
+import { fetchCategories } from '@/lib/api/categories';
+import { useEffect, useState } from 'react';
+import { useCategoryStore } from '@/store/useCategoryStore';
+import { AddCategory } from './add-category';
+
 export default function Categories() {
-   
+   const { categories, setCategories } = useCategoryStore(state => state);
+   const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+      async function allCategories() {
+         const { data } = await fetchCategories();
+         setCategories(data);
+         setLoading(false)
+      }
+      allCategories();
+   }, []);
+
    return (
-      <div className="flex">
-         <h1>Categories</h1>
-      </div>
+      <>
+         <div className="flex items-center gap-2">
+            <LayoutList className="w-5"/>
+            <h1 className="text-lg font-semibold">Categories</h1>
+         </div>
+
+         <div className="container mx-auto pt-5 pb-10">
+            <DataTable 
+               loading={loading}
+               columns={columns} 
+               data={categories} 
+               addActionSlot={
+                  <AddCategory/>
+               }
+            />
+         </div>
+      </>
    );
 }

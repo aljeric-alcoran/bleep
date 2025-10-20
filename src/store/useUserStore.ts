@@ -29,16 +29,12 @@ export const useUserStore = create<UserStore>()(
          user: null,
          accessToken: null,
          justLoggedIn: false,
-
          setUser: (user, accessToken) => {
             set({ user, accessToken, justLoggedIn: true });
             scheduleRefresh(accessToken);
          },
-
          clearUser: () => set({ user: null, accessToken: null }),
-
          setJustLoggedIn: (value) => set({ justLoggedIn: value }),
-
          refresh: async () => {
             try {
                const res = await fetch(`${baseURL}/auth/refresh`, {
@@ -50,7 +46,7 @@ export const useUserStore = create<UserStore>()(
                const user = await validateAccessToken(data.accessToken);
 
                set({ user: user.user, accessToken: data.accessToken });
-               scheduleRefresh(data.accessToken); // ✅ reschedule after refresh
+               scheduleRefresh(data.accessToken);
             } catch (err) {
                console.error("refresh error", err);
                get().clearUser();
@@ -68,13 +64,10 @@ export const useUserStore = create<UserStore>()(
             if (error) {
                console.error("Error rehydrating user store", error);
             } else if (state?.accessToken) {
-               // ✅ run check after reload
                const { exp } = decodeJwt(state.accessToken);
                if (exp && Date.now() >= exp * 1000) {
-                  // already expired → try refresh immediately
                   state.refresh();
                } else {
-                  // still valid → schedule refresh
                   scheduleRefresh(state.accessToken);
                }
             }

@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button"
 import {
    Form,
    FormControl,
+   FormDescription,
    FormField,
    FormItem,
+   FormLabel,
    FormMessage,
  } from "@/components/ui/form"
 import {
@@ -20,6 +22,7 @@ import {
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX, Loader } from "lucide-react";
 import { useSignup } from "@/app/context/SignupContext";
+import { FieldLabel } from "../ui/field";
 
 const formSchema = z.object({
    otp: z.string()
@@ -47,6 +50,7 @@ export default function VerifyOTPForm() {
          setLoading(false);
          setStep(3);
       } else {
+         setLoading(false);
          setError(response.message);
       }
    }
@@ -62,12 +66,13 @@ export default function VerifyOTPForm() {
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                <div className="flex flex-col gap-4">
-                  <div className="text-gray-900 dark:text-white pt-4 w-full">
+                  <div className="text-gray-900 dark:text-white w-full">
                      <FormField
                         control={form.control}
                         name="otp"
                         render={({ field }) => (
                            <FormItem>
+                              <FormLabel htmlFor="otp" className="mb-2">Verification code</FormLabel>
                               <FormControl>
                                  <InputOTP 
                                     className="w-full"
@@ -78,13 +83,16 @@ export default function VerifyOTPForm() {
                                        setError(null);
                                     }}
                                  >
-                                    <InputOTPGroup className="flex justify-center w-full">
+                                    <InputOTPGroup className="flex justify-center gap-2 w-full">
                                        {[...Array(6)].map((_, i) => (
-                                          <InputOTPSlot key={i} index={i} className="w-full h-14 text-center text-lg font-semibold"/>
+                                          <InputOTPSlot key={i} index={i} className="w-full h-14 border rounded-md text-center text-lg font-semibold"/>
                                        ))}
                                     </InputOTPGroup>
                                  </InputOTP>
                               </FormControl>
+                              <FormDescription className="mt-2">
+                                 Enter the 6-digit code sent to your email.
+                              </FormDescription>
                               <FormMessage className="text-xs"/>
                            </FormItem>
                         )}
@@ -92,7 +100,7 @@ export default function VerifyOTPForm() {
                   </div>
                </div>
                <Button type="submit" className="w-full hover:bg-red-700 cursor-pointer">
-                  Verify OTP
+                  Verify
                   {loading && <Loader className="animate-spin"/>}
                </Button>
             </form>

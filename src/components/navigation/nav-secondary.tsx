@@ -9,6 +9,8 @@ import {
    SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
+
 export function NavSecondary({
    items,
    ...props
@@ -32,10 +34,10 @@ export function NavSecondary({
                         className={isActive ? "bg-gray-100 rounded-sm" : ""}
                      >
                         <SidebarMenuButton asChild>
-                           <a href={item.url} className="flex items-center gap-2">
+                           <Link href={item.url} className="flex items-center gap-2">
                               <item.icon/>
                               <span>{item.title}</span>
-                           </a>
+                           </Link>
                         </SidebarMenuButton>
                      </SidebarMenuItem>
                   );
