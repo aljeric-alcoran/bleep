@@ -29,3 +29,30 @@ export async function addNewCategory(categoryObject: Category): Promise<AddCateg
    const data = await response.json();
    return data;
 }
+
+export async function updateCategory(categoryId: string | undefined, categoryObject: Category): Promise<AddCategoryResponse> {
+   const response = await fetch(`${baseURL}/categories/${categoryId}`, {
+      method: 'PUT',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      credentials: 'include', 
+      body: JSON.stringify(categoryObject),
+   });
+
+   const data = await response.json();
+   return data;
+}
+
+export async function deleteCategory(categoryId: string | undefined,) {
+   const response = await fetch(`${baseURL}/categories/${categoryId}`, {
+      method: 'DELETE',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      credentials: 'include', 
+   });
+
+   const data = await response.json();
+   return data;
+}
