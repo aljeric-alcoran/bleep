@@ -21,7 +21,7 @@ export function UpdateCategory({
    setOpen: (open: boolean) => void;
    category: Category
 }) {
-   const updateCategoryStore = useCategoryStore((state) => state.updateCategoryStore);
+   const updateCategoryFromStore = useCategoryStore((state) => state.updateCategoryFromStore);
    const [error, setError] = useState<string | null>(null);
    const form = useCategoryForm();
 
@@ -55,7 +55,7 @@ export function UpdateCategory({
             }
          }
          const response = await updateCategory(category._id, payload);
-         updateCategoryStore(response.data);
+         updateCategoryFromStore(response.data);
          toast.success("Success!", { 
             description: `Category ${category.name} has been updated!` 
          })

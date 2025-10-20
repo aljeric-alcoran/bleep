@@ -13,9 +13,10 @@ import { useCategoryStore } from '@/store/useCategoryStore';
 import { useState } from "react";
 import { CategoryForm } from "@/components/forms/category-form";
 import { CategoryFormSchema, useCategoryForm } from "@/schema/category.schema";
+import { toast } from "sonner";
 
 export function AddCategory() {
-   const addToCategoryStore = useCategoryStore((state) => state.addToCategoryStore);
+   const addCategoryFromStore = useCategoryStore((state) => state.addCategoryFromStore);
    const [open, setOpen] = useState(false);
    const [error, setError] = useState<string | null>(null);
    const form = useCategoryForm();
@@ -33,7 +34,10 @@ export function AddCategory() {
             }
          }
          const response = await addNewCategory(payload);
-         addToCategoryStore(response.data);
+         addCategoryFromStore(response.data);
+         toast.success("Success!", { 
+            description: `Category ${payload.name} has been created!` 
+         })
          form.reset();
          setOpen(false);
       } catch(error: any) {
