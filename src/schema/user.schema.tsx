@@ -6,8 +6,8 @@ import { User } from "@/lib/types/user-type";
 export const userFormSchema = z.object({
    firstname: z.string().trim().min(1, "First name cannot be empty."),
    lastname: z.string().trim().min(1, "Last name cannot be empty."),
-   birthday: z.date(),
-   gender: z.enum(['male', 'female', 'other']).nullable()
+   birthday: z.date().optional(),
+   gender: z.enum(['male', 'female', 'other']).nullable().optional()
 });
 
 export type UserFormSchema = z.infer<typeof userFormSchema>;
