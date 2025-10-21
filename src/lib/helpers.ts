@@ -41,3 +41,8 @@ export function getNameInitials(firstname?: string, lastname?: string): string {
  
    return `${firstInitial}${lastInitial}`;
 }
+
+export function toISOStringDateFormat(date: Date) {
+   const localDate = new Date(date);
+   return localDate.toISOString();
+}
