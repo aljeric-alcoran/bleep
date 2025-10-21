@@ -5,12 +5,19 @@ import { useUserForm, UserFormSchema } from "@/schema/user.schema";
 import { SquareUserRound } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
+import { toISOStringDateFormat } from "@/lib/helpers";
 
 export default function MyAccount() {
    const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
    const userForm = useUserForm(user);
+   
    async function onSubmit(values: UserFormSchema): Promise<void> {
-      console.log(values);
+      const { birthday, ...data } = values;
+      const payload = {
+         ...data,
+         birthday: toISOStringDateFormat(values.birthday)
+      }
+      console.log(payload);
    }
 
    function resetUserForm() {
