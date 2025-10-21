@@ -6,18 +6,24 @@ import { SquareUserRound } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
 import { toISOStringDateFormat } from "@/lib/helpers";
+import { updateUserDetails } from "@/lib/api/users";
 
 export default function MyAccount() {
-   const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
+   const { user, justLoggedIn, setJustLoggedIn, updateUserFromStore } = useUserStore();
    const userForm = useUserForm(user);
-   
+
    async function onSubmit(values: UserFormSchema): Promise<void> {
       const { birthday, ...data } = values;
       const payload = {
          ...data,
-         birthday: toISOStringDateFormat(values.birthday)
+         phoneNumber: user?.phoneNumber,
+         email: user?.email,
+         birthday: values.birthday ? toISOStringDateFormat(values.birthday) : undefined
       }
       console.log(payload);
+      const response = await updateUserDetails(payload, user?._id);
+      console.log(response);
+      updateUserFromStore(response.user)
    }
 
    function resetUserForm() {

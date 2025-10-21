@@ -28,11 +28,10 @@ export default function UserProfileForm({
 }) {
    const [disabled, setDisabled] = useState(true);
 
-   const showEditProfile = () => {
-      setDisabled(!disabled);
-      if (!disabled) {
-         resetUserForm();
-      }
+   function showEditProfile(e?: React.MouseEvent<HTMLButtonElement>) {
+      e?.preventDefault();
+      setDisabled((prev) => !prev);
+      if (!disabled) resetUserForm();
    }
    return (
       <Form {...userForm}>
@@ -146,8 +145,8 @@ export default function UserProfileForm({
             <div className="px-7 my-8">
                {disabled ? (
                   <div className="space-x-2">
-                     <Button onClick={showEditProfile} className="rounded-none font-normal" size="lg">Edit Profile</Button>
-                     <Button className="rounded-none font-normal" size="lg">Change Password</Button>
+                     <Button type="button" onClick={showEditProfile} className="rounded-none font-normal" size="lg">Edit Profile</Button>
+                     <Button type="button" className="rounded-none font-normal" size="lg">Change Password</Button>
                   </div>
                ) : (
                   <div className="space-x-2">
