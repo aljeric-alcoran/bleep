@@ -2,9 +2,10 @@
 
 import { 
    LayoutList,
-   CircleGauge, 
-   CircleUserRound,
+   CircleGauge,
    ShoppingBasket,
+   House,
+   SquareUserRound,
 } from "lucide-react"
 import { SidebarContent } from "@/components/ui/sidebar"
 import { NavMain } from "./navigation/navbar-main";
@@ -17,7 +18,7 @@ const navbarItems = [
          {
             title: "Home",
             url: "/",
-            icon: CircleUserRound,
+            icon: House,
          },
          {
             title: "Dashboard",
@@ -30,9 +31,9 @@ const navbarItems = [
       label: 'My Account',
       items: [
          {
-            title: "My Account",
+            title: "Profile",
             url: "/my-account",
-            icon: CircleUserRound,
+            icon: SquareUserRound,
          },
          {
             title: "My Orders",
