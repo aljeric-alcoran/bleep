@@ -2,16 +2,8 @@ import { decodeJwt } from "jose";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { scheduleRefresh, validateAccessToken } from "@/lib/helpers";
+import { User } from "@/lib/types/user-type";
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-interface User {
-   id: string;
-   firstname: string;
-   lastname: string;
-   phoneNumber: string;
-   email: string;
-   avatar: string;
-}
 
 interface UserStore {
    user: User | null;
@@ -20,6 +12,7 @@ interface UserStore {
    setUser: (user: User, accessToken: string) => void;
    clearUser: () => void;
    setJustLoggedIn: (value: boolean) => void;
+   updateUserFromStore: (userObject: Partial<User>) => void;
    refresh: () => Promise<void>;
 }
 
@@ -35,6 +28,12 @@ export const useUserStore = create<UserStore>()(
          },
          clearUser: () => set({ user: null, accessToken: null }),
          setJustLoggedIn: (value) => set({ justLoggedIn: value }),
+         updateUserFromStore: (userObject) =>
+            set((state) =>
+               state.user
+               ? { user: { ...state.user, ...userObject } }
+               : { user: userObject as User }
+            ),
          refresh: async () => {
             try {
                const res = await fetch(`${baseURL}/auth/refresh`, {
