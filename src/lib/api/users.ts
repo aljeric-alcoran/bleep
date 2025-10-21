@@ -1,3 +1,5 @@
+import { User } from "../types/user-type";
+
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function forgotPasswordRequest({ email } : { email: string }) {
@@ -25,4 +27,18 @@ export const resetPassword = async(token: string, newPassword: string) => {
    });
    const data = await response.json();
    return { status: response.status, message: data.message };
+}
+
+export async function updateUserDetails(userObject: User, userId: string | undefined) {
+   const response = await fetch(`${baseURL}/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      credentials: 'include', 
+      body: JSON.stringify(userObject),
+   });
+
+   const data = await response.json();
+   return data;
 }
