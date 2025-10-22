@@ -4,16 +4,9 @@ import { AddCategoryResponse, CategoryResponse } from "../types/response-types";
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function fetchCategories(): Promise<CategoryResponse> {
-   const response = await fetch(`${baseURL}/categories`, {
-      method: 'GET',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      credentials: 'include', 
-   });
-
-   const data = await response.json();
-   return data;
+   const res = await fetch("http://localhost:3002/api/v1/categories");
+   if (!res.ok) throw new Error("Failed to fetch categories");
+   return res.json();
 }
 
 export async function addNewCategory(categoryObject: Category): Promise<AddCategoryResponse> {
