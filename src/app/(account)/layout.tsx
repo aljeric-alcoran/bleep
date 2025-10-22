@@ -2,6 +2,7 @@ import AppFooter from "@/components/app-footer";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
+import QueryClientProviders from "../providers/queryClientProvider";
 
 export const metadata: Metadata = {
    title: "Dashboard",
@@ -20,7 +21,9 @@ export default function DashboardLayout({
                   <div className="flex mx-6">
                      <AppSidebar/>
                      <div className="w-full py-7 px-6 border-l bg-white">
-                        {children}
+                        <QueryClientProviders>
+                           {children}
+                        </QueryClientProviders>
                      </div>
                   </div>
                </div>
