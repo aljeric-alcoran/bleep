@@ -20,9 +20,7 @@ export default function MyAccount() {
          email: user?.email,
          birthday: values.birthday ? toISOStringDateFormat(values.birthday) : undefined
       }
-      console.log(payload);
       const response = await updateUserDetails(payload, user?._id);
-      console.log(response);
       updateUserFromStore(response.user)
    }
 
