@@ -24,7 +24,7 @@ export async function middleware(req: NextRequest) {
 
    if (refreshToken) {
       try {
-         const { accessToken: newAccessToken } = await requestAccessToken(refreshToken);
+         const { accessToken: newAccessToken } = await requestAccessToken();
          if (newAccessToken) {
             const response = NextResponse.next();
             response.cookies.set("accessToken", newAccessToken, {
