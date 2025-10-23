@@ -1,49 +1,37 @@
 import { Category } from "../types/category-type";
-import { AddCategoryResponse, CategoryResponse } from "../types/response-types";
+import { CategoryResponse, CategoriesResponse } from "../types/response-types";
 
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-export async function fetchCategories(): Promise<CategoryResponse> {
-   const res = await fetch("http://localhost:3002/api/v1/categories");
-   if (!res.ok) throw new Error("Failed to fetch categories");
-   return res.json();
+export async function fetchCategories(): Promise<CategoriesResponse> {
+   const response = await fetch("/api/v1/categories", {
+      method: 'GET',
+   });
+   if (!response.ok) throw new Error("Failed to fetch categories");
+   return response.json();
 }
 
-export async function addNewCategory(categoryObject: Category): Promise<AddCategoryResponse> {
-   const response = await fetch(`${baseURL}/categories`, {
+export async function addNewCategory(categoryObject: Category): Promise<CategoryResponse> {
+   const response = await fetch("/api/v1/categories", {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      credentials: 'include', 
       body: JSON.stringify(categoryObject),
    });
 
-   const data = await response.json();
-   return data;
+   if (!response.ok) throw new Error("Failed to add a category!");
+   return response.json();
 }
 
-export async function updateCategory(categoryId: string | undefined, categoryObject: Category): Promise<AddCategoryResponse> {
-   const response = await fetch(`${baseURL}/categories/${categoryId}`, {
-      method: 'PUT',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      credentials: 'include', 
+export async function updateCategory(categoryId: string, categoryObject: Category): Promise<CategoryResponse> {
+   const response = await fetch(`/api/v1/categories/${categoryId}`, {
+      method: 'PUT', 
       body: JSON.stringify(categoryObject),
    });
 
-   const data = await response.json();
-   return data;
+   if (!response.ok) throw new Error("Failed to update the category!");
+   return response.json();
 }
 
-export async function deleteCategory(categoryId: string | undefined,) {
-   const response = await fetch(`${baseURL}/categories/${categoryId}`, {
-      method: 'DELETE',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      credentials: 'include', 
+export async function deleteCategory(categoryId: string) {
+   const response = await fetch(`/api/v1/categories/${categoryId}`, {
+      method: 'DELETE' 
    });
 
    const data = await response.json();
