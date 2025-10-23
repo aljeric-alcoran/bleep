@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/assets/globals.css";
+import AppMainHeader from "@/components/app-main-header";
 
 export const metadata: Metadata = {
    title: "Bleep"
@@ -12,6 +13,7 @@ export default function RootLayout({
 }>) {
    return (
       <>
+         <AppMainHeader/>
          {children}
       </>
    );
