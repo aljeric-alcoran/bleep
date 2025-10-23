@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 const bleepAPIURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-export async function GET() {
+export async function GET(req: Request) {
    try {
+      const cookieHeader = req.headers.get("cookie") || "";
+
       const response = await fetch(`${bleepAPIURL}/auth/me`, {
          method: "GET",
+         headers: {
+            "Content-Type": "application/json",
+            cookie: cookieHeader,
+         },
       });
 
       if (!response.ok) {
