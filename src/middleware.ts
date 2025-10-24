@@ -8,7 +8,6 @@ export async function middleware(req: NextRequest) {
    const refreshToken = req.cookies.get("refreshToken")?.value;
 
    let isAccessTokenValid = false;
-   console.log("ACCREF: ", accessToken, refreshToken);
 
    if (accessToken) {
       try {
