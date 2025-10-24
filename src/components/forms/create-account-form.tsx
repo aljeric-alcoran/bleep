@@ -60,7 +60,7 @@ export default function RegistrationForm() {
       values.phoneNumber = values.countryCode + values.phoneNumber;
       const { countryCode,...userObject } = values;
       const response  = await registerUser(userObject);
-
+      console.log("RESPONSE: ", response);
       if (response.status === 200) {
          setLoading(false);
          router.push("/dashboard");
@@ -71,7 +71,7 @@ export default function RegistrationForm() {
 
    return (
       <>
-      {error ? (
+         {error ? (
             <Alert className="mb-6 bg-red-50 text-red-700">
                <CircleX />
                <AlertTitle className="text-xs mt-0.5 -ml-1">{error}</AlertTitle>
