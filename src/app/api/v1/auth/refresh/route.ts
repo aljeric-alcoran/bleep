@@ -3,13 +3,18 @@ const bleepAPIURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function GET(req: Request) {
    try {
-      const cookieHeader = req.headers.get("cookie") || "";
+      const authHeader = req.headers.get("authorization");
+      const refreshToken = authHeader?.split(" ")[1];
+
+      if (!refreshToken) {
+         return NextResponse.json({ error: "Missing refresh token" }, { status: 401 });
+      }
 
       const response = await fetch(`${bleepAPIURL}/auth/refresh`, {
          method: "GET",
          headers: {
             "Content-Type": "application/json",
-            cookie: cookieHeader,
+            "Authorization": `Bearer ${refreshToken}`,
          },
       });
 

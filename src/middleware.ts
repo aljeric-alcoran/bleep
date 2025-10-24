@@ -3,10 +3,12 @@ import { jwtVerify } from "jose";
 import { requestAccessToken } from "@/lib/api/auth";
 
 export async function middleware(req: NextRequest) {
+   const baseUrl = req.nextUrl.origin;
    const accessToken = req.cookies.get("accessToken")?.value;
    const refreshToken = req.cookies.get("refreshToken")?.value;
 
    let isAccessTokenValid = false;
+   console.log("ACCREF: ", accessToken, refreshToken);
 
    if (accessToken) {
       try {
@@ -24,7 +26,7 @@ export async function middleware(req: NextRequest) {
 
    if (refreshToken) {
       try {
-         const { accessToken: newAccessToken } = await requestAccessToken();
+         const { accessToken: newAccessToken } = await requestAccessToken(baseUrl, refreshToken);
          if (newAccessToken) {
             const response = NextResponse.next();
             response.cookies.set("accessToken", newAccessToken, {
