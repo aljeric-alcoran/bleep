@@ -5,23 +5,29 @@ export async function POST(req: Request) {
    try {
       const { email, password, remember } = await req.json();
 
-      const response = await fetch(`${bleepAPIURL}/auth/login`, {
+      const backendResponse = await fetch(`${bleepAPIURL}/auth/login`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
          },
+         credentials: 'include',
          body: JSON.stringify({ email, password, remember }),
       });
 
-      if (!response.ok) {
+      if (!backendResponse.ok) {
          return NextResponse.json(
             { error: "Login failed" },
-            { status: response.status }
+            { status: backendResponse.status }
          );
       }
 
-      const data = await response.json();
-      return NextResponse.json(data);
+      const setCookieHeader = backendResponse.headers.get("set-cookie");
+      const data = await backendResponse.json();
+
+      const response = NextResponse.json(data);
+      if (setCookieHeader) response.headers.set("set-cookie", setCookieHeader);
+
+      return response;
    } catch (error) {
       console.error("Error logging in:", error);
       return NextResponse.json(

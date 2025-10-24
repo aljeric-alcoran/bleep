@@ -15,6 +15,7 @@ export async function loginUser({
       body: JSON.stringify({ email, password, remember }),
    });
 
+   
    if (!response.ok) throw new Error("Error: Failed to login user!");
    return response.json();
 }
@@ -39,9 +40,13 @@ export async function redirectUser() {
    return response.json();
 }
 
-export async function requestAccessToken() {
-   const response = await fetch("/api/v1/auth/refresh", {
+export async function requestAccessToken(baseURL: string = '', refreshToken: string) {
+   const response = await fetch(`${baseURL}/api/v1/auth/refresh`, {
       method: 'GET',
+      headers: {
+         'Authorization': `Bearer ${refreshToken}`,
+         'Content-Type': 'application/json',
+      }
    });
  
    if (!response.ok) throw new Error("Error: Failed to get new access token!");
