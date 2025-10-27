@@ -28,7 +28,7 @@ export default function AppHeader() {
       if (justLoggedIn && user && !toastShown.current) {
          console.log("Called: justLoggedIn", justLoggedIn);
          toast.success("Login successful.", {
-            description: `Welcome back, ${
+            description: `Welcome, ${
                user ? `${user.firstname} ${user.lastname}` : "User"
             }!`,
          });
