@@ -39,7 +39,7 @@ export function getNameInitials(firstname?: string, lastname?: string): string {
    const firstInitial = getFirstLetter(firstname);
    const lastInitial = getFirstLetter(lastname);
  
-   return `${firstInitial}${lastInitial}`;
+   return `${firstInitial}${lastInitial}`.toUpperCase();
 }
 
 export function toISOStringDateFormat(date: Date) {
