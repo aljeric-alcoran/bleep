@@ -20,6 +20,7 @@ import UserProfileDropdown from "./header/user-profile-dropdown";
 export default function AppHeader() {
    const { step } = useSignup();
    const [open, setOpen] = useState(false);
+   const [openSignup, setOpenSignup] = useState(false);
    const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
    const toastShown = useRef(false);
 
@@ -66,7 +67,7 @@ export default function AppHeader() {
                   </DialogContent>
                </Dialog>
                <span className="text-xs">|</span>
-               <Dialog>
+               <Dialog open={openSignup} onOpenChange={setOpenSignup}>
                   <DialogTrigger className="cursor-pointer hover:underline uppercase text-xs">Signup</DialogTrigger>
                   <DialogContent 
                      className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}
@@ -74,9 +75,9 @@ export default function AppHeader() {
                      onEscapeKeyDown={(e) => e.preventDefault()}
                   >
                      <DialogHeader>
-                        <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                        <DialogTitle className="sr-only">Signup Dialog</DialogTitle>
                         <DialogDescription className="sr-only"/>
-                        <Signup/>
+                        <Signup onSuccess={() => setOpenSignup(false)}/>
                      </DialogHeader>
                   </DialogContent>
                </Dialog>
