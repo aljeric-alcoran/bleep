@@ -1,10 +1,12 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
+const bleepAPIURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function GoogleSignup() {
+   console.log(bleepAPIURL);
    async function handleClick() {
-      window.location.href = "http://localhost:3000/api/v1/auth/google"
+      window.location.href = `${bleepAPIURL}/auth/google`
    }
    return (
       <Button type="button" onClick={handleClick} className="w-full bg-gray-100 text-gray-900 flex items-center justify-center hover:bg-gray-200">
