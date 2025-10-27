@@ -52,5 +52,5 @@ export const registerUser = async (userObject: UserObject) => {
    });
 
    const data = await response.json();
-   return { status: response.status, message: data.message };
+   return { status: response.status, message: data.message, data };
 }

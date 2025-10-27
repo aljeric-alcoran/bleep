@@ -20,11 +20,12 @@ import {
    FormLabel,
    FormMessage,
 } from "@/components/ui/form"
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX, Loader } from "lucide-react";
 import { useSignup } from "@/app/context/SignupContext";
+import { useUserStore } from "@/store/useUserStore";
+import { validateAccessToken } from "@/lib/helpers";
 
 const formSchema = z.object({
    otp: z.string(),
@@ -36,9 +37,8 @@ const formSchema = z.object({
    password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
-export default function RegistrationForm() {
-   const router = useRouter();
-   const { email, otp } = useSignup();
+export default function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
+   const { email, otp, resetForm } = useSignup();
    const [error, setError] = useState<string | null>(null);
    const [loading, setLoading] = useState<boolean>(false);
 
@@ -60,11 +60,15 @@ export default function RegistrationForm() {
       values.phoneNumber = values.countryCode + values.phoneNumber;
       const { countryCode,...userObject } = values;
       const response  = await registerUser(userObject);
-      console.log("RESPONSE: ", response);
+
       if (response.status === 200) {
          setLoading(false);
-         router.push("/dashboard");
+         const { user } = await validateAccessToken(response.data.accessToken);
+         useUserStore.getState().setUser(user, response.data.accessToken);
+         onSuccess();
+         resetForm();
       } else {
+         setLoading(false);
          setError(response.message);
       }
    }
