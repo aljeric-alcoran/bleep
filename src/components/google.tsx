@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 const bleepAPIURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function GoogleSignup() {
-   console.log(bleepAPIURL);
    async function handleClick() {
       window.location.href = `${bleepAPIURL}/auth/google`
    }
