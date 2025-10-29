@@ -5,4 +5,5 @@ export type User = {
    phoneNumber?: string;
    email?: string;
    gender?: "male" | "female" | "other" | null;
+   birthday?: Date;
 }
