@@ -12,7 +12,7 @@ export const userFormSchema = z.object({
 
 export type UserFormSchema = z.infer<typeof userFormSchema>;
 
-export function useUserForm(userInfo: User | null): UseFormReturn<UserFormSchema> {
+export function useUserFormSchema(userInfo: User | null): UseFormReturn<UserFormSchema> {
    return useForm<UserFormSchema>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
