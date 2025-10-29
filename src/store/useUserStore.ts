@@ -7,12 +7,14 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 interface UserStore {
    user: User | null;
+   showEditProfile: boolean;
    accessToken: string | null;
    justLoggedIn: boolean;
    setUser: (user: User, accessToken: string) => void;
+   setShowEditProfile: () => void;
    clearUser: () => void;
    setJustLoggedIn: (value: boolean) => void;
-   updateUserFromStore: (userObject: Partial<User>) => void;
+   updateUserFromStore: (userObject: Partial<User>, callback?: () => void) => void;
    refresh: () => Promise<void>;
 }
 
@@ -20,20 +22,25 @@ export const useUserStore = create<UserStore>()(
    persist(
       (set, get) => ({
          user: null,
+         showEditProfile: false,
          accessToken: null,
          justLoggedIn: false,
          setUser: (user, accessToken) => {
             set({ user, accessToken, justLoggedIn: true });
             scheduleRefresh(accessToken);
          },
+         setShowEditProfile: () => set((state) => ({ showEditProfile: !state.showEditProfile })),
          clearUser: () => set({ user: null, accessToken: null }),
          setJustLoggedIn: (value) => set({ justLoggedIn: value }),
-         updateUserFromStore: (userObject) =>
-            set((state) =>
-               state.user
-               ? { user: { ...state.user, ...userObject } }
-               : { user: userObject as User }
-            ),
+         updateUserFromStore: (userObject: Partial<User>, callback?: () => void) =>
+            set((state) => {
+               const updatedUser = state.user
+                  ? { ...state.user, ...userObject }
+                  : (userObject as User);
+
+               queueMicrotask(() => callback?.());
+               return { user: updatedUser };
+            }),
          refresh: async () => {
             try {
                const res = await fetch(`${baseURL}/auth/refresh`, {
