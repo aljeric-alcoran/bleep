@@ -27,7 +27,7 @@ export default function UserProfileForm() {
          ...data,
          phoneNumber: user?.phoneNumber,
          email: user?.email,
-         birthday: values.birthday ? toISOStringDateFormat(values.birthday) : undefined
+         birthday: values.birthday ? values.birthday : undefined
       }
       const response = await updateUserDetails(payload, user?._id);
       updateUserFromStore(response.user, 
@@ -136,6 +136,7 @@ export default function UserProfileForm() {
                                  selected={field.value}
                                  onSelect={field.onChange}
                                  disabled={(date) => date > new Date()}
+                                 captionLayout="dropdown"
                               />
                            </PopoverContent>
                         </Popover>
