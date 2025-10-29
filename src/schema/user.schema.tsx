@@ -18,8 +18,8 @@ export function useUserFormSchema(userInfo: User | null): UseFormReturn<UserForm
       defaultValues: {
          firstname: userInfo?.firstname ?? "",
          lastname: userInfo?.lastname ?? "",
-         birthday: undefined,
-         gender: null
+         birthday: userInfo?.birthday ? new Date(userInfo.birthday) : undefined,
+         gender: userInfo?.gender ?? null
       },
    });
 }
