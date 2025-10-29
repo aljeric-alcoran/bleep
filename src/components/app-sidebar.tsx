@@ -31,7 +31,7 @@ const navbarItems = [
       label: 'My Account',
       items: [
          {
-            title: "Profile",
+            title: "My Account",
             url: "/my-account",
             icon: SquareUserRound,
          },
@@ -56,7 +56,7 @@ const navbarItems = [
 
 export function AppSidebar() {
    return (
-      <div className="w-54 pb-10 bg-white">
+      <div className="w-54 pt-4 pb-10 bg-white">
          <SidebarContent>
             {navbarItems.map((item) => (
                <NavMain 
