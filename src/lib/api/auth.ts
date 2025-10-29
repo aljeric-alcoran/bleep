@@ -1,6 +1,5 @@
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function loginUser({ 
    email, 
@@ -11,20 +10,18 @@ export async function loginUser({
    password: string, 
    remember?: boolean 
 }) {
-   const response = await fetch(`${baseURL}/auth/login`, {
+   const response = await fetch("/api/v1/auth/login", {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ email, password, remember }),
-      credentials: 'include', 
    });
 
-   return await response.json();
+   
+   if (!response.ok) throw new Error("Error: Failed to login user!");
+   return response.json();
 }
 
 export async function logoutUser() {
-   const response = await fetch('/api/auth/logout', {
+   const response = await fetch("/api/v1/auth/logout", {
       method: 'POST',
    });
 
@@ -32,25 +29,26 @@ export async function logoutUser() {
       useUserStore.getState().clearUser();
       redirect('/');
    }
-   else console.error('Logout failed.');
+   else throw new Error("Error: Logout failed!");
 }
 
 export async function redirectUser() {
-   const response = await fetch(`${baseURL}/auth/me`, {
+   const response = await fetch("/api/v1/auth/me", {
       method: 'GET',
-      credentials: 'include',
    });
-   return await response.json();
+   if (!response.ok) throw new Error("Error: Failed to redirect user!");
+   return response.json();
 }
 
-export async function requestAccessToken(refreshToken: string) {
-   const response = await fetch(`${baseURL}/auth/refresh`, {
+export async function requestAccessToken(baseURL: string = '', refreshToken: string) {
+   const response = await fetch(`${baseURL}/api/v1/auth/refresh`, {
       method: 'GET',
       headers: {
+         'Authorization': `Bearer ${refreshToken}`,
          'Content-Type': 'application/json',
-         'Authorization': `Bearer ${refreshToken}`
-      },
+      }
    });
  
-   return await response.json();
+   if (!response.ok) throw new Error("Error: Failed to get new access token!");
+   return response.json();
 }

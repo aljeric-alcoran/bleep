@@ -20,6 +20,7 @@ import UserProfileDropdown from "./header/user-profile-dropdown";
 export default function AppHeader() {
    const { step } = useSignup();
    const [open, setOpen] = useState(false);
+   const [openSignup, setOpenSignup] = useState(false);
    const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
    const toastShown = useRef(false);
 
@@ -27,7 +28,7 @@ export default function AppHeader() {
       if (justLoggedIn && user && !toastShown.current) {
          console.log("Called: justLoggedIn", justLoggedIn);
          toast.success("Login successful.", {
-            description: `Welcome back, ${
+            description: `Welcome, ${
                user ? `${user.firstname} ${user.lastname}` : "User"
             }!`,
          });
@@ -39,7 +40,7 @@ export default function AppHeader() {
    return (
       <div className="w-full max-w-7xl flex items-center justify-between gap-2 pb-4 pt-1">
          <div className="flex items-center text-sm gap-1 pt-2">
-            <span className="pr-2">Follow us on</span>
+            <span className="pr-2 uppercase text-xs">Follow us on</span>
             <div className="flex items-center gap-2">
                <span className="p-[2px] rounded-sm border-[2px] border-white">
                   <Facebook className="w-[11.2px] h-[11.2px]"/>
@@ -52,7 +53,7 @@ export default function AppHeader() {
          {!user ? (
             <div className="flex items-center gap-2 text-sm">
                <Dialog open={open} onOpenChange={setOpen}>
-                  <DialogTrigger className="cursor-pointer hover:underline">Login</DialogTrigger>
+                  <DialogTrigger className="cursor-pointer hover:underline uppercase text-xs">Login</DialogTrigger>
                   <DialogContent 
                      className="sm:max-w-md"
                      onInteractOutside={(e) => e.preventDefault()}
@@ -65,18 +66,18 @@ export default function AppHeader() {
                      </DialogHeader>
                   </DialogContent>
                </Dialog>
-               |
-               <Dialog>
-                  <DialogTrigger className="cursor-pointer hover:underline">Signup</DialogTrigger>
+               <span className="text-xs">|</span>
+               <Dialog open={openSignup} onOpenChange={setOpenSignup}>
+                  <DialogTrigger className="cursor-pointer hover:underline uppercase text-xs">Signup</DialogTrigger>
                   <DialogContent 
                      className={step === 3 ? 'sm:max-w-lg' : 'sm:max-w-md'}
                      onInteractOutside={(e) => e.preventDefault()}
                      onEscapeKeyDown={(e) => e.preventDefault()}
                   >
                      <DialogHeader>
-                        <DialogTitle className="sr-only">Login Dialog</DialogTitle>
+                        <DialogTitle className="sr-only">Signup Dialog</DialogTitle>
                         <DialogDescription className="sr-only"/>
-                        <Signup/>
+                        <Signup onSuccess={() => setOpenSignup(false)}/>
                      </DialogHeader>
                   </DialogContent>
                </Dialog>

@@ -1,13 +1,13 @@
 import { Category } from "./category-type";
 
-export type CategoryResponse = {
+export type CategoriesResponse = {
    status: string;
    code: number;
    message: string;
    data: Category[]
 }
 
-export type AddCategoryResponse = {
+export type CategoryResponse = {
    status: string;
    code: number;
    message: string;

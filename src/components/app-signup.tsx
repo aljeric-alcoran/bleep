@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card"
 import RegistrationForm from "./forms/create-account-form";
 
-export default function Signup() {
+export default function Signup({ onSuccess }: { onSuccess: () => void }) {
    const { email, otp, step, setStep, setOtp } = useSignup();
    const cardDescriptions = [
       {
@@ -58,7 +58,7 @@ export default function Signup() {
             <CardContent className="p-0 pt-4">
                { step === 1 && <SignupForm /> }
                { step === 2 && <VerifyOTPForm /> }
-               { step === 3 && <RegistrationForm /> }
+               { step === 3 && <RegistrationForm onSuccess={onSuccess}/> }
             </CardContent>
             { step === 1 && (
                <CardFooter className="flex flex-col gap-4 p-0">

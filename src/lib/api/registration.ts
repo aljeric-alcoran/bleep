@@ -36,7 +36,7 @@ export const verifyEmail = async (email: string | null, otp: string) => {
    }
 }
 
-type User = {
+type UserObject = {
    otp: string;
    firstname: string;
    lastname: string;
@@ -45,21 +45,12 @@ type User = {
    phoneNumber: string;
 }
 
-export const registerUser = async (userObject: User) => {
-   const response = await fetch(`${baseURL}/register/`, {
+export const registerUser = async (userObject: UserObject) => {
+   const response = await fetch("/api/v1/register", {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      credentials: 'include',
       body: JSON.stringify(userObject),
    });
 
-   if (!response.ok) {
-      const errorData = await response.json();
-      return { status: response.status, message: errorData.message };
-   } else {
-      const data = await response.json();
-      return { status: response.status, message: data.message };
-   }
+   const data = await response.json();
+   return { status: response.status, message: data.message, data };
 }

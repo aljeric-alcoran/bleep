@@ -2,9 +2,10 @@
 
 import { 
    LayoutList,
-   CircleGauge, 
-   CircleUserRound,
+   CircleGauge,
    ShoppingBasket,
+   House,
+   SquareUserRound,
 } from "lucide-react"
 import { SidebarContent } from "@/components/ui/sidebar"
 import { NavMain } from "./navigation/navbar-main";
@@ -17,7 +18,7 @@ const navbarItems = [
          {
             title: "Home",
             url: "/",
-            icon: CircleUserRound,
+            icon: House,
          },
          {
             title: "Dashboard",
@@ -32,7 +33,7 @@ const navbarItems = [
          {
             title: "My Account",
             url: "/my-account",
-            icon: CircleUserRound,
+            icon: SquareUserRound,
          },
          {
             title: "My Orders",
@@ -55,7 +56,7 @@ const navbarItems = [
 
 export function AppSidebar() {
    return (
-      <div className="w-54 pb-10 bg-white">
+      <div className="w-54 pt-4 pb-10 bg-white">
          <SidebarContent>
             {navbarItems.map((item) => (
                <NavMain 

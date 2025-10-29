@@ -8,16 +8,11 @@ import {
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Avatar, AvatarFallback } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
 import { getNameInitials } from "@/lib/helpers"
-import Link from "next/link"
-
-interface User {
-   firstname: string
-   lastname: string
-   email: string
-}
+import Link from "next/link";
+import { User } from "@/lib/types/user-type"
 
 export default function UserProfileDropdown({ 
    user
@@ -27,8 +22,8 @@ export default function UserProfileDropdown({
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <div className="cursor-pointer flex items-center">
-               Hi, {user?.firstname } {user?.lastname}
+            <div className="cursor-pointer flex items-center uppercase text-xs gap-1">
+               {user?.firstname }'s Account
                <ChevronDown className="ml-auto size-4" />
             </div>
          </DropdownMenuTrigger>
