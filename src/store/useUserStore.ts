@@ -8,6 +8,7 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 interface UserStore {
    user: User | null;
    showEditProfile: boolean;
+   loading: boolean;
    accessToken: string | null;
    justLoggedIn: boolean;
    setUser: (user: User, accessToken: string) => void;
@@ -23,11 +24,14 @@ export const useUserStore = create<UserStore>()(
       (set, get) => ({
          user: null,
          showEditProfile: false,
+         loading: true,
          accessToken: null,
          justLoggedIn: false,
          setUser: (user, accessToken) => {
             set({ user, accessToken, justLoggedIn: true });
-            scheduleRefresh(accessToken);
+            scheduleRefresh(accessToken, () => {
+               set({ loading: false})
+            });
          },
          setShowEditProfile: () => set((state) => ({ showEditProfile: !state.showEditProfile })),
          clearUser: () => set({ user: null, accessToken: null }),
@@ -52,7 +56,9 @@ export const useUserStore = create<UserStore>()(
                const user = await validateAccessToken(data.accessToken);
 
                set({ user: user.user, accessToken: data.accessToken });
-               scheduleRefresh(data.accessToken);
+               scheduleRefresh(data.accessToken, () => {
+                  set({ loading: false})
+               });
             } catch (err) {
                console.error("refresh error", err);
                get().clearUser();
@@ -74,7 +80,9 @@ export const useUserStore = create<UserStore>()(
                if (exp && Date.now() >= exp * 1000) {
                   state.refresh();
                } else {
-                  scheduleRefresh(state.accessToken);
+                  scheduleRefresh(state.accessToken, () => {
+                  state.loading = false;
+               });
                }
             }
          },
