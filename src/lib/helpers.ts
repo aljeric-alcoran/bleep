@@ -23,13 +23,16 @@ export const validateAccessToken = async(token: string): Promise<{ user: any, st
    }
 };
 
-export function scheduleRefresh(accessToken: string) {
+export function scheduleRefresh(accessToken: string, callback?: () => void) {
    const { exp } = decodeJwt(accessToken);
    if (!exp) return;
    const msUntilExpiry = exp * 1000 - Date.now() - 60_000; // refresh 1 min early
    if (msUntilExpiry > 0) {
-      setTimeout(() => useUserStore.getState().refresh(), msUntilExpiry);
+      setTimeout(() => {
+        useUserStore.getState().refresh();
+      }, msUntilExpiry);
    }
+   callback?.();
 }
 
 export function getNameInitials(firstname?: string, lastname?: string): string {
@@ -45,4 +48,21 @@ export function getNameInitials(firstname?: string, lastname?: string): string {
 export function toISOStringDateFormat(date: Date) {
    const localDate = new Date(date);
    return localDate.toISOString();
+}
+
+export function formatDateWithOrdinal(date: Date) {
+   const day = new Date(date).getDate();
+   const month = new Date(date).toLocaleString("en-US", { month: "long" });
+   const year = new Date(date).getFullYear();
+ 
+   const ordinal =
+      day % 10 === 1 && day !== 11
+         ? "st"
+         : day % 10 === 2 && day !== 12
+         ? "nd"
+         : day % 10 === 3 && day !== 13
+         ? "rd"
+         : "th";
+ 
+   return `${month} ${day}${ordinal}, ${year}`;
 }
