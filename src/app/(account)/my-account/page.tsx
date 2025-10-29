@@ -10,7 +10,7 @@ export default function MyAccount() {
       <>
          <div className="flex items-center gap-2">
             <SquareUserRound className="w-5"/>
-            <h1 className="text-lg font-semibold">Profile</h1>
+            <h1 className="text-lg font-semibold">My Account</h1>
          </div>
 
          <div className="mt-10">
