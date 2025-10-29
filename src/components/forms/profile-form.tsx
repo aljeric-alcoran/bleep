@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -7,32 +6,60 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { UserFormSchema } from "@/schema/user.schema";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UseFormReturn } from "react-hook-form";
-import { useState } from "react";
-import { User } from "@/lib/types/user-type";
+import { useUserFormSchema, UserFormSchema } from "@/schema/user.schema";
+import { useState, useEffect } from "react";
+import { useUserStore } from "@/store/useUserStore";
+import { toISOStringDateFormat } from "@/lib/helpers";
+import { updateUserDetails } from "@/lib/api/users";
+import { toast } from "sonner";
 
-export default function UserProfileForm({
-   user,
-   userForm,
-   onSubmit,
-   resetUserForm
-} : {
-   user: User | null;
-   userForm: UseFormReturn<UserFormSchema>;
-   onSubmit: (values: UserFormSchema) => Promise<void>;
-   resetUserForm: () => void;
-}) {
-   const [disabled, setDisabled] = useState(true);
+export default function UserProfileForm() {
+   const { user, justLoggedIn, setJustLoggedIn, updateUserFromStore } = useUserStore();
+   const setShowEditProfile = useUserStore(state => state.setShowEditProfile);
+   const userForm = useUserFormSchema(user);
 
-   function showEditProfile(e?: React.MouseEvent<HTMLButtonElement>) {
-      e?.preventDefault();
-      setDisabled((prev) => !prev);
-      if (!disabled) resetUserForm();
+   async function onSubmit(values: UserFormSchema): Promise<void> {
+      const { birthday, ...data } = values;
+      const payload = {
+         ...data,
+         phoneNumber: user?.phoneNumber,
+         email: user?.email,
+         birthday: values.birthday ? toISOStringDateFormat(values.birthday) : undefined
+      }
+      const response = await updateUserDetails(payload, user?._id);
+      updateUserFromStore(response.user, 
+         () => {
+            resetUserForm();
+            setShowEditProfile();
+            toast.success("Success!", { 
+               description: 'Profile has been updated!' 
+            })
+         }
+      );
    }
+
+   const resetUserForm = () => {
+      userForm.reset({
+         firstname: user?.firstname || "",
+         lastname: user?.lastname || "",
+      })
+   }
+
+   function cancelEditProfile(event?: React.MouseEvent<HTMLButtonElement>) {
+      event?.preventDefault();
+      setShowEditProfile();
+   }
+
+   useEffect(() => {
+      if (justLoggedIn && user) {
+         setJustLoggedIn(false);
+      }
+      resetUserForm();
+   }, [justLoggedIn, user, setJustLoggedIn]);
+
    return (
       <Form {...userForm}>
          <form onSubmit={userForm.handleSubmit(onSubmit)}>
@@ -45,7 +72,7 @@ export default function UserProfileForm({
                         <FormItem>
                            <FormLabel className="font-normal text-xs text-muted-foreground">First Name</FormLabel>
                            <FormControl>
-                              <Input disabled={disabled} className="rounded-none" {...field} />
+                              <Input className="rounded-none" autoFocus {...field} />
                            </FormControl>
                            <FormMessage className="text-xs"/>
                         </FormItem>
@@ -58,17 +85,18 @@ export default function UserProfileForm({
                         <FormItem>
                            <FormLabel className="font-normal text-xs text-muted-foreground">Last Name</FormLabel>
                            <FormControl>
-                              <Input disabled={disabled} className="rounded-none" {...field} />
+                              <Input className="rounded-none" {...field} />
                            </FormControl>
                            <FormMessage className="text-xs"/>
                         </FormItem>
                      )}
                   />
                </div>
+
                <div className="space-y-2 px-6">
                   <Label className="font-normal text-xs text-muted-foreground">
                      Email Address |
-                     <Link href="#" className="text-primary -ml-1">Change</Link>
+                     <Link href="#" className="text-primary -ml-1">{user?.email ? 'Change' : 'Add'}</Link>
                   </Label>
                   <div className="text-sm border border-gray-100 p-2 px-3">
                      {user?.email ?? "Please enter your emmail address"}
@@ -77,12 +105,13 @@ export default function UserProfileForm({
                <div className="space-y-2 px-6">
                   <Label className="font-normal text-xs text-muted-foreground">
                      Mobile Number |
-                     <Link href="#" className="text-primary -ml-1">Add</Link>
+                     <Link href="#" className="text-primary -ml-1">{user?.phoneNumber ? 'Change' : 'Add'}</Link>
                   </Label>
                   <div className="text-sm border border-gray-100 p-2 px-3">
                      {user?.phoneNumber ?? "Please enter your mobile number"}
                   </div>
                </div>
+
                <div className="space-y-3 px-7">
                   <FormField
                      name="birthday"
@@ -92,7 +121,6 @@ export default function UserProfileForm({
                            <Label className="font-normal text-xs text-muted-foreground mb-2">Birthday</Label>
                            <PopoverTrigger asChild>
                               <Button
-                                 disabled={disabled}
                                  variant="outline"
                                  data-empty={!field.value}
                                  className="data-[empty=true]:text-muted-foreground rounded-none w-full justify-between font-normal"
@@ -121,8 +149,7 @@ export default function UserProfileForm({
                      control={userForm.control}
                      render={({ field }) => (
                         <FormItem>
-                           <Select 
-                              disabled={disabled}
+                           <Select
                               onValueChange={field.onChange}
                               value={field.value ?? ""}
                            >
@@ -143,17 +170,10 @@ export default function UserProfileForm({
                </div>
             </div>
             <div className="px-7 my-8">
-               {disabled ? (
-                  <div className="space-x-2">
-                     <Button type="button" onClick={showEditProfile} className="rounded-none font-normal" size="lg">Edit Profile</Button>
-                     <Button type="button" className="rounded-none font-normal" size="lg">Change Password</Button>
-                  </div>
-               ) : (
-                  <div className="space-x-2">
-                     <Button type="submit" className="rounded-none font-normal" size="lg">Save</Button>
-                     <Button onClick={showEditProfile} variant="outline" className="rounded-none font-normal" size="lg">Discard</Button>
-                  </div>
-               )}
+               <div className="space-x-2">
+                  <Button type="submit" disabled={!userForm.formState.isDirty} className="rounded-none font-normal" size="lg">Submit</Button>
+                  <Button onClick={cancelEditProfile} variant="outline" className="rounded-none font-normal" size="lg">Cancel</Button>
+               </div>
             </div>
          </form>
       </Form>
