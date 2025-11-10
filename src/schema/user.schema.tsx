@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@/lib/types/user-type";
+import { User } from "@/lib/models";
 
 export const userFormSchema = z.object({
    firstname: z.string().trim().min(1, "First name cannot be empty."),

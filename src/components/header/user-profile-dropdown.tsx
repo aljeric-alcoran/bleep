@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar"
 import { logoutUser } from "@/lib/api/auth"
 import { getNameInitials } from "@/lib/helpers"
 import Link from "next/link";
-import { User } from "@/lib/types/user-type"
+import { User } from "@/lib/models"
 
 export default function UserProfileDropdown({ 
    user
