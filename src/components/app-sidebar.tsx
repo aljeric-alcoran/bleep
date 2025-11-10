@@ -6,6 +6,8 @@ import {
    ShoppingBasket,
    House,
    SquareUserRound,
+   Store,
+   ShoppingCart
 } from "lucide-react"
 import { SidebarContent } from "@/components/ui/sidebar"
 import { NavMain } from "./navigation/navbar-main";
@@ -38,8 +40,23 @@ const navbarItems = [
          {
             title: "My Orders",
             url: "/my-orders",
-            icon: ShoppingBasket,
+            icon: ShoppingCart,
          }
+      ]
+   },
+   {
+      label: 'Seller',
+      items: [
+         {
+            title: "Establishments",
+            url: "/establishments",
+            icon: Store,
+         },
+         {
+            title: "Products",
+            url: "/products",
+            icon: ShoppingBasket,
+         },
       ]
    },
    {
