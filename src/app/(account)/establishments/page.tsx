@@ -7,10 +7,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { fetchEstablishments } from "@/lib/api/establishment";
 import { EllipsisVertical, Store } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import FormDialog from "./FormDialog";
 
 export default function Establishments() {
-   const { isLoading, isError, data, error } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments})
+   const { 
+      isLoading, 
+      isError, 
+      data, 
+      error 
+   } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments});
    const hasEstablishments = data?.data.length > 0;
+
+   const [open, setOpen] = useState<boolean>(false);
    return (
       <> 
          <div className="flex items-center gap-2">
@@ -19,7 +28,7 @@ export default function Establishments() {
          </div>
          {isLoading && <LoadingSkeleton />}
 
-         {!isLoading && !hasEstablishments && <EmptyList />}
+         {!isLoading && !hasEstablishments && <EmptyList openDialog={() => setOpen(true)} />}
 
          {!isLoading && hasEstablishments && (
             <div className="mt-6">
@@ -46,6 +55,8 @@ export default function Establishments() {
                </Card>
             </div>
          )}
+
+         <FormDialog open={open} setOpen={setOpen}/>
       </>
    )
 }

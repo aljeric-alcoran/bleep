@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Plus, Warehouse } from "lucide-react";
 
-export default function EmptyList() {
+export default function EmptyList({ 
+   openDialog
+}: { 
+   openDialog: () => void;
+}) {
    return (
       <div className="mt-6">
          <Empty className="border border-dashed">
@@ -16,7 +20,7 @@ export default function EmptyList() {
                </EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
-               <Button className="font-normal" variant="default" size="sm">
+               <Button onClick={openDialog} className="font-normal" variant="default" size="sm">
                   <Plus />
                   Create Establishment
                </Button>
