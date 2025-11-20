@@ -9,12 +9,20 @@ import { Loader2Icon } from "lucide-react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createEstablishment } from "@/lib/api/establishment"
 import { toast } from "sonner"
+import { Establishment } from "@/lib/models"
+import { useEffect } from "react"
 
-export default function EstablishmentForm({ setOpen }: { setOpen: (value: boolean) => void }) {
+export default function EstablishmentForm({ 
+   establishment, 
+   setOpen,
+}: { 
+   establishment?: Establishment;
+   setOpen: (value: boolean) => void;
+}) {
    const form = useEstablishmentForm();
    const queryClient = useQueryClient();
 
-   const mutation = useMutation({
+   const addEstablishment = useMutation({
       mutationFn: createEstablishment,
       onSuccess: (data) => {
          queryClient.invalidateQueries({ queryKey: ["establishments"] });
@@ -27,10 +35,25 @@ export default function EstablishmentForm({ setOpen }: { setOpen: (value: boolea
    });
 
    async function onSubmit(values: EstablishmentFormSchema): Promise<void> {
-      values.phone = `+63${values.phone}`;
-      const result = await mutation.mutateAsync(values);
-      console.log(result);
+      if (!establishment) {
+         values.phone = `+63${values.phone}`;
+         const result = await addEstablishment.mutateAsync(values);
+         console.log(result);
+      } else {
+         console.log("Updated values: ", values);
+      }
    }
+
+   useEffect(() => {
+      if (establishment) {
+         form.reset({
+            name: establishment.name ?? "",
+            address: establishment.address ?? "",
+            phone: establishment.phone.slice(3) ?? "",
+         });
+      }
+   }, [establishment]);
+
    return (
       <>
          <Form {...form}>
