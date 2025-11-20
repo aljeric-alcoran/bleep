@@ -20,6 +20,7 @@ export default function Establishments() {
    } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments});
    const hasEstablishments = data?.data.length > 0;
    const [open, setOpen] = useState<boolean>(false);
+   const [selectedEstablishment, setSelectedEstablishment] = useState<Establishment | undefined>();
 
    return (
       <> 
@@ -39,13 +40,25 @@ export default function Establishments() {
             </Button>
             <div className="mt-4 flex flex-wrap gap-4">
                {data?.data.map((establishment: Establishment) => (
-                  <CardItem key={establishment._id} establishment={establishment}/>
+                  <CardItem 
+                     key={establishment._id} 
+                     establishment={establishment}
+                     openForm={($event) => {
+                        setSelectedEstablishment($event);
+                        setOpen(true);
+                     }}
+                  />
                ))}
             </div>
             </>
          )}
 
-         <FormDialog open={open} setOpen={setOpen}/>
+         <FormDialog 
+            open={open} 
+            setOpen={setOpen} 
+            setSelectedEstablishment={setSelectedEstablishment}
+            establishment={selectedEstablishment}
+         />
       </>
    )
 }
