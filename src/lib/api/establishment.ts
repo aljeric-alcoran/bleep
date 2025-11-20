@@ -18,3 +18,13 @@ export async function createEstablishment(establishmentObject: Establishment) {
    if (!response.ok) throw new Error("Failed to add a category!");
    return response.json();
 }
+
+export async function updateEstablishment(establishmentObject: Establishment) {
+   const response = await fetch(`/api/v1/establishments/${establishmentObject._id}`, {
+      method: 'PUT', 
+      body: JSON.stringify(establishmentObject),
+   });
+
+   if (!response.ok) throw new Error("Failed to update the category!");
+   return response.json();
+}
