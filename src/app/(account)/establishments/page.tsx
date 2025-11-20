@@ -2,13 +2,14 @@
 
 import EmptyList from "./EmptyList";
 import LoadingSkeleton from "./LoadingSkeleton";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchEstablishments } from "@/lib/api/establishment";
-import { EllipsisVertical, Store } from "lucide-react";
+import { Plus, Store } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import FormDialog from "./FormDialog";
+import CardItem from "./CardItem";
+import { Establishment } from "@/lib/models";
+import { Button } from "@/components/ui/button";
 
 export default function Establishments() {
    const { 
@@ -18,8 +19,8 @@ export default function Establishments() {
       error 
    } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments});
    const hasEstablishments = data?.data.length > 0;
-
    const [open, setOpen] = useState<boolean>(false);
+
    return (
       <> 
          <div className="flex items-center gap-2">
@@ -31,29 +32,17 @@ export default function Establishments() {
          {!isLoading && !hasEstablishments && <EmptyList openDialog={() => setOpen(true)} />}
 
          {!isLoading && hasEstablishments && (
-            <div className="mt-6">
-               <Card className="w-full max-w-sm relative">
-                  <CardHeader>
-                     <CardTitle>Bleep Store</CardTitle>
-                     <Button variant="link" className="absolute top-2 right-2">
-                        <EllipsisVertical />
-                     </Button>
-                  </CardHeader>
-                  <CardContent className="-mt-2">
-                     <CardDescription className="space-y-3">
-                        <div>
-                           <p className="text-gray-900 text-xs">Address</p>
-                           Enter your email below to login to your account
-                        </div>
-
-                        <div>
-                           <p className="text-gray-900 text-xs">Phone</p>
-                           +63 9 163 518 635
-                        </div>
-                     </CardDescription>
-                  </CardContent>
-               </Card>
+            <>
+            <Button size="sm" className="mt-6" onClick={() => setOpen(true)}>
+               <Plus/>
+               Add Establishment
+            </Button>
+            <div className="mt-4 flex flex-wrap gap-4">
+               {data?.data.map((establishment: Establishment) => (
+                  <CardItem key={establishment._id} establishment={establishment}/>
+               ))}
             </div>
+            </>
          )}
 
          <FormDialog open={open} setOpen={setOpen}/>
