@@ -4,6 +4,14 @@ interface Metadata {
    seoDescription?: string;
 }
 
+export interface Establishment {
+   _id?: string;
+   user_id?: string;
+   name: string;
+   address: string;
+   phone: string
+}
+
 export interface Category {
    _id?: string;
    name: string;
