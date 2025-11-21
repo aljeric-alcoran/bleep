@@ -25,6 +25,6 @@ export async function updateEstablishment(establishmentObject: Establishment) {
       body: JSON.stringify(establishmentObject),
    });
 
-   if (!response.ok) throw new Error("Failed to update the category!");
+   if (!response.ok) throw new Error("Failed to update the establishment!");
    return response.json();
 }
