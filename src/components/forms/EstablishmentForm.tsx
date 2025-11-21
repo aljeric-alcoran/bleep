@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input"
 import { EstablishmentFormSchema, useEstablishmentForm } from "@/schema/establishment.schema"
 import { DialogClose, DialogFooter } from "../ui/dialog"
 import { Button } from "../ui/button"
-import { Loader2Icon } from "lucide-react"
+import { CircleX, Loader2Icon } from "lucide-react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createEstablishment } from "@/lib/api/establishment"
+import { createEstablishment, updateEstablishment } from "@/lib/api/establishment"
 import { toast } from "sonner"
 import { Establishment } from "@/lib/models"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { isObjectSharedKeyMatched } from "@/lib/helpers"
+import { Alert, AlertTitle } from "@/components/ui/alert"
 
 export default function EstablishmentForm({ 
    establishment, 
@@ -34,13 +36,32 @@ export default function EstablishmentForm({
       }
    });
 
+   const editEstablishment = useMutation({
+      mutationFn: updateEstablishment,
+      onSuccess: (data) => {
+         queryClient.invalidateQueries({ queryKey: ["establishments"] });
+         toast.success("Success!", { description: data.message });
+         setOpen(false);
+      },
+      onError: (error) => {
+         toast.error("Error!", { description: error.message});
+      }
+   });
+
    async function onSubmit(values: EstablishmentFormSchema): Promise<void> {
+      values.phone = `+63${values.phone}`;
+
       if (!establishment) {
-         values.phone = `+63${values.phone}`;
          const result = await addEstablishment.mutateAsync(values);
          console.log(result);
       } else {
-         console.log("Updated values: ", values);
+         if (!isObjectSharedKeyMatched(values, establishment)) {
+            const updatedEstablishmentObject = {...establishment, ...values};
+            const updateResult = await editEstablishment.mutateAsync(updatedEstablishmentObject);
+            console.log("Updated values: ", updateResult);
+            return;
+         }
+         toast.warning("No changes has been made.")
       }
    }
 
@@ -125,10 +146,10 @@ export default function EstablishmentForm({
                      {form.formState.isSubmitting ? (
                         <>
                            <Loader2Icon className="animate-spin" />
-                           Submitting
+                           {establishment ? "Updating" : "Submitting"}
                         </>
                      ) : (
-                        "Submit"
+                        establishment ? "Update" : "Submit"
                      )}
                   </Button>
                </DialogFooter>
