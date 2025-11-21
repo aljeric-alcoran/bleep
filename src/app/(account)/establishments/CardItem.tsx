@@ -29,9 +29,6 @@ export default function CardItem({
                      <DropdownMenuItem onClick={() => openForm(establishment)}>
                         Edit
                      </DropdownMenuItem>
-                     <DropdownMenuItem>
-                        Delete
-                     </DropdownMenuItem>
                   </DropdownMenuContent>
                </DropdownMenu>
 
