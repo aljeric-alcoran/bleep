@@ -66,3 +66,11 @@ export function formatDateWithOrdinal(date: Date) {
  
    return `${month} ${day}${ordinal}, ${year}`;
 }
+
+export const isObjectSharedKeyMatched = <
+   T extends Record<string, any>,
+   U extends Record<string, any>
+>(obj1: T, obj2: U): boolean => {
+   const sharedKeys = Object.keys(obj1).filter((key) => key in obj2);
+   return sharedKeys.every(key => obj1[key] === obj2[key]);
+}
