@@ -3,12 +3,12 @@ const bleepAPIURL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export async function PUT(
    req: Request,
-   { params }: { params: { establishmentId: string } }
+   { params }: { params: Promise<{ establishmentId: string }> }
 ) {
    try {
+      const { establishmentId } = await params;
       const cookieHeader = req.headers.get("cookie") || "";
       const establishmentObject = await req.json();
-      const { establishmentId } = params;
 
       const response = await fetch(`${bleepAPIURL}/establishments/${establishmentId}`, {
          method: "PUT",
