@@ -10,7 +10,7 @@ import { useCategoryStore } from '@/store/useCategoryStore';
 import { useEffect, useState } from "react";
 import { CategoryForm } from "@/components/forms/category-form";
 import { CategoryFormSchema, useCategoryForm } from "@/schema/category.schema";
-import { Category } from "@/lib/types/category-type";
+import { Category } from "@/lib/models";
 import { updateCategory } from "@/lib/api/categories";
 import { toast } from "sonner"
 
@@ -46,6 +46,7 @@ export function UpdateCategory({
       try {
          const { metadata, parent, ...data } = values;
          const payload = {
+            _id: category._id,
             ...data,
             parent: parent === '' ? null : parent,
             metadata: {
@@ -54,7 +55,7 @@ export function UpdateCategory({
                seoDescription: metadata.seoDescription
             }
          }
-         const response = await updateCategory(category._id, payload);
+         const response = await updateCategory(payload);
          updateCategoryFromStore(response.data);
          toast.success("Success!", { 
             description: `Category ${category.name} has been updated!` 

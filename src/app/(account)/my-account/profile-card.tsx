@@ -50,7 +50,7 @@ export default function ProfileCard() {
                   {  
                      loading 
                      ? <Skeleton className="h-[21px] rounded-none" /> 
-                     : (user?.email ?? "Please enter your emmail address")
+                     : (user?.email ?? "Please enter your email address")
                   }
                </div>
             </div>

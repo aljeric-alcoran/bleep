@@ -99,7 +99,7 @@ export default function UserProfileForm() {
                      <Link href="#" className="text-primary -ml-1">{user?.email ? 'Change' : 'Add'}</Link>
                   </Label>
                   <div className="text-sm border border-gray-100 p-2 px-3">
-                     {user?.email ?? "Please enter your emmail address"}
+                     {user?.email ?? "Please enter your email address"}
                   </div>
                </div>
                <div className="space-y-2 px-6">

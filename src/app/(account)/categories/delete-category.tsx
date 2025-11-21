@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCategoryStore } from '@/store/useCategoryStore';
 import { useState } from "react";
-import { Category } from "@/lib/types/category-type";
+import { Category } from "@/lib/models";
 import { deleteCategory } from "@/lib/api/categories";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ export function DeleteCategory({
          setError("Incorrect text was entered.")
       } else {
          try {
-            await deleteCategory(category._id);
+            await deleteCategory(category._id!);
             removeCategoryFromStore(category._id);
             toast.success("Success!", { 
                description: `Category ${category.name} has been deleted!` 

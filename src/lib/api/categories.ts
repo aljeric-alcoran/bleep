@@ -1,5 +1,5 @@
-import { Category } from "../types/category-type";
-import { CategoryResponse, CategoriesResponse } from "../types/response-types";
+import { Category } from "../models";
+import { CategoryResponse, CategoriesResponse } from "../models";
 
 export async function fetchCategories(): Promise<CategoriesResponse> {
    const response = await fetch("/api/v1/categories", {
@@ -19,8 +19,8 @@ export async function addNewCategory(categoryObject: Category): Promise<Category
    return response.json();
 }
 
-export async function updateCategory(categoryId: string, categoryObject: Category): Promise<CategoryResponse> {
-   const response = await fetch(`/api/v1/categories/${categoryId}`, {
+export async function updateCategory(categoryObject: Category): Promise<CategoryResponse> {
+   const response = await fetch(`/api/v1/categories/${categoryObject._id}`, {
       method: 'PUT', 
       body: JSON.stringify(categoryObject),
    });
