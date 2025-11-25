@@ -9,7 +9,7 @@ export default function EmptyProduct({
 }) {
    return (
       <div className="mt-6 w-full">
-         <Empty className="border border-dashed">
+         <Empty className="border border-dashed bg-gray-50 rounded-sm">
             <EmptyHeader>
                <EmptyMedia variant="icon">
                   <Package />
