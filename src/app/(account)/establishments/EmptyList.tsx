@@ -9,7 +9,7 @@ export default function EmptyList({
 }) {
    return (
       <div className="mt-6">
-         <Empty className="border border-dashed">
+         <Empty className="border border-dashed bg-gray-50 rounded-sm">
             <EmptyHeader>
                <EmptyMedia variant="icon">
                   <Warehouse />
