@@ -74,3 +74,22 @@ export const isObjectSharedKeyMatched = <
    const sharedKeys = Object.keys(obj1).filter((key) => key in obj2);
    return sharedKeys.every(key => obj1[key] === obj2[key]);
 }
+
+export const numberInputOnly = (e: React.ChangeEvent<HTMLInputElement>): string => {
+   let value = e.target.value.replace(/[^0-9.]/g, "");
+
+   const parts = value.split(".");
+   if (parts.length > 2) {
+      value = parts[0] + "." + parts.slice(1).join("");
+   }
+   return value;
+}
+
+export const parseDecimal128 = (value: any): number => {
+   if (!value) return 0;
+   if (typeof value === "number") return value;
+   if (typeof value === "string") return parseFloat(value);
+   if (value.$numberDecimal) return parseFloat(value.$numberDecimal);
+   if (value.toString) return parseFloat(value.toString());
+   return 0;
+ }
