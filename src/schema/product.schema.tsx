@@ -4,11 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export const productFormSchema = z.object({
    establishment_id: z.string(),
+   category_id: z.string(),
    item_name: z.string().trim().min(1, "Product name is required."),
    description: z.string().min(1, "Description is required."),
-   price: z.number("Price is required."),
-   discount_price: z.number().optional(),
-   stock: z.number(),
+   price: z.string("Price is required."),
+   discount_price: z.string().optional(),
+   stock: z.string("Stock is required."),
    isAvailable: z.boolean(),
    metadata: z.object({
       keywords: z.string().optional(),
@@ -25,9 +26,9 @@ export function useProductForm(): UseFormReturn<ProductFormSchema> {
       defaultValues: {
          item_name: "",
          description: "",
-         price: 0.00,
-         discount_price: 0.00,
-         stock: 0,
+         price: "",
+         discount_price: "",
+         stock: "",
          isAvailable: true,
          metadata: {
             keywords: "",
