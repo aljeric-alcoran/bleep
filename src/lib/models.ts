@@ -26,6 +26,21 @@ export interface Category {
    updatedAt?: string;
 };
 
+export interface Product {
+   establishment_id?: string;
+   category_id?: string;
+   seller_id?: string;
+   item_name: string;
+   description: string;
+   price: number;
+   discount_price?: number | null;
+   stock: number;
+   images?: [string];
+   isAvailable: boolean;
+   slug?: string;
+   metadata?: Metadata;
+}
+
 export interface User {
    _id: string;
    firstname: string;
