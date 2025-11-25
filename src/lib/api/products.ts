@@ -8,3 +8,14 @@ export async function fetchProducts() {
    if (!response.ok) throw new Error("Failed to fetch products");
    return response.json();
 }
+
+export async function createProduct(productObject: Product) {
+   console.log(productObject);
+   const response = await fetch("/api/v1/products", {
+      method: 'POST',
+      body: JSON.stringify(productObject),
+   });
+
+   if (!response.ok) throw new Error("Failed to add a product!");
+   return response.json();
+}

@@ -12,10 +12,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Establishment, Product } from "@/lib/models";
 import { useEffect, useState } from "react";
-import { isObjectSharedKeyMatched } from "@/lib/helpers";
+import { numberInputOnly, isObjectSharedKeyMatched } from "@/lib/helpers";
 import { ProductFormSchema, useProductForm } from "@/schema/product.schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fetchEstablishments } from "@/lib/api/establishment";
+import { useCategoryStore } from "@/store/useCategoryStore";
+import { fetchCategories } from "@/lib/api/categories";
+import { createProduct } from "@/lib/api/products";
 
 export default function ProductForm({ 
    product, 
@@ -27,16 +30,39 @@ export default function ProductForm({
    const form = useProductForm();
    const queryClient = useQueryClient();
 
-   const { 
-      isLoading, 
-      isError, 
-      data, 
-      error 
-   } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments});
-   const establishments = data?.data ?? [];
+   const { isLoading, data: establishments } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments });
+   const { data: categories, isLoading: categoryLoading } = useQuery({ queryKey: ['categories'], queryFn: fetchCategories });
+
+   const addProduct = useMutation({
+      mutationFn: createProduct,
+      onSuccess: (data) => {
+         queryClient.invalidateQueries({ queryKey: ["products"] });
+         toast.success("Success!", { description: data.message });
+         setOpen(false);
+      },
+      onError: (error) => {
+         toast.error("Error!", { description: error.message});
+      }
+   });
+
+   function modifyFormPayload(values: any) {
+      return {
+         ...values,
+         price: values.price ? Number(values.price) : 0,
+         discount_price: values.discount_price ? Number(values.discount_price) : 0,
+         stock: values.stock ? Number(values.stock) : 0,
+         metadata: {
+            keywords: values.metadata?.keywords?.split(" "),
+            seoTitle: values.metadata?.seoTitle,
+            seoDescription: values.metadata?.seoDescription
+         }
+      }
+   }
 
    async function onSubmit(values: ProductFormSchema): Promise<void> {
-      console.log(values);
+      const payload = modifyFormPayload(values);
+      const result = await addProduct.mutateAsync(payload);
+      console.log(result);
    }
 
    return (
@@ -44,37 +70,72 @@ export default function ProductForm({
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                <div className="grid gap-6 my-3">
-               <FormField
-                     control={form.control}
-                     name="establishment_id"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabelRequired>Establishment</FormLabelRequired>
-                           <FormControl>
-                              <Select
-                                 disabled={isLoading}
-                                 onValueChange={field.onChange}
-                                 value={field.value ?? ""}
-                              >
-                                 <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Select establishment" />
-                                 </SelectTrigger>
-                                 <SelectContent>
-                                    {establishments.map((establishment: Establishment) => (
-                                       <SelectItem
-                                          key={establishment._id ?? establishment.name}
-                                          value={String(establishment._id ?? "")}
-                                       >
-                                          {establishment.name}
-                                       </SelectItem>
-                                    ))}
-                                 </SelectContent>
-                              </Select>
-                           </FormControl>
-                           <FormMessage className="text-xs" />
-                        </FormItem>
-                     )}
-                  />
+                  <div className="grid grid-cols-2 items-center gap-4">
+                     <FormField
+                        control={form.control}
+                        name="establishment_id"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabelRequired>Establishment</FormLabelRequired>
+                              <FormControl>
+                                 <Select
+                                    disabled={isLoading}
+                                    onValueChange={field.onChange}
+                                    value={field.value ?? ""}
+                                 >
+                                    <SelectTrigger className="w-full">
+                                       <SelectValue placeholder="Select establishment" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                       {establishments?.data.map((establishment: Establishment) => (
+                                          <SelectItem
+                                             key={establishment._id ?? establishment.name}
+                                             value={String(establishment._id ?? "")}
+                                          >
+                                             {establishment.name}
+                                          </SelectItem>
+                                       ))}
+                                    </SelectContent>
+                                 </Select>
+                              </FormControl>
+                              <FormMessage className="text-xs" />
+                           </FormItem>
+                        )}
+                     />
+                     <FormField
+                        control={form.control}
+                        name="category_id"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabelRequired>Category</FormLabelRequired>
+                              <FormControl>
+                                 <Select
+                                 disabled={categoryLoading}
+                                    onValueChange={field.onChange}
+                                    value={field.value ?? ""}
+                                 >
+                                    <SelectTrigger className="w-full">
+                                       <SelectValue placeholder="Select category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                       {categories?.data
+                                       .filter(category => category.isActive)
+                                       .map(category => (
+                                          <SelectItem
+                                             key={category._id ?? category.name}
+                                             value={String(category._id ?? "")}
+                                          >
+                                             {category.name}
+                                          </SelectItem>
+                                       ))}
+                                    </SelectContent>
+                                 </Select>
+                              </FormControl>
+                              <FormMessage className="text-xs" />
+                           </FormItem>
+                        )}
+                     />
+                  </div>
 
                   <FormField
                      control={form.control}
@@ -114,13 +175,14 @@ export default function ProductForm({
                               <FormControl>
                                  <div className="relative w-full">
                                     <Input
+                                       placeholder="00.00"
                                        className="pl-6"
                                        {...field}
                                        type="text"
                                        inputMode="numeric"
-                                       pattern="[0-9]*"
+                                       pattern="[0-9.]*"
                                        onChange={(e) => {
-                                          field.onChange(e.target.value.replace(/\D/g, ""));
+                                          field.onChange(numberInputOnly(e));
                                        }}
                                     />
                                     <span className="absolute top-[9px] left-2 text-sm">₱</span>
@@ -136,20 +198,21 @@ export default function ProductForm({
                         name="discount_price"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Discount</FormLabel>
+                              <FormLabel>{"Discount (%)"}</FormLabel>
                               <FormControl>
                                  <div className="relative w-full">
                                     <Input
-                                       className="pl-6"
+                                       placeholder="e.g. 10"
+                                       className="pr-6"
                                        {...field}
                                        type="text"
                                        inputMode="numeric"
                                        pattern="[0-9]*"
                                        onChange={(e) => {
-                                          field.onChange(e.target.value.replace(/\D/g, ""));
+                                          field.onChange(numberInputOnly(e));
                                        }}
                                     />
-                                    <span className="absolute top-[9px] left-2 text-sm">₱</span>
+                                    <span className="absolute top-[9px] right-3 text-sm">%</span>
                                  </div>
                               </FormControl>
                               <FormMessage className="text-xs"/>
@@ -168,6 +231,7 @@ export default function ProductForm({
                               <FormControl>
                                  <Input
                                     {...field}
+                                    placeholder="Total items in stock"
                                     type="text"
                                     inputMode="numeric"
                                     pattern="[0-9]*"

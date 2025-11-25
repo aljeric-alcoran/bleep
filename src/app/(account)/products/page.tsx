@@ -16,7 +16,7 @@ export default function Products() {
    const hasProducts = data?.data.length > 0;
    const [open, setOpen] = useState<boolean>(false);
    const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
-
+   console.log(data?.data);
    return (
       <>
          <div className="flex items-center gap-2">
@@ -34,11 +34,10 @@ export default function Products() {
                   <Plus />
                   Add Product
                </Button>
-               <div className="mt-4 flex flex-wrap gap-4 md:gap-6 lg:gap-8">
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
-                  <ProductCard />
+               <div className="mt-6 flex flex-wrap gap-4">
+                  {data?.data.map((product: Product) => (
+                     <ProductCard key={product._id} product={product}/>
+                  ))}
                </div>
             </>
          )}

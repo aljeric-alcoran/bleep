@@ -1,7 +1,13 @@
 import Image from 'next/image'
 import { Item, ItemContent, ItemDescription, ItemTitle } from "@/components/ui/item";
+import { Product } from '@/lib/models';
+import { parseDecimal128 } from '@/lib/helpers';
 
-export default function ProductCard() {
+export default function ProductCard({ 
+   product 
+}: {
+   product: Product
+}) {
    return (
       <>
          <div className="w-54">
@@ -18,12 +24,13 @@ export default function ProductCard() {
                      />
                   </div>
                   <div className='p-3'>
-                     <ItemTitle className="text-xs">iPhone Case</ItemTitle>
+                     <ItemTitle className="text-xs">{product.item_name}</ItemTitle>
                      <ItemDescription className="text-xs line-clamp-1">
-                        iPhone case - iPhone X, iPhone 11, iPhone 12, iPhone 13, iPhone 14.
+                        {product.description}
                      </ItemDescription>
-                     <div className='mt-4 font-semibold'>₱ 1000.00</div>
-                     <p className='mt-4 text-gray-500 text-xs line-clamp-1'>Poblacion, Ramon Magsaysay</p>
+                     <div className='mt-4 font-semibold'>₱ {parseDecimal128(product.price)}</div>
+                     <p className='mt-4 text-gray-500 text-xs line-clamp-1'>{product.establishment?.name}</p>
+                     <p className='text-gray-500 text-xs line-clamp-1'>{product.establishment?.address}</p>
                   </div>
                </ItemContent>
             </Item>
