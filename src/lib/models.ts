@@ -27,8 +27,11 @@ export interface Category {
 };
 
 export interface Product {
+   _id?: string;
    establishment_id?: string;
+   establishment?: Establishment;
    category_id?: string;
+   category?: Category;
    seller_id?: string;
    item_name: string;
    description: string;
