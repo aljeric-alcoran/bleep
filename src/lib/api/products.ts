@@ -19,3 +19,12 @@ export async function createProduct(productObject: Product) {
    if (!response.ok) throw new Error("Failed to add a product!");
    return response.json();
 }
+
+export async function fetchProduct(productId: string) {
+   const response = await fetch(`/api/v1/products/${productId}`, {
+      method: 'GET',
+   });
+   
+   if (!response.ok) throw new Error(`Failed to fetch product: ${productId}`);
+   return response.json();
+}
