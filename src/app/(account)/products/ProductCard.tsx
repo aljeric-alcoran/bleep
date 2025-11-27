@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Item, ItemContent, ItemDescription, ItemTitle } from "@/components/ui/item";
 import { Product } from '@/lib/models';
-import { parseDecimal128 } from '@/lib/helpers';
+import { parseDecimalToLocalString } from '@/lib/helpers';
 
 export default function ProductCard({ 
    product 
@@ -28,7 +28,7 @@ export default function ProductCard({
                      <ItemDescription className="text-xs line-clamp-1">
                         {product.description}
                      </ItemDescription>
-                     <div className='mt-4 font-semibold'>₱ {parseDecimal128(product.price)}</div>
+                     <div className='mt-4 font-semibold'>₱ {parseDecimalToLocalString(product.price)}</div>
                      <p className='mt-4 text-gray-500 text-xs line-clamp-1'>{product.establishment?.name}</p>
                      <p className='text-gray-500 text-xs line-clamp-1'>{product.establishment?.address}</p>
                   </div>
