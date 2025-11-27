@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Package, Plus } from "lucide-react";
 import { useState } from "react";
 import { Product } from "@/lib/models";
+import Link from "next/link";
 
 export default function Products() {
    const { isLoading, isError, data, error } = useQuery({ queryKey:  ["products"], queryFn: fetchProducts});
@@ -30,10 +31,12 @@ export default function Products() {
 
          {!isLoading && hasProducts && (
             <>
-               <Button size="sm" className="mt-6 rounded-sm" onClick={() => setOpen(true)}>
-                  <Plus />
-                  Add Product
-               </Button>
+               <Link href="/products/create">
+                  <Button type="button" size="sm" className="mt-6 rounded-sm">
+                     <Plus />
+                     Add Product
+                  </Button>
+               </Link>
                <div className="mt-6 flex flex-wrap gap-4">
                   {data?.data.map((product: Product) => (
                      <ProductCard key={product._id} product={product}/>
