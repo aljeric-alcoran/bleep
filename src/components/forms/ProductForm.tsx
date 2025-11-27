@@ -25,7 +25,7 @@ export default function ProductForm({
    setOpen,
 }: { 
    product?: Product;
-   setOpen: (value: boolean) => void;
+   setOpen?: (value: boolean) => void;
 }) {
    const form = useProductForm();
    const queryClient = useQueryClient();
@@ -38,7 +38,7 @@ export default function ProductForm({
       onSuccess: (data) => {
          queryClient.invalidateQueries({ queryKey: ["products"] });
          toast.success("Success!", { description: data.message });
-         setOpen(false);
+         // setOpen(false);
       },
       onError: (error) => {
          toast.error("Error!", { description: error.message});
