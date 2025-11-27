@@ -85,7 +85,7 @@ export default function VerifyOTPForm() {
                                  >
                                     <InputOTPGroup className="flex justify-center gap-2 w-full">
                                        {[...Array(6)].map((_, i) => (
-                                          <InputOTPSlot key={i} index={i} className="w-full h-14 border rounded-md text-center text-lg font-semibold"/>
+                                          <InputOTPSlot key={i} index={i} className="w-full h-14 border rounded-sm text-center text-lg font-semibold"/>
                                        ))}
                                     </InputOTPGroup>
                                  </InputOTP>

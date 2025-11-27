@@ -53,6 +53,8 @@ export const config = {
       "/my-account/:path*",
       "/establishments",
       "/establishments/:path*",
+      "/products",
+      "/products/:path*",
       "/my-orders",
       "/my-orders/:path*",
       "/settings",

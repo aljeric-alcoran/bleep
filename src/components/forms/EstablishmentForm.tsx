@@ -5,14 +5,13 @@ import { Input } from "@/components/ui/input"
 import { EstablishmentFormSchema, useEstablishmentForm } from "@/schema/establishment.schema"
 import { DialogClose, DialogFooter } from "../ui/dialog"
 import { Button } from "../ui/button"
-import { CircleX, Loader2Icon } from "lucide-react"
+import { Loader2Icon } from "lucide-react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createEstablishment, updateEstablishment } from "@/lib/api/establishment"
 import { toast } from "sonner"
 import { Establishment } from "@/lib/models"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { isObjectSharedKeyMatched } from "@/lib/helpers"
-import { Alert, AlertTitle } from "@/components/ui/alert"
 
 export default function EstablishmentForm({ 
    establishment, 

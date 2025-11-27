@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
                {addActionSlot && (addActionSlot)}
             </div>
          </div>
-         <div className="overflow-hidden rounded-md border">
+         <div className="overflow-hidden rounded-sm border">
             <Table>
                <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (

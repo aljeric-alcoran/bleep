@@ -7,7 +7,8 @@ import {
    House,
    SquareUserRound,
    Store,
-   ShoppingCart
+   ShoppingCart,
+   Package
 } from "lucide-react"
 import { SidebarContent } from "@/components/ui/sidebar"
 import { NavMain } from "./navigation/navbar-main";
@@ -55,7 +56,7 @@ const navbarItems = [
          {
             title: "Products",
             url: "/products",
-            icon: ShoppingBasket,
+            icon: Package,
          },
       ]
    },

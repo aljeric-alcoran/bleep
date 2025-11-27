@@ -1,28 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
-import { Plus, Warehouse } from "lucide-react";
+import { Package, Plus } from "lucide-react";
 
-export default function EmptyList({ 
-   openDialog
+export default function EmptyProduct({ 
+   setOpen
 }: { 
-   openDialog: () => void;
+   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
    return (
-      <div className="mt-6">
+      <div className="mt-6 w-full">
          <Empty className="border border-dashed bg-gray-50 rounded-sm">
             <EmptyHeader>
                <EmptyMedia variant="icon">
-                  <Warehouse />
+                  <Package />
                </EmptyMedia>
-               <EmptyTitle>No Establishment Yet</EmptyTitle>
+               <EmptyTitle>No products yet!</EmptyTitle>
                <EmptyDescription>
-                  Ready to start selling? Create your first establishment and showcase your products.
+                  You haven’t added any products yet. Go ahead and add one to get started!
                </EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
-               <Button onClick={openDialog} className="font-normal" variant="default" size="sm">
+               <Button onClick={() => setOpen(true)} className="font-normal" variant="default" size="sm">
                   <Plus />
-                  Create Establishment
+                  Add Product
                </Button>
             </EmptyContent>
          </Empty>

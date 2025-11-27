@@ -34,22 +34,22 @@ export default function Establishments() {
 
          {!isLoading && hasEstablishments && (
             <>
-            <Button size="sm" className="mt-6" onClick={() => setOpen(true)}>
-               <Plus/>
-               Add Establishment
-            </Button>
-            <div className="mt-4 flex flex-wrap gap-4">
-               {data?.data.map((establishment: Establishment) => (
-                  <CardItem 
-                     key={establishment._id} 
-                     establishment={establishment}
-                     openForm={($event) => {
-                        setSelectedEstablishment($event);
-                        setOpen(true);
-                     }}
-                  />
-               ))}
-            </div>
+               <Button size="sm" className="mt-6 rounded-sm" onClick={() => setOpen(true)}>
+                  <Plus/>
+                  Add Establishment
+               </Button>
+               <div className="mt-4 flex flex-wrap gap-4">
+                  {data?.data.map((establishment: Establishment) => (
+                     <CardItem 
+                        key={establishment._id} 
+                        establishment={establishment}
+                        openForm={($event) => {
+                           setSelectedEstablishment($event);
+                           setOpen(true);
+                        }}
+                     />
+                  ))}
+               </div>
             </>
          )}
 

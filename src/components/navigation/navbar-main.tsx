@@ -27,7 +27,8 @@ export function NavMain({
          <SidebarGroupLabel className="uppercase text-[0.65rem] text-muted-foreground">{label}</SidebarGroupLabel>
          <SidebarMenu>
             {items.map((item) => {
-               const isActive = (pathname === item.url);;
+               const notEmptyPath = pathname.split('/').filter(Boolean);
+               const isActive = (notEmptyPath.includes(item.url.slice(1)));
                return (
                   <SidebarMenuItem
                      key={item.title}
