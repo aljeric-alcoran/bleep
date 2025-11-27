@@ -10,13 +10,14 @@ import { Loader2Icon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Establishment, Product } from "@/lib/models";
-import { numberInputOnly, isObjectSharedKeyMatched } from "@/lib/helpers";
+import { numberInputOnly, isObjectSharedKeyMatched, parseDecimalToString } from "@/lib/helpers";
 import { ProductFormSchema, useProductForm } from "@/schema/product.schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fetchEstablishments } from "@/lib/api/establishment";
 import { fetchCategories } from "@/lib/api/categories";
 import { createProduct } from "@/lib/api/products";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ProductForm({ 
    product, 
@@ -61,6 +62,26 @@ export default function ProductForm({
       const result = await addProduct.mutateAsync(payload);
       console.log(result);
    }
+
+   useEffect(() => {
+      if (product) {
+         form.reset({
+            establishment_id: product.establishment_id ?? undefined,
+            category_id: product.category_id ?? undefined,
+            item_name: product.item_name ?? "",
+            description: product.description ?? "",
+            price: parseDecimalToString(product.price) ?? "",
+            stock: parseDecimalToString(product.stock) ?? "",
+            discount_price: parseDecimalToString(product.discount_price) ?? "",
+            isAvailable: product.isAvailable ?? true,
+            metadata: {
+               keywords: product.metadata?.keywords?.join(" ") ?? "",
+               seoTitle: product.metadata?.seoTitle ?? "",
+               seoDescription: product.metadata?.seoDescription ?? "",
+            },
+         });
+      }
+   }, [product]);
 
    return (
       <>
