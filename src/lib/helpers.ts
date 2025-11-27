@@ -85,11 +85,11 @@ export const numberInputOnly = (e: React.ChangeEvent<HTMLInputElement>): string 
    return value;
 }
 
-export const parseDecimal128 = (value: any): number => {
-   if (!value) return 0;
-   if (typeof value === "number") return value;
-   if (typeof value === "string") return parseFloat(value);
-   if (value.$numberDecimal) return parseFloat(value.$numberDecimal);
-   if (value.toString) return parseFloat(value.toString());
-   return 0;
+export const parseDecimal128 = (value: any): string => {
+   if (!value) return "0";
+   if (typeof value === "number") return value.toLocaleString();
+   if (typeof value === "string") return parseFloat(value).toLocaleString();
+   if (value.$numberDecimal) return parseFloat(value.$numberDecimal).toLocaleString();
+   if (value.toString) return parseFloat(value.toString()).toLocaleString();
+   return "0";
  }
