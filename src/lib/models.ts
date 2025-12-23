@@ -4,6 +4,10 @@ interface Metadata {
    seoDescription?: string;
 }
 
+interface NumberDecimal {
+   $numberDecimal: string
+}
+
 export interface Establishment {
    _id?: string;
    user_id?: string;
@@ -35,8 +39,8 @@ export interface Product {
    seller_id?: string;
    item_name: string;
    description: string;
-   price: number;
-   discount_price?: number | null;
+   price: NumberDecimal;
+   discount_price: NumberDecimal;
    stock: number;
    images?: [string];
    isAvailable: boolean;
