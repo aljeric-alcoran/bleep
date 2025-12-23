@@ -1,7 +1,7 @@
 import { Category } from "../models";
 import { CategoryResponse, CategoriesResponse } from "../models";
 
-export async function fetchCategories(): Promise<CategoriesResponse> {
+export async function fetchCategories() {
    const response = await fetch("/api/v1/categories", {
       method: 'GET',
    });
