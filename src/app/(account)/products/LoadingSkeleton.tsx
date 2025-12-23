@@ -12,10 +12,10 @@ export default function LoadingSkeleton() {
             <Plus />
             Add Product
          </Button>
-         <div className="mt-4 flex flex-wrap gap-4 md:gap-6 lg:gap-8">
+         <div className="mt-4 grid grid-cols-4 gap-5">
             {Array.from({ length: 12 }).map((_, i) => (
-               <div key={i} className="w-54">
-                  <Item variant="outline" className="p-0 overflow-hidden shadow">
+               <div key={i} className="w-full">
+                  <Item variant="outline" className="p-0 overflow-hidden shadow-none h-full">
                      <ItemContent className="gap-0">
                         <div className="w-full h-[200px] relative border-b">
                            <Skeleton className="h-full w-full rounded-none" />

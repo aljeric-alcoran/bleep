@@ -37,7 +37,7 @@ export default function Products() {
                      Add Product
                   </Button>
                </Link>
-               <div className="mt-6 flex flex-wrap gap-4">
+               <div className="mt-6 grid grid-cols-4 gap-5">
                   {data?.data.map((product: Product) => (
                      <ProductCard key={product._id} product={product}/>
                   ))}
