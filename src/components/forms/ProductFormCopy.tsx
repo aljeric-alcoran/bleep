@@ -341,7 +341,7 @@ export default function ProductForm({
                   </AccordionItem>
                </Accordion>
                <div className="flex gap-2">
-                  <Button variant="outline">Cancel</Button>
+                  <Button type="button" variant="outline" onClick={() => router.replace("/products")}>Cancel</Button>
                   <Button disabled={form.formState.isSubmitting} type="submit">
                      {form.formState.isSubmitting ? (
                         <>
