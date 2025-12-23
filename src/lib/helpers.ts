@@ -102,3 +102,19 @@ export const parseDecimalToString = (value: any): string => {
    if (value.toString) return parseFloat(value.toString()).toString();
    return "0";
 }
+
+interface NumberDecimal {
+   $numberDecimal: string
+}
+
+export const priceDiscountCaculator = (price: NumberDecimal, discount: NumberDecimal) => {
+   let originalPrice = Number(price['$numberDecimal']);
+   let priceDiscount = parseFloat((Number(discount['$numberDecimal']) / 100).toFixed(2));
+   let totalPrice = originalPrice - (originalPrice * priceDiscount);
+   console.log(totalPrice);
+   return parseDecimalToLocalString(totalPrice);
+}
+
+export const productHasDiscount = (discount: NumberDecimal): boolean => {
+   return Number(discount['$numberDecimal']) > 0;
+}
