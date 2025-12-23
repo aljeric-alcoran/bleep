@@ -17,7 +17,7 @@ export default function Products() {
    const hasProducts = data?.data.length > 0;
    const [open, setOpen] = useState<boolean>(false);
    const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
-   console.log(data?.data);
+   
    return (
       <>
          <div className="flex items-center gap-2">
