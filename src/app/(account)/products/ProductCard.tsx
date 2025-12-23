@@ -30,9 +30,6 @@ export default function ProductCard({
                   </div>
                   <div className='p-3'>
                      <ItemTitle className="text-sm mb-4 line-clamp-2">{product.item_name}</ItemTitle>
-                     {/* <ItemDescription className="mb-3 text-xs line-clamp-1">
-                        {product.description}
-                     </ItemDescription> */}
                      {productHasDiscount(product.discount_price) && (
                         <div className='text-xs line-through text-gray-500'>₱ {parseDecimalToLocalString(product.price)}</div>
                      )}
@@ -45,8 +42,6 @@ export default function ProductCard({
                         </div>
                         <span>{product.stock} sold</span>
                      </div>
-                     {/* <p className='mt-2 text-gray-500 text-xs line-clamp-1'>{product.establishment?.name}</p>
-                     <p className='text-gray-500 text-xs line-clamp-1'>{product.establishment?.address}</p> */}
                   </div>
                </ItemContent>
             </Item>

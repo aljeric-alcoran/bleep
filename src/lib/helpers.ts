@@ -111,7 +111,7 @@ export const priceDiscountCaculator = (price: NumberDecimal, discount: NumberDec
    let originalPrice = Number(price['$numberDecimal']);
    let priceDiscount = parseFloat((Number(discount['$numberDecimal']) / 100).toFixed(2));
    let totalPrice = originalPrice - (originalPrice * priceDiscount);
-   console.log(totalPrice);
+   
    return parseDecimalToLocalString(totalPrice);
 }
 
