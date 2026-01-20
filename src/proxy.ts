@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { requestAccessToken } from "@/lib/api/auth";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
    const baseUrl = req.nextUrl.origin;
    const accessToken = req.cookies.get("accessToken")?.value;
    const refreshToken = req.cookies.get("refreshToken")?.value;
