@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 import FormDialog from "./FormDialog";
 import { Button } from "@/components/ui/button";
-import { fetchProducts } from "@/lib/api/products";
+import { fetchSellerProducts } from "@/lib/api/products";
 import { useQuery } from "@tanstack/react-query";
 import { Package, Plus } from "lucide-react";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import { Product } from "@/lib/models";
 import Link from "next/link";
 
 export default function Products() {
-   const { isLoading, isError, data, error } = useQuery({ queryKey:  ["products"], queryFn: fetchProducts});
+   const { isLoading, isError, data, error } = useQuery({ queryKey:  ["products"], queryFn: fetchSellerProducts});
    const hasProducts = data?.data.length > 0;
    const [open, setOpen] = useState<boolean>(false);
    const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
