@@ -1,12 +1,12 @@
 "use client"
 
-import { fetchCategories } from "@/lib/api/categories";
+import { fetchActiveCategories } from "@/lib/api/categories";
 import { Category } from "@/lib/models";
 import { useQuery } from "@tanstack/react-query";
 
 export default function AppHomeCategories() {
-   const { isLoading, data } = useQuery({ queryKey: ["categories"], queryFn: fetchCategories});
-   const hasCategories = data?.data.length > 0;
+   const { isLoading, data } = useQuery({ queryKey: ["categories"], queryFn: fetchActiveCategories});
+   const hasCategories = data?.length > 0;
 
    return (
       <>
@@ -15,7 +15,7 @@ export default function AppHomeCategories() {
                Categories
             </div>
             <div className="flex items-center no-scrollbar overflow-x-scroll">
-               {data?.data.map((category: Category) => (
+               {data?.map((category: Category) => (
                   <div key={category._id} className="w-35 flex flex-col items-center gap-6 border-r border-gray-200 py-5 hover:shadow-xs cursor-pointer">
                      <span className="p-2 rounded-full bg-gray-100 w-12 h-12">
                         { /* Image here */}
