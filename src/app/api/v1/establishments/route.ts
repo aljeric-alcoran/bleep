@@ -15,8 +15,9 @@ export async function GET(req: NextRequest) {
       });
 
       if (!response.ok) {
+         const error = await response.json();
          return NextResponse.json(
-            { error: `Failed to fetch establishments (${response.status})` },
+            { error: error.message || `Failed to fetch establishments (${response.status})` },
             { status: response.status }
          );
       }
