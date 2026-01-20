@@ -4,8 +4,16 @@ export async function fetchEstablishments() {
    const response = await fetch("/api/v1/establishments", {
       method: 'GET',
    });
+
    
-   if (!response.ok) throw new Error("Failed to fetch categories");
+   if (!response.ok) {
+      const error = await response.json();
+      throw {
+         status: response.status,
+         message: error.message || error.error || "Request failed"
+      };
+   }
+
    return response.json();
 }
 

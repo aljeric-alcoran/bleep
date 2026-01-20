@@ -10,6 +10,12 @@ import FormDialog from "./FormDialog";
 import CardItem from "./CardItem";
 import { Establishment } from "@/lib/models";
 import { Button } from "@/components/ui/button";
+import AppForbidden from "@/components/app-forbidden";
+
+type ApiError = {
+   status: number;
+   message: string;
+};
 
 export default function Establishments() {
    const { 
@@ -17,9 +23,14 @@ export default function Establishments() {
       isError, 
       data, 
       error 
-   } = useQuery({ queryKey: ['establishments'], queryFn: fetchEstablishments});
-   const hasEstablishments = data?.data.length > 0;
+   } = useQuery<{data: Establishment[]}, ApiError>({ 
+      queryKey: ['establishments'], 
+      queryFn: fetchEstablishments,
+      retry: (_, error: ApiError) => error.status !== 403
+   });
+   const hasEstablishments = (data?.data?.length ?? 0) > 0;
    const [open, setOpen] = useState<boolean>(false);
+   const isForbidden = error?.status !== 403;
    const [selectedEstablishment, setSelectedEstablishment] = useState<Establishment | undefined>();
 
    return (
@@ -30,26 +41,28 @@ export default function Establishments() {
          </div>
          {isLoading && <LoadingSkeleton />}
 
-         {!isLoading && !hasEstablishments && <EmptyList openDialog={() => setOpen(true)} />}
+         {!isLoading && !hasEstablishments && !isForbidden && <AppForbidden message={error?.message}/>}
+
+         {!isLoading && !hasEstablishments && isForbidden && <EmptyList openDialog={() => setOpen(true)} />}
 
          {!isLoading && hasEstablishments && (
             <>
-            <Button size="sm" className="mt-6" onClick={() => setOpen(true)}>
-               <Plus/>
-               Add Establishment
-            </Button>
-            <div className="mt-4 flex flex-wrap gap-4">
-               {data?.data.map((establishment: Establishment) => (
-                  <CardItem 
-                     key={establishment._id} 
-                     establishment={establishment}
-                     openForm={($event) => {
-                        setSelectedEstablishment($event);
-                        setOpen(true);
-                     }}
-                  />
-               ))}
-            </div>
+               <Button size="sm" className="mt-6 rounded-sm" onClick={() => setOpen(true)}>
+                  <Plus/>
+                  Add Establishment
+               </Button>
+               <div className="mt-4 flex flex-wrap gap-4">
+                  {data?.data.map((establishment: Establishment) => (
+                     <CardItem 
+                        key={establishment._id} 
+                        establishment={establishment}
+                        openForm={($event) => {
+                           setSelectedEstablishment($event);
+                           setOpen(true);
+                        }}
+                     />
+                  ))}
+               </div>
             </>
          )}
 

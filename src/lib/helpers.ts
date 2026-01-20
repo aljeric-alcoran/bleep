@@ -74,3 +74,47 @@ export const isObjectSharedKeyMatched = <
    const sharedKeys = Object.keys(obj1).filter((key) => key in obj2);
    return sharedKeys.every(key => obj1[key] === obj2[key]);
 }
+
+export const numberInputOnly = (e: React.ChangeEvent<HTMLInputElement>): string => {
+   let value = e.target.value.replace(/[^0-9.]/g, "");
+
+   const parts = value.split(".");
+   if (parts.length > 2) {
+      value = parts[0] + "." + parts.slice(1).join("");
+   }
+   return value;
+}
+
+export const parseDecimalToLocalString = (value: any): string => {
+   if (!value) return "0";
+   if (typeof value === "number") return value.toLocaleString();
+   if (typeof value === "string") return parseFloat(value).toLocaleString();
+   if (value.$numberDecimal) return parseFloat(value.$numberDecimal).toLocaleString();
+   if (value.toString) return parseFloat(value.toString()).toLocaleString();
+   return "0";
+}
+
+export const parseDecimalToString = (value: any): string => {
+   if (!value) return "0";
+   if (typeof value === "number") return value.toString();
+   if (typeof value === "string") return parseFloat(value).toString();
+   if (value.$numberDecimal) return parseFloat(value.$numberDecimal).toString();
+   if (value.toString) return parseFloat(value.toString()).toString();
+   return "0";
+}
+
+interface NumberDecimal {
+   $numberDecimal: string
+}
+
+export const priceDiscountCaculator = (price: NumberDecimal, discount: NumberDecimal) => {
+   let originalPrice = Number(price['$numberDecimal']);
+   let priceDiscount = parseFloat((Number(discount['$numberDecimal']) / 100).toFixed(2));
+   let totalPrice = originalPrice - (originalPrice * priceDiscount);
+   
+   return parseDecimalToLocalString(totalPrice);
+}
+
+export const productHasDiscount = (discount: NumberDecimal): boolean => {
+   return Number(discount['$numberDecimal']) > 0;
+}

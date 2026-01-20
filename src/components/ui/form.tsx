@@ -104,6 +104,19 @@ function FormLabel({
   )
 }
 
+function FormLabelRequired({ 
+   children 
+}: { 
+   children: React.ReactNode 
+}) {
+   return (
+      <FormLabel>
+         {children} 
+         <span className="text-red-700 text-base -ml-1.5 -mb-1.5">*</span>
+      </FormLabel>
+   )
+}
+
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
@@ -160,6 +173,7 @@ export {
   Form,
   FormItem,
   FormLabel,
+  FormLabelRequired,
   FormControl,
   FormDescription,
   FormMessage,

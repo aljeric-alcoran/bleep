@@ -1,12 +1,23 @@
 import { Category } from "../models";
 import { CategoryResponse, CategoriesResponse } from "../models";
 
-export async function fetchCategories(): Promise<CategoriesResponse> {
+export async function fetchCategories() {
    const response = await fetch("/api/v1/categories", {
       method: 'GET',
    });
    if (!response.ok) throw new Error("Failed to fetch categories");
    return response.json();
+}
+
+export async function fetchActiveCategories() {
+   const response = await fetch("/api/v1/categories", {
+      method: 'GET',
+   });
+   if (!response.ok) throw new Error("Failed to fetch categories");
+
+   const categories = await response.json();
+   const activeCategories = categories?.data.filter((category: Category) => category.isActive);
+   return activeCategories;
 }
 
 export async function addNewCategory(categoryObject: Category): Promise<CategoryResponse> {

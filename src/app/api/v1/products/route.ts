@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
    try {
       const cookieHeader = req.headers.get("cookie") || "";
 
-      const response = await fetch(`${bleepAPIURL}/establishments`, {
+      const response = await fetch(`${bleepAPIURL}/products`, {
          method: "GET",
          headers: {
             "Content-Type": "application/json",
@@ -15,9 +15,8 @@ export async function GET(req: NextRequest) {
       });
 
       if (!response.ok) {
-         const error = await response.json();
          return NextResponse.json(
-            { error: error.message || `Failed to fetch establishments (${response.status})` },
+            { error: `Failed to fetch products (${response.status})` },
             { status: response.status }
          );
       }
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest) {
       const cookieHeader = req.headers.get("cookie") || "";
       const body = await req.json();
 
-      const response = await fetch(`${bleepAPIURL}/establishments`, {
+      const response = await fetch(`${bleepAPIURL}/products`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
 
       if (!response.ok) {
          return NextResponse.json(
-            { error: `Failed to create establishment (${response.status})` },
+            { error: `Failed to create product (${response.status})` },
             { status: response.status }
          );
       }
