@@ -9,6 +9,15 @@ export async function fetchProducts() {
    return response.json();
 }
 
+export async function fetchSellerProducts() {
+   const response = await fetch("/api/v1/products/seller", {
+      method: 'GET',
+   });
+   
+   if (!response.ok) throw new Error("Failed to fetch your products");
+   return response.json();
+}
+
 export async function createProduct(productObject: Product) {
    console.log(productObject);
    const response = await fetch("/api/v1/products", {
