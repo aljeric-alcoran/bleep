@@ -16,8 +16,8 @@ export default function AppHomeCategories() {
             </div>
             <div className="flex items-center no-scrollbar overflow-x-scroll">
                {data?.map((category: Category) => (
-                  <div key={category._id} className="w-35 flex flex-col items-center gap-6 border-r border-gray-200 py-5 hover:shadow-xs cursor-pointer">
-                     <span className="p-2 rounded-full bg-gray-100 w-12 h-12">
+                  <div key={category._id} className="w-35 flex flex-col items-center gap-8 border-r border-gray-200 py-10 hover:shadow-xs cursor-pointer">
+                     <span className="p-2 rounded-full bg-gray-100 w-14 h-14">
                         { /* Image here */}
                      </span>
                      <span className="text-xs text-center">{category.name}</span>
