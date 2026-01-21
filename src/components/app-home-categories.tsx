@@ -1,7 +1,7 @@
 "use client"
 
 import { fetchActiveCategories } from "@/lib/api/categories";
-import { Category } from "@/lib/models";
+import { Category } from "@/@types";
 import { useQuery } from "@tanstack/react-query";
 
 export default function AppHomeCategories() {

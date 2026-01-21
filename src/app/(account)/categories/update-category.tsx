@@ -10,7 +10,7 @@ import { useCategoryStore } from '@/store/useCategoryStore';
 import { useEffect, useState } from "react";
 import { CategoryForm } from "@/components/forms/category-form";
 import { CategoryFormSchema, useCategoryForm } from "@/schema/category.schema";
-import { Category } from "@/lib/models";
+import { Category } from "@/@types";
 import { updateCategory } from "@/lib/api/categories";
 import { toast } from "sonner"
 

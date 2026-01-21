@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Category } from "@/lib/models";
+import { Category } from "@/@types";
 
 type Categories = {
    categories: Category[];

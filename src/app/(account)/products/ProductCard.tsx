@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Item, ItemContent, ItemDescription, ItemTitle } from "@/components/ui/item";
-import { Product } from '@/lib/models';
+import { Product } from '@/@types';
 import { parseDecimalToLocalString, priceDiscountCaculator, productHasDiscount } from '@/lib/helpers';
 import { Package } from 'lucide-react';
 

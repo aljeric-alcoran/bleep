@@ -2,7 +2,7 @@ import { decodeJwt } from "jose";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { scheduleRefresh, validateAccessToken } from "@/lib/helpers";
-import { User } from "@/lib/models";
+import { User } from "@/@types";
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 interface UserStore {

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Establishment, Product } from "@/lib/models";
+import { Establishment, Product } from "@/@types";
 import { useEffect, useState } from "react";
 import { numberInputOnly, isObjectSharedKeyMatched } from "@/lib/helpers";
 import { ProductFormSchema, useProductForm } from "@/schema/product.schema";
