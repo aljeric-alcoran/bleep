@@ -11,8 +11,8 @@ export default function ProductCard({
 }) {
    return (
       <>
-         <div className="w-full">
-            <Item variant="outline" className="p-0 overflow-hidden shadow h-full">
+         <div className="w-full bg-white">
+            <Item variant="outline" className="p-0 overflow-hidden h-full">
                <ItemContent>
                   <div className="w-full h-[200px] relative border-b m-0">
                      <Image
@@ -28,16 +28,16 @@ export default function ProductCard({
                      )}
                   </div>
                   <div className='p-3'>
-                     <ItemTitle className="text-sm mb-4 line-clamp-2">{product.item_name}</ItemTitle>
+                     <ItemTitle className="text-sm mb-2 line-clamp-2 font-normal">{product.item_name}</ItemTitle>
 
                      <div className="h-[38px]">
-                        <div className='font-semibold'>₱ {priceDiscountCaculator(product.price, product.discount_price)}</div>
+                        <div className='font-semibold'><small>₱</small> {priceDiscountCaculator(product.price, product.discount_price)}</div>
                         {productHasDiscount(product.discount_price) && (
                            <div className='text-xs line-through text-gray-500'>₱ {parseDecimalToLocalString(product.price)}</div>
                         )}
                      </div>
                      
-                     <div className='mt-4 text-xs flex items-center justify-between'>
+                     <div className='mt-6 text-xs flex items-center justify-between'>
                         <div className='flex items-center gap-1'>{product.establishment?.name}</div>
                         <span>{product.stock} in stock</span>
                      </div>
