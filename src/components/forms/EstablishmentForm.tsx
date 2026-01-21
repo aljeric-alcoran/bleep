@@ -9,7 +9,7 @@ import { Loader2Icon } from "lucide-react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createEstablishment, updateEstablishment } from "@/lib/api/establishment"
 import { toast } from "sonner"
-import { Establishment } from "@/lib/models"
+import { Establishment } from "@/@types"
 import { useEffect } from "react"
 import { isObjectSharedKeyMatched } from "@/lib/helpers"
 

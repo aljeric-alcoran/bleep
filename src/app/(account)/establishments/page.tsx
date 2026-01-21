@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import FormDialog from "./FormDialog";
 import CardItem from "./CardItem";
-import { Establishment } from "@/lib/models";
+import { Establishment } from "@/@types";
 import { Button } from "@/components/ui/button";
 import AppForbidden from "@/components/app-forbidden";
 

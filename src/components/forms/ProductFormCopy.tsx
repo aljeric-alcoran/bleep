@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Establishment, Product } from "@/lib/models";
+import { Establishment, Product } from "@/@types";
 import { numberInputOnly, isObjectSharedKeyMatched, parseDecimalToString } from "@/lib/helpers";
 import { ProductFormSchema, useProductForm } from "@/schema/product.schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";

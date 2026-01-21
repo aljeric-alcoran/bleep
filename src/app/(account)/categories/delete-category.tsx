@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCategoryStore } from '@/store/useCategoryStore';
 import { useState } from "react";
-import { Category } from "@/lib/models";
+import { Category } from "@/@types";
 import { deleteCategory } from "@/lib/api/categories";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";

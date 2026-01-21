@@ -1,7 +1,7 @@
 import EstablishmentForm from "@/components/forms/EstablishmentForm";
 import ProductForm from "@/components/forms/ProductForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Establishment, Product } from "@/lib/models";
+import { Establishment, Product } from "@/@types";
 
 export default function FormDialog({
    open,
