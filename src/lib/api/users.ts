@@ -1,4 +1,4 @@
-import { User } from "../types/user-type";
+import { User } from "@/@types";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
