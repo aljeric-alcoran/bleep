@@ -1,4 +1,4 @@
-import { Establishment } from "../models";
+import { Establishment } from "@/@types";
 
 export async function fetchEstablishments() {
    const response = await fetch("/api/v1/establishments", {

@@ -1,4 +1,4 @@
-import { Product } from "../models";
+import { Product } from "@/@types";
 
 export async function fetchProducts() {
    const response = await fetch("/api/v1/products", {

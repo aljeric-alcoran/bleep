@@ -1,5 +1,5 @@
-import { Category } from "../models";
-import { CategoryResponse, CategoriesResponse } from "../models";
+import { Category } from "@/@types";
+import { CategoryResponse } from "@/@types";
 
 export async function fetchCategories() {
    const response = await fetch("/api/v1/categories", {
