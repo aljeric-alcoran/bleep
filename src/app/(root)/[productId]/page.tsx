@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBasket } from "lucide-react";
 import { CounterPill } from "@/components/ui/counter-pill";
 import { useState } from "react";
+import ProductImageSlider from "./ImageSlider";
 
 export default function ProductOverview() {
    let product;
@@ -39,7 +40,8 @@ export default function ProductOverview() {
                         alt="Picture of the author"
                      />
                      <div className="flex items-center justify-between gap-2 mt-3">
-                        <Image 
+                        <ProductImageSlider/>
+                        {/* <Image 
                            src={"/default-product.jpg"}
                            width={240}
                            height={240}
@@ -66,15 +68,15 @@ export default function ProductOverview() {
                            height={240}
                            className="border w-24 h-24"
                            alt="Picture of the author"
-                        />
+                        /> */}
                      </div>
                   </div>
                   <div className="w-full p-5 pr-8">
                      <h1 className="text-xl font-medium mb-4">{product.item_name}</h1>
 
                      <div className="flex items-center gap-5 text-red-600 bg-gray-50 p-4">
-                           <div className="text-2xl font-medium flex items-center gap-1">
-                              <span className="font-bold">₱</span>
+                           <div className="text-3xl font-medium flex items-center gap-1">
+                              <span className="font-bold text-base mt-1">₱</span>
                               {!productHasDiscount(product.discount_price) ? (
                                  parseDecimalToLocalString(product.price)
                               ) : (
@@ -84,7 +86,7 @@ export default function ProductOverview() {
                            {productHasDiscount(product.discount_price) && (
                               <div className="flex items-center justify-center gap-2">
                                  <div className="line-through text-gray-500">₱ {parseDecimalToLocalString(product.price)}</div>
-                                 <span className="bg-red-50 px-2 py-px text-sm">-{product.discount_price["$numberDecimal"]}%</span>
+                                 <span className="bg-red-50 px-1 py-px text-sm font-medium ">-{product.discount_price["$numberDecimal"]}%</span>
                               </div>
                            )}
                      </div>
