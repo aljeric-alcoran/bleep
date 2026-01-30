@@ -12,6 +12,7 @@ import { ShoppingCart } from "lucide-react";
 import { CounterPill } from "@/components/ui/counter-pill";
 import { useState } from "react";
 import ProductDetails from "./ProductDetails";
+import SkeletonLoading from "./SkeletonLoading";
 
 export default function ProductOverview() {
    let product;
@@ -28,7 +29,7 @@ export default function ProductOverview() {
    return (
       <>
          {isLoading ? (
-            <div>Loading...</div>
+            <SkeletonLoading/>
          ) : (
             <>
                <div className="w-full shadow rounded-sm bg-white">
@@ -82,7 +83,7 @@ export default function ProductOverview() {
                         </div>
 
                         <div className="flex space-x-4 mt-8">
-                           <Button type="button" className="border-red-500 w-50 py-6 cursor-pointer" size="lg">Buy Now</Button>
+                           <Button type="button" className="border-red-500 w-50 py-6 cursor-pointer hover:bg-red-500/95" size="lg">Buy Now</Button>
                            <Button 
                               type="button" 
                               variant="outline" 
