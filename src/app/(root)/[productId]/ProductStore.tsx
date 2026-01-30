@@ -1,3 +1,5 @@
+"use client"
+
 import { Product } from "@/@types";
 import { Button } from "@/components/ui/button";
 import { MessageSquareMore, Store } from "lucide-react";
@@ -29,7 +31,7 @@ export default function ProductStore({
                      size="sm"
                   >
                      <MessageSquareMore/>
-                     Chat
+                     Chat Now
                   </Button>
                   <Button type="button" variant="secondary" className="border border-gray-900 text-xs w-28 cursor-pointer rounded-xs" size="sm">
                      <Store/>
