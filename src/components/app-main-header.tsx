@@ -1,5 +1,7 @@
 import AppHeader from "@/components/app-header";
-import AppSearch from "@/components/app-search";
+import CartButton from "./header/cart-button";
+import SearchMain from "./header/search-main";
+import BleepBrand from "./header/bleep-brand";
 
 export default function AppMainHeader() {
    return (
@@ -7,7 +9,14 @@ export default function AppMainHeader() {
          <nav className="bg-transparent border-gray-200 px-4 lg:px-6 mx-auto max-w-screen-xl">
             <div className="w-full flex flex-wrap justify-between items-center">
                <AppHeader />
-               <AppSearch />
+
+               <div className="w-full max-w-7xl flex flex-wrap justify-between items-center py-5">
+                  <div className="w-full flex items-center justify-between gap-10">
+                     <BleepBrand />
+                     <SearchMain />
+                     <CartButton />
+                  </div>
+               </div>
             </div>
          </nav>
       </header>
