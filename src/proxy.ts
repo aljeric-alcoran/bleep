@@ -58,6 +58,8 @@ export const config = {
       "/my-orders",
       "/my-orders/:path*",
       "/settings",
-      "/settings/:path*"
+      "/settings/:path*",
+      "/cart",
+      "/cart/:path*"
    ],
 };
