@@ -1,4 +1,4 @@
-export async function fetchCartItems() {
+export async function fetchCart() {
    const response = await fetch("/api/v1/cart", {
       method: 'GET',
    });
