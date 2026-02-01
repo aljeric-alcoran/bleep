@@ -32,16 +32,16 @@ export function CounterPill({
          <Button
             variant="ghost"
             size="icon"
-            onClick={increment}
-            disabled={value >= max}
+            onClick={decrement}
+            disabled={value <= min}
             className="rounded-none hover:bg-muted disabled:opacity-40"
          >
-            <Plus className="h-4 w-4" />
+            <Minus className="h-2 w-2" />
          </Button>
 
          <div className="h-6 w-px bg-border" />
 
-         <div className="flex items-center justify-center py-2 w-12 text-sm font-medium text-foreground select-none">
+         <div className="flex items-center justify-center py-2 w-12 text-foreground select-none">
             {value}
          </div>
 
@@ -50,11 +50,11 @@ export function CounterPill({
          <Button
             variant="ghost"
             size="icon"
-            onClick={decrement}
-            disabled={value <= min}
+            onClick={increment}
+            disabled={value >= max}
             className="rounded-none hover:bg-muted disabled:opacity-40"
          >
-            <Minus className="h-4 w-4" />
+            <Plus className="h-2 w-2" />
          </Button>
       </div>
    );
