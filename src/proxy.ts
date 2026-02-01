@@ -60,6 +60,8 @@ export const config = {
       "/settings",
       "/settings/:path*",
       "/cart",
-      "/cart/:path*"
+      "/cart/:path*",
+
+      "/api/v1/cart",
    ],
 };
