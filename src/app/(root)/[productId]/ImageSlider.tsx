@@ -50,12 +50,6 @@ export default function ProductImageSlider() {
                      height={240}
                      className="border w-24 h-24"
                   />
-                  {/* <Image
-                     src={item.img}
-                     alt={item.title}
-                     fill
-                     className="object-contain"
-                  /> */}
                </div>
             ))}
          </div>
