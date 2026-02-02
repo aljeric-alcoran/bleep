@@ -31,3 +31,31 @@ export async function PUT(
       );
    }
 }
+
+export async function DELETE(
+   req: Request,
+   { params }: { params: Promise<{ itemId: string }> }
+) {
+   try {
+      const { itemId } = await params;
+      const cookieHeader = req.headers.get("cookie") || "";
+
+      const response = await fetch(`${bleepAPIURL}/cart/item/${itemId}`, {
+         method: "DELETE",
+         headers: {
+            "Content-Type": "application/json",
+            cookie: cookieHeader,
+         },
+         cache: "no-store",
+      });
+   
+      const data = await response.json();
+      return NextResponse.json(data);
+   } catch (error) {
+      console.error("Error deleting cart item:", error);
+      return NextResponse.json(
+         { error: "Internal server error" },
+         { status: 500 }
+      );
+   }
+}
