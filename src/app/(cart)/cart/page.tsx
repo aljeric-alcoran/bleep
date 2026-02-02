@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCart } from "@/lib/api/cart";
 import { CartResponse } from "@/@types";
 import CartItem from "./CartItem";
+import CartEmpty from "./CartEmpty";
 
 export default function ShoppingCart() {
    const { isLoading, data, isError } = useQuery<CartResponse>({ 
@@ -12,19 +13,23 @@ export default function ShoppingCart() {
       queryFn: fetchCart,
       retry: 2,
    });
+   const hasItems = (data?.items?.length ?? 0) > 0;
 
    return (
       <>
-         <CartHeader/>
+         {isLoading && <div>Loading...</div>}
 
-         {isLoading ? (
-            <div>Loading...</div>
-         ) : (
-            <div className="mt-4 shadow w-full rounded-sm overflow-hidden">
-               {data?.items.map((item) => (
-                  <CartItem key={item.id} cartItem={item} />
-               ))}
-            </div>
+         {!isLoading && !hasItems && <CartEmpty/>}
+
+         {!isLoading && hasItems && (
+            <>
+               <CartHeader/>
+               <div className="mt-4 shadow w-full rounded-sm overflow-hidden">
+                  {data?.items.map((item) => (
+                     <CartItem key={item.id} cartItem={item} />
+                  ))}
+               </div>
+            </>
          )}
       </>
    );

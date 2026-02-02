@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 import { type CartItem } from "@/@types";
 import { Button } from "@/components/ui/button";
 import { CounterPill } from "@/components/ui/counter-pill";
@@ -47,11 +48,10 @@ export default function CartItem({
 
    const handleQuantityChange = (newValue: number) => {
       setQty(newValue);
-      setIsQtyUpdating(true);
-
       if (debounceRef.current) clearTimeout(debounceRef.current);
 
       debounceRef.current = setTimeout(() => {
+         setIsQtyUpdating(true);
          updateQuantity.mutate({
             productId: cartItem.id,
             quantity: newValue,
@@ -62,8 +62,15 @@ export default function CartItem({
    return (
       <div className="w-full bg-white p-5 px-8 text-sm border-b">
          <div className="grid grid-cols-2 items-center gap-4">
-            <div>
-               <p>{cartItem.product.item_name}</p>
+            <div className="flex items-center gap-4">
+               <Image 
+                  src="/default-product.jpg"
+                  alt="Wide Compatibility"
+                  width={240}
+                  height={240}
+                  className="border w-20 h-20"
+               />
+               <p className="font-medium">{cartItem.product.item_name}</p>
             </div>
             <div className="grid grid-cols-4 justify-items-center gap-4">
                <p className="place-self-center">₱{parseDecimalToLocalString(cartItem.price_at_time)}</p>
