@@ -30,3 +30,19 @@ export async function updateCartItemQuantity(item: { productId: string; quantity
 
    return response.json();
 }
+
+export async function deleteCartItem(productId: string) {
+   const response = await fetch(`/api/v1/cart/item/${productId}`, {
+      method: 'DELETE',
+   });
+
+   if (!response.ok) {
+      const error = await response.json();
+      throw {
+         status: response.status,
+         message: error.message || error.error || "Request failed"
+      };
+   }
+
+   return response.json();
+}
