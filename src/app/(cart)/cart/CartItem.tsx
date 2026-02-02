@@ -3,7 +3,7 @@
 import { type CartItem } from "@/@types";
 import { Button } from "@/components/ui/button";
 import { CounterPill } from "@/components/ui/counter-pill";
-import { updateCartItemQuantity } from "@/lib/api/cart";
+import { deleteCartItem, updateCartItemQuantity } from "@/lib/api/cart";
 import { parseDecimalToLocalString } from "@/lib/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
@@ -35,6 +35,13 @@ export default function CartItem({
       onSettled: () => {
          queryClient.invalidateQueries({ queryKey: ["cart"] });
          setIsQtyUpdating(false);
+      },
+   });
+
+   const removeCartItem = useMutation({
+      mutationFn: (id: string) => deleteCartItem(id),
+      onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ["cart"] });
       },
    });
 
@@ -71,7 +78,7 @@ export default function CartItem({
                </div>
                <p className="place-self-center text-primary font-medium">₱{parseDecimalToLocalString(cartItem.subtotal)}</p>
                <div>
-                  <Button size="sm">
+                  <Button onClick={() => removeCartItem.mutate(cartItem.id)} size="sm">
                      <Trash2/>
                   </Button>
                </div>
