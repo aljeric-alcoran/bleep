@@ -23,18 +23,19 @@ export default function CartItem({
    const updateQuantity = useMutation({
       mutationFn: updateCartItemQuantity,
       onMutate: async (payload) => {
+         setIsQtyUpdating(true);
          await queryClient.cancelQueries({ queryKey: ["cart"] });
          const previousCart = queryClient.getQueryData(["cart"]);
          queryClient.setQueryData(["cart"], (old: any) => old);
      
          return { previousCart };
       },
-      onError: (_err, _vars, context) => {
-         queryClient.setQueryData(["cart"], context?.previousCart);
+      onError: async(_err, _vars, context) => {
+         await queryClient.setQueryData(["cart"], context?.previousCart);
          setIsQtyUpdating(false);
       },
-      onSettled: () => {
-         queryClient.invalidateQueries({ queryKey: ["cart"] });
+      onSettled: async() => {
+         await queryClient.invalidateQueries({ queryKey: ["cart"] });
          setIsQtyUpdating(false);
       },
    });
@@ -51,7 +52,6 @@ export default function CartItem({
       if (debounceRef.current) clearTimeout(debounceRef.current);
 
       debounceRef.current = setTimeout(() => {
-         setIsQtyUpdating(true);
          updateQuantity.mutate({
             productId: cartItem.id,
             quantity: newValue,
@@ -66,8 +66,9 @@ export default function CartItem({
                <Image 
                   src="/default-product.jpg"
                   alt="Wide Compatibility"
-                  width={240}
-                  height={240}
+                  width={100}
+                  height={100}
+                  loading="eager"
                   className="border w-20 h-20"
                />
                <p className="font-medium">{cartItem.product.item_name}</p>
