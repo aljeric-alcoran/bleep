@@ -10,6 +10,7 @@ interface CounterPillProps {
    min?: number;
    max?: number;
    className?: string;
+   isUpdating?: boolean;
 }
 
 export function CounterPill({
@@ -18,6 +19,7 @@ export function CounterPill({
    min = 1,
    max = Infinity,
    className,
+   isUpdating = false
 }: CounterPillProps) {
    const increment = () => value < max && onChange(value + 1);
    const decrement = () => value > min && onChange(value - 1);
@@ -33,7 +35,7 @@ export function CounterPill({
             variant="ghost"
             size="icon"
             onClick={decrement}
-            disabled={value <= min}
+            disabled={isUpdating || value <= min}
             className="rounded-none hover:bg-muted disabled:opacity-40"
          >
             <Minus className="h-2 w-2" />
@@ -51,7 +53,7 @@ export function CounterPill({
             variant="ghost"
             size="icon"
             onClick={increment}
-            disabled={value >= max}
+            disabled={isUpdating || value >= max}
             className="rounded-none hover:bg-muted disabled:opacity-40"
          >
             <Plus className="h-2 w-2" />
