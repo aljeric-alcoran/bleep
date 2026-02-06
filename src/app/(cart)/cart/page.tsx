@@ -6,6 +6,7 @@ import { fetchCart } from "@/lib/api/cart";
 import { CartResponse } from "@/@types";
 import CartItem from "./CartItem";
 import CartEmpty from "./CartEmpty";
+import CartSummary from "./CartSummary";
 
 export default function ShoppingCart() {
    const { isLoading, data, isError } = useQuery<CartResponse>({ 
@@ -24,11 +25,14 @@ export default function ShoppingCart() {
          {!isLoading && hasItems && (
             <>
                <CartHeader/>
+
                <div className="mt-4 shadow w-full rounded-sm overflow-hidden">
                   {data?.items.map((item) => (
                      <CartItem key={item.id} cartItem={item} />
                   ))}
                </div>
+               
+               <CartSummary/>
             </>
          )}
       </>
