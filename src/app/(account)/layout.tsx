@@ -16,22 +16,22 @@ export default function DashboardLayout({
 }) {
    return (
       <>
-         <AppMainHeader/>
-         <SidebarProvider className="min-h-auto">
-            <div className="w-full bg-white">
-               <div className="max-w-7xl mx-auto">
-                  <div className="flex mx-6">
-                     <AppSidebar/>
-                     <div className="w-full py-7 px-6 border-l bg-white">
-                        <QueryClientProviders>
+      <QueryClientProviders>
+            <AppMainHeader/>
+            <SidebarProvider className="min-h-auto">
+               <div className="w-full bg-white">
+                  <div className="max-w-7xl mx-auto">
+                     <div className="flex mx-6">
+                        <AppSidebar/>
+                        <div className="w-full py-7 px-6 border-l bg-white">
                            {children}
-                        </QueryClientProviders>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
-         </SidebarProvider>
-         <AppFooter/>
+            </SidebarProvider>
+            <AppFooter/>
+         </QueryClientProviders>
       </>
    );
 }
