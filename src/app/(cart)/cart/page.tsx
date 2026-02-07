@@ -32,7 +32,7 @@ export default function ShoppingCart() {
                   ))}
                </div>
                
-               <CartSummary/>
+               <CartSummary cart={data?.cart}/>
             </>
          )}
       </>
