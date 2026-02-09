@@ -61,6 +61,17 @@ export default function CartItem({
       }, 500)
    };
 
+   function handleSelectItem(itemId: string, selected: boolean)  {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+
+      debounceRef.current = setTimeout(() => {
+         updateQuantity.mutate({
+            productId: itemId,
+            selected,
+         });
+      }, 500)
+   }
+
    return (
       <div className="w-full bg-white p-5 px-8 text-sm border-b">
          <div className="grid grid-cols-2 items-center gap-4">
@@ -68,7 +79,12 @@ export default function CartItem({
                <div className="mr-3">
                   <FieldGroup>
                      <Field orientation="horizontal">
-                        <Checkbox checked={cartItem.selected} />
+                        <Checkbox 
+                           checked={cartItem.selected} 
+                           onCheckedChange={(checked: boolean) =>
+                              handleSelectItem(cartItem.id, checked)
+                           }
+                        />
                      </Field>
                   </FieldGroup>
                </div>
