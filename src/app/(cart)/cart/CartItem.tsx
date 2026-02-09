@@ -7,8 +7,10 @@ import { CounterPill } from "@/components/ui/counter-pill";
 import { deleteCartItem, updateCartItemQuantity } from "@/lib/api/cart";
 import { parseDecimalToLocalString } from "@/lib/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { X } from "lucide-react";
 import { useRef, useState } from "react";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function CartItem({
    cartItem
@@ -63,6 +65,13 @@ export default function CartItem({
       <div className="w-full bg-white p-5 px-8 text-sm border-b">
          <div className="grid grid-cols-2 items-center gap-4">
             <div className="flex items-center gap-4">
+               <div className="mr-3">
+                  <FieldGroup>
+                     <Field orientation="horizontal">
+                        <Checkbox checked={cartItem.selected} />
+                     </Field>
+                  </FieldGroup>
+               </div>
                <Image 
                   src="/default-product.jpg"
                   alt="Wide Compatibility"
@@ -71,10 +80,24 @@ export default function CartItem({
                   loading="eager"
                   className="border w-20 h-20"
                />
-               <p className="font-medium">{cartItem.product.item_name}</p>
+               <p className="flex gap-2 items-center font-medium">
+                  {cartItem.product.item_name}
+                  {cartItem.has_discount && (
+                        <span className="bg-red-50 text-primary px-1 py-px text-xs">-{cartItem.discount_label}</span>
+                     )}
+               </p>
             </div>
             <div className="grid grid-cols-4 justify-items-center gap-4">
-               <p className="place-self-center">₱{parseDecimalToLocalString(cartItem.price_at_time)}</p>
+               <div className="flex flex-col items-end place-self-center">
+                  <div className="font-medium flex items-center">
+                     <span className="font-bold">₱</span>
+                     { 
+                        cartItem.has_discount ? 
+                        parseDecimalToLocalString(cartItem.discounted_price) : 
+                        parseDecimalToLocalString(cartItem.price_at_time)
+                     }
+                  </div>
+               </div>
                <div className="place-self-center">
                   <CounterPill
                      value={qty}
@@ -84,12 +107,13 @@ export default function CartItem({
                      onChange={handleQuantityChange}
                   />
                </div>
-               <p className="place-self-center text-primary font-medium">₱{parseDecimalToLocalString(cartItem.subtotal)}</p>
-               <div>
-                  <Button onClick={() => removeCartItem.mutate(cartItem.id)} size="sm">
-                     <Trash2/>
-                  </Button>
-               </div>
+               <p className="place-self-center text-primary font-medium flex items-center">
+                  <span className="font-bold">₱</span>
+                  {parseDecimalToLocalString(cartItem.subtotal)}
+               </p>
+               <Button className="place-self-center" onClick={() => removeCartItem.mutate(cartItem.id)} size="sm" variant="ghost">
+                  <X/>
+               </Button>
             </div>
          </div>
       </div>

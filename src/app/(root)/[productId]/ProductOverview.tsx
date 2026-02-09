@@ -1,11 +1,7 @@
 import Image from "next/image";
 import ProductImageSlider from "./ImageSlider";
 import { type Product } from "@/@types";
-import { 
-   parseDecimalToLocalString, 
-   priceDiscountCaculator, 
-   productHasDiscount 
-} from "@/lib/helpers";
+import { parseDecimalToLocalString } from "@/lib/helpers";
 import { CounterPill } from "@/components/ui/counter-pill";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -52,20 +48,16 @@ export default function ProductOverview({
                <h1 className="text-xl font-medium mb-4">{product.item_name}</h1>
 
                <div className="flex items-center gap-5 text-red-600 bg-gray-50 p-4">
-                     <div className="text-3xl font-medium flex items-center gap-1">
-                        <span className="font-bold text-base mt-1">₱</span>
-                        {!productHasDiscount(product.discount_price) ? (
-                           parseDecimalToLocalString(product.price)
-                        ) : (
-                           priceDiscountCaculator(product.price, product.discount_price)
-                        )}
+                  <div className="text-3xl font-medium flex items-center gap-1">
+                     <span className="font-bold text-base mt-1">₱</span>
+                     {product.hasDiscount ? parseDecimalToLocalString(product.discounted_price) : parseDecimalToLocalString(product.price)}
+                  </div>
+                  {product.hasDiscount && (
+                     <div className="flex items-center justify-center gap-2">
+                        <div className="line-through text-gray-500">₱ {parseDecimalToLocalString(product.price)}</div>
+                        <span className="bg-red-50 px-1 py-px text-sm font-medium ">-{product.discount_label}</span>
                      </div>
-                     {productHasDiscount(product.discount_price) && (
-                        <div className="flex items-center justify-center gap-2">
-                           <div className="line-through text-gray-500">₱ {parseDecimalToLocalString(product.price)}</div>
-                           <span className="bg-red-50 px-1 py-px text-sm font-medium ">-{product.discount_price["$numberDecimal"]}%</span>
-                        </div>
-                     )}
+                  )}
                </div>
 
                <div className="flex gap-10 items-center text-sm text-gray-500 mt-8">

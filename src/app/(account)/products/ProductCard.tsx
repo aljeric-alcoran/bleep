@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Item, ItemContent, ItemTitle } from "@/components/ui/item";
 import { Product } from '@/@types';
-import { parseDecimalToLocalString, priceDiscountCaculator, productHasDiscount } from '@/lib/helpers';
+import { parseDecimalToLocalString } from '@/lib/helpers';
 import Link from 'next/link';
 
 export default function ProductCard({ 
@@ -24,16 +24,16 @@ export default function ProductCard({
                            priority
                            fill
                         />
-                        {productHasDiscount(product.discount_price) && (
-                           <span className="absolute text-xs top-0 right-0 bg-red-50 text-red-500 p-1 px-2">-{product.discount_price["$numberDecimal"]}%</span>
+                        {product.hasDiscount && (
+                           <span className="absolute text-xs top-0 right-0 bg-red-50 text-red-500 p-1 px-2">-{product.discount_label}</span>
                         )}
                      </div>
                      <div className='p-3'>
                         <ItemTitle className="text-sm mb-2 line-clamp-2 font-normal">{product.item_name}</ItemTitle>
 
                         <div className="h-[38px]">
-                           <div className='font-semibold'><small>₱</small> {priceDiscountCaculator(product.price, product.discount_price)}</div>
-                           {productHasDiscount(product.discount_price) && (
+                           <div className='font-semibold'><small>₱</small> {parseDecimalToLocalString(product.discounted_price)}</div>
+                           {product.hasDiscount && (
                               <div className='text-xs line-through text-gray-500'>₱ {parseDecimalToLocalString(product.price)}</div>
                            )}
                         </div>
