@@ -31,7 +31,12 @@ export async function addItemToCart(item: { productId: string; quantity:  number
    return response.json();
 }
 
-export async function updateCartItemQuantity(item: { productId: string; quantity: number }) {
+type UpdateCartItemPayload = {
+   productId: string;
+   quantity?: number;
+   selected?: boolean;
+};
+export async function updateCartItemQuantity(item: UpdateCartItemPayload) {
    const response = await fetch(`/api/v1/cart/item/${item.productId}`, {
       method: 'PUT', 
       body: JSON.stringify(item),
