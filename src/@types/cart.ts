@@ -13,16 +13,20 @@ export interface Cart {
 export interface CartItem {
    id: string;
    product: CartItemProduct;
-   quantity: number,
-   price_at_time: number,
-   subtotal: number,
-   created_at: string
+   quantity: number;
+   price_at_time: number;
+   has_discount: boolean;
+   discounted_price: number;
+   discount_total: number;
+   subtotal: number;
+   selected: boolean;
+   discount_label: string;
+   created_at: string;
 }
 
 export interface CartItemProduct {
    _id: string;
    item_name: string;
-   price: number;
    stock: number;
-   images: string[]
+   images: string[];
 }
