@@ -1,6 +1,10 @@
 export interface CartResponse {
-   cart: Cart,
-   items: CartItem[]
+   cart: Cart;
+   items: CartItem[];
+   total_price: number;
+   total_discount: number;
+   grand_total: number;
+   total_selected_items: number;
 }
 
 export interface Cart {
