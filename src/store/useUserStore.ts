@@ -34,8 +34,8 @@ export const useUserStore = create<UserStore>()(
             });
          },
          setShowEditProfile: () => set((state) => ({ showEditProfile: !state.showEditProfile })),
-         clearUser: () => set({ user: null, accessToken: null }),
-         setJustLoggedIn: (value) => set({ justLoggedIn: value }),
+         clearUser: () => set({ user: null, accessToken: null, loading: false }),
+         setJustLoggedIn: (value) => set({ justLoggedIn: value, loading: true }),
          updateUserFromStore: (userObject: Partial<User>, callback?: () => void) =>
             set((state) => {
                const updatedUser = state.user

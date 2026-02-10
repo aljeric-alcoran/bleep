@@ -20,20 +20,23 @@ import { useQuery } from "@tanstack/react-query";
 import { redirectUser } from "@/lib/api/auth";
 import { Skeleton } from "./ui/skeleton";
 
-
 export default function AppHeader() {
+   const user = useUserStore((state) => state.user);
+   const authLoading = useUserStore((state) => state.loading);
+   const justLoggedIn = useUserStore((state) => state.justLoggedIn);
+   const setJustLoggedIn = useUserStore((state) => state.setJustLoggedIn);
+   const setUser = useUserStore((state) => state.setUser);
+
    const { step } = useSignup();
    const [open, setOpen] = useState(false);
    const [openSignup, setOpenSignup] = useState(false);
-   const { user, justLoggedIn, setJustLoggedIn, setUser } = useUserStore();
-   const useHasPersistedUser = () => useUserStore((state) => !!state.accessToken);
    const toastShown = useRef(false);
 
-   const { data, isLoading, isError } = useQuery({
+   const { data } = useQuery({
       queryKey: ["user-auth"],
       queryFn: redirectUser,
-      enabled: !useHasPersistedUser(),
-      refetchOnWindowFocus: false,
+      enabled: !user,
+      refetchOnWindowFocus: false
    });
 
    useEffect(() => {
@@ -69,20 +72,20 @@ export default function AppHeader() {
             </div>
          </div>
 
-         {isLoading && (
+         {/* {isLoading && (
             <div className="flex gap-1">
                <Skeleton className="h-4 w-35 bg-red-400/75" />
                <Skeleton className="h-4 w-4 bg-red-400/75" />
             </div>
-         )}
+         )} */}
 
-         {!isLoading && user && (
+         {user && (
             <div className="flex items-center gap-2 text-sm">
                <UserProfileDropdown user={user} />
             </div>
          )}
          
-         {!isLoading && !user && isError && (
+         {!user && (
             <div className="flex items-center gap-2 text-sm">
                <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger className="cursor-pointer hover:underline uppercase text-xs">Login</DialogTrigger>
