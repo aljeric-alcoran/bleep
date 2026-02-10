@@ -16,25 +16,43 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
 import UserProfileDropdown from "./header/user-profile-dropdown";
+import { useQuery } from "@tanstack/react-query";
+import { redirectUser } from "@/lib/api/auth";
+import { Skeleton } from "./ui/skeleton";
+
 
 export default function AppHeader() {
    const { step } = useSignup();
    const [open, setOpen] = useState(false);
    const [openSignup, setOpenSignup] = useState(false);
-   const { user, justLoggedIn, setJustLoggedIn } = useUserStore();
+   const { user, justLoggedIn, setJustLoggedIn, setUser } = useUserStore();
+   const useHasPersistedUser = () => useUserStore((state) => !!state.accessToken);
    const toastShown = useRef(false);
 
+   const { data, isLoading, isError } = useQuery({
+      queryKey: ["user-auth"],
+      queryFn: redirectUser,
+      enabled: !useHasPersistedUser(),
+      refetchOnWindowFocus: false,
+   });
+
    useEffect(() => {
-      if (justLoggedIn && user && !toastShown.current) {
-         console.log("Called: justLoggedIn", justLoggedIn);
-         toast.success("Login successful.", {
-            description: `Welcome, ${
-               user ? `${user.firstname} ${user.lastname}` : "User"
-            }!`,
-         });
-         toastShown.current = true;
-         setJustLoggedIn(false);
+      if (!data) return;
+    
+      if (!useUserStore.getState().user) {
+        setUser(data.user, data.accessToken);
       }
+   }, [data, setUser]);
+
+   useEffect(() => {
+      if (!justLoggedIn || !user || toastShown.current) return;
+    
+      toast.success("Login successful.", {
+         description: `Welcome, ${user.firstname} ${user.lastname}!`,
+      });
+    
+      toastShown.current = true;
+      setJustLoggedIn(false);
    }, [justLoggedIn, user, setJustLoggedIn]);
 
    return (
@@ -50,7 +68,21 @@ export default function AppHeader() {
                <Instagram className="w-5 h-5"/>
             </div>
          </div>
-         {!user ? (
+
+         {isLoading && (
+            <div className="flex gap-1">
+               <Skeleton className="h-4 w-35 bg-red-400/75" />
+               <Skeleton className="h-4 w-4 bg-red-400/75" />
+            </div>
+         )}
+
+         {!isLoading && user && (
+            <div className="flex items-center gap-2 text-sm">
+               <UserProfileDropdown user={user} />
+            </div>
+         )}
+         
+         {!isLoading && !user && isError && (
             <div className="flex items-center gap-2 text-sm">
                <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger className="cursor-pointer hover:underline uppercase text-xs">Login</DialogTrigger>
@@ -81,10 +113,6 @@ export default function AppHeader() {
                      </DialogHeader>
                   </DialogContent>
                </Dialog>
-            </div>
-         ) : (
-            <div className="flex items-center gap-2 text-sm">
-               <UserProfileDropdown user={user} />
             </div>
          )}
       </div>
