@@ -102,3 +102,12 @@ export const parseDecimalToString = (value: any): string => {
    if (value.toString) return parseFloat(value.toString()).toString();
    return "0";
 }
+
+export const parseCookies = (cookieHeader: string) => {
+   return Object.fromEntries(
+      cookieHeader.split(";").map(c => {
+         const [key, ...v] = c.trim().split("=");
+         return [key, decodeURIComponent(v.join("="))];
+      })
+   );
+}
