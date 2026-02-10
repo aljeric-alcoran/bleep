@@ -53,6 +53,27 @@ export async function updateCartItemQuantity(item: UpdateCartItemPayload) {
    return response.json();
 }
 
+type BulkItemPayload = {
+   itemIds: string[];
+   selected: boolean;
+};
+export async function updateBulkCartItemSelected(payload: BulkItemPayload) {
+   const response = await fetch("/api/v1/cart/items/selected", {
+      method: 'PATCH', 
+      body: JSON.stringify(payload),
+   });
+
+   if (!response.ok) {
+      const error = await response.json();
+      throw {
+         status: response.status,
+         message: error.message || error.error || "Request failed"
+      };
+   }
+
+   return response.json();
+}
+
 export async function deleteCartItem(productId: string) {
    const response = await fetch(`/api/v1/cart/item/${productId}`, {
       method: 'DELETE',
