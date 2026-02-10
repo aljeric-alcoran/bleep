@@ -5,6 +5,7 @@ export interface CartResponse {
    total_discount: number;
    grand_total: number;
    total_selected_items: number;
+   all_items_selected: boolean;
 }
 
 export interface Cart {
