@@ -8,19 +8,22 @@ import { deleteCartItem, updateCartItemQuantity } from "@/lib/api/cart";
 import { parseDecimalToLocalString } from "@/lib/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
-import { useRef, useState } from "react";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { useEffect, useRef, useState } from "react";
+import { Field, FieldGroup } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function CartItem({
-   cartItem
+   cartItem,
+   allSelected
 } : {
    cartItem: CartItem;
+   allSelected: boolean;
 }) {
    const queryClient = useQueryClient();
    const debounceRef = useRef<NodeJS.Timeout | null>(null);
    const [qty, setQty] = useState<number>(cartItem.quantity);
    const [isQtyUpdating, setIsQtyUpdating] = useState<boolean>(false);
+   const [selected, setSelected] = useState<boolean>(cartItem.selected);
 
    const updateQuantity = useMutation({
       mutationFn: updateCartItemQuantity,
@@ -61,16 +64,17 @@ export default function CartItem({
       }, 500)
    };
 
-   function handleSelectItem(itemId: string, selected: boolean)  {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-
-      debounceRef.current = setTimeout(() => {
-         updateQuantity.mutate({
-            productId: itemId,
-            selected,
-         });
-      }, 500)
+   const handleSelectItem  = (itemId: string, selected: boolean) => {
+      setSelected(selected);
+      updateQuantity.mutate({
+         productId: itemId,
+         selected,
+      });
    }
+
+   useEffect(() => {
+      setSelected(cartItem.selected);
+   }, [cartItem])
 
    return (
       <div className="w-full bg-white p-5 px-8 text-sm border-b">
@@ -80,7 +84,7 @@ export default function CartItem({
                   <FieldGroup>
                      <Field orientation="horizontal">
                         <Checkbox 
-                           checked={cartItem.selected} 
+                           checked={selected} 
                            onCheckedChange={(checked: boolean) =>
                               handleSelectItem(cartItem.id, checked)
                            }
