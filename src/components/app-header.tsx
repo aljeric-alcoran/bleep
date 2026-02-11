@@ -22,7 +22,6 @@ import { Skeleton } from "./ui/skeleton";
 
 export default function AppHeader() {
    const user = useUserStore((state) => state.user);
-   const authLoading = useUserStore((state) => state.loading);
    const justLoggedIn = useUserStore((state) => state.justLoggedIn);
    const setJustLoggedIn = useUserStore((state) => state.setJustLoggedIn);
    const setUser = useUserStore((state) => state.setUser);
@@ -35,8 +34,8 @@ export default function AppHeader() {
    const { data } = useQuery({
       queryKey: ["user-auth"],
       queryFn: redirectUser,
-      enabled: !user,
-      refetchOnWindowFocus: false
+      retry: false,
+      staleTime: 5 * 60 * 1000,
    });
 
    useEffect(() => {

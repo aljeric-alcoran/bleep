@@ -11,7 +11,7 @@ interface UserStore {
    loading: boolean;
    accessToken: string | null;
    justLoggedIn: boolean;
-   setUser: (user: User, accessToken: string) => void;
+   setUser: (user: User | null, accessToken: string) => void;
    setShowEditProfile: () => void;
    clearUser: () => void;
    setJustLoggedIn: (value: boolean) => void;
