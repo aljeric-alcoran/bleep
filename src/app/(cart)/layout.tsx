@@ -15,8 +15,8 @@ export default function RootLayout({
 }>) {
    return (
       <>
-         <AppShoppingCartHeader/>
          <QueryClientProviders>
+            <AppShoppingCartHeader/>
             <div className="w-full mx-auto bg-gray-50 py-8">
                <div className="max-w-screen-xl mx-auto px-4 lg:px-6">
                   {children}

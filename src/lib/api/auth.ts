@@ -1,5 +1,6 @@
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
+import { validateAccessToken } from "../helpers";
 
 export async function loginUser({ 
    email, 
@@ -36,8 +37,11 @@ export async function redirectUser() {
    const response = await fetch("/api/v1/auth/me", {
       method: 'GET',
    });
-   if (!response.ok) throw new Error("Error: Failed to redirect user!");
-   return response.json();
+   if (!response.ok) throw new Error("Unauthorized");
+
+   const data = await response.json();
+
+   return { ...data };
 }
 
 export async function requestAccessToken(baseURL: string = '', refreshToken: string) {

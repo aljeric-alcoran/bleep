@@ -1,3 +1,6 @@
+"use client"
+
+import Link from "next/link";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -6,19 +9,24 @@ import {
    DropdownMenuLabel,
    DropdownMenuSeparator,
    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucide-react"
-import { Avatar, AvatarFallback } from "../ui/avatar"
-import { logoutUser } from "@/lib/api/auth"
-import { getNameInitials } from "@/lib/helpers"
-import Link from "next/link";
-import { User } from "@/@types"
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucide-react";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { getNameInitials } from "@/lib/helpers";
+import { User } from "@/@types";
+import { useLogout } from "@/hooks/use-logout";
 
 export default function UserProfileDropdown({ 
    user
 } : { 
    user: User 
 }) {
+   const logoutMutation = useLogout();
+
+   const handleLogout = async() => {
+      await logoutMutation.mutateAsync();
+   }
+
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
@@ -64,7 +72,7 @@ export default function UserProfileDropdown({
                </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logoutUser()}>
+            <DropdownMenuItem onClick={handleLogout}>
                <LogOut />
                Log out
             </DropdownMenuItem>

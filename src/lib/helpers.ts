@@ -103,18 +103,11 @@ export const parseDecimalToString = (value: any): string => {
    return "0";
 }
 
-interface NumberDecimal {
-   $numberDecimal: string
-}
-
-export const priceDiscountCaculator = (price: NumberDecimal, discount: NumberDecimal) => {
-   let originalPrice = Number(price['$numberDecimal']);
-   let priceDiscount = parseFloat((Number(discount['$numberDecimal']) / 100).toFixed(2));
-   let totalPrice = originalPrice - (originalPrice * priceDiscount);
-   
-   return parseDecimalToLocalString(totalPrice);
-}
-
-export const productHasDiscount = (discount: NumberDecimal): boolean => {
-   return Number(discount['$numberDecimal']) > 0;
+export const parseCookies = (cookieHeader: string) => {
+   return Object.fromEntries(
+      cookieHeader.split(";").map(c => {
+         const [key, ...v] = c.trim().split("=");
+         return [key, decodeURIComponent(v.join("="))];
+      })
+   );
 }

@@ -1,11 +1,5 @@
 import AppHeader from "@/components/app-header";
-import Link from "next/link";
-import Image from "next/image";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Search } from "lucide-react";
 import SearchMain from "./header/search-main";
-import CartButton from "./header/cart-button";
 import BleepBrand from "./header/bleep-brand";
 
 export default function AppShoppingCartHeader() {

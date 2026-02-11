@@ -20,7 +20,6 @@ import {
 import { loginUser } from "@/lib/api/auth";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { CircleX, Loader } from "lucide-react";
-import { validateAccessToken } from "@/lib/helpers";
 import { useUserStore } from "@/store/useUserStore";
 
 const formSchema = z.object({
@@ -48,8 +47,7 @@ export default function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       if (data.error) setError(data.error);
       else {
          setLoading(false);
-         const { user } = await validateAccessToken(data.accessToken);
-         useUserStore.getState().setUser(user, data.accessToken);
+         useUserStore.getState().setUser(data.user, data.accessToken);
          onSuccess();
       }
    }
