@@ -41,12 +41,7 @@ export async function redirectUser() {
 
    const data = await response.json();
 
-   const { user } = await validateAccessToken(data.accessToken);
-
-   return {
-      ...data,
-      user,
-   };
+   return { ...data };
 }
 
 export async function requestAccessToken(baseURL: string = '', refreshToken: string) {
