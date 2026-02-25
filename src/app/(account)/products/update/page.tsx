@@ -1,6 +1,6 @@
 "use client"
 
-import ProductForm from "@/components/forms/ProductFormCopy";
+import ProductForm from "@/components/forms/ProductForm";
 import { fetchProduct } from "@/lib/api/products";
 import { useQuery } from "@tanstack/react-query";
 import { Package } from "lucide-react";

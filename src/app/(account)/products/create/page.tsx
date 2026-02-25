@@ -1,4 +1,4 @@
-import ProductForm from "@/components/forms/ProductFormCopy";
+import ProductForm from "@/components/forms/ProductForm";
 import { Package } from "lucide-react";
 
 export default function CreateProduct() {
