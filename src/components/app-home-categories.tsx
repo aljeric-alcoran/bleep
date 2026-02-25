@@ -22,8 +22,8 @@ export default function AppHomeCategories() {
                            <Image
                               src={category.image}
                               alt={category.name}
-                              fill
-                              className="object-cover"
+                              width={600}
+                              height={600}
                            />
                         )}
                      </div>
