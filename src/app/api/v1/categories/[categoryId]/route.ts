@@ -39,10 +39,10 @@ export async function PUT(
 
 export async function DELETE(
    req: Request,
-   { params }: { params: { categoryId: string } }
+   {params}:  {params: Promise<{ categoryId: string }>}
 ) {
    try {
-      const { categoryId } = params;
+      const { categoryId } = await params;
       const cookieHeader = req.headers.get("cookie") || "";
       const response = await fetch(`${bleepAPIURL}/categories/${categoryId}`, {
          method: "DELETE",
