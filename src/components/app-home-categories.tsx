@@ -3,10 +3,10 @@
 import { fetchActiveCategories } from "@/lib/api/categories";
 import { Category } from "@/@types";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 export default function AppHomeCategories() {
    const { isLoading, data } = useQuery({ queryKey: ["categories"], queryFn: fetchActiveCategories});
-   const hasCategories = data?.length > 0;
 
    return (
       <>
@@ -16,10 +16,17 @@ export default function AppHomeCategories() {
             </div>
             <div className="flex items-center no-scrollbar overflow-x-scroll">
                {data?.map((category: Category) => (
-                  <div key={category._id} className="w-35 flex flex-col items-center gap-8 border-r border-gray-200 py-10 hover:shadow-xs cursor-pointer">
-                     <span className="p-2 rounded-full bg-gray-100 w-14 h-14">
-                        { /* Image here */}
-                     </span>
+                  <div key={category._id} className="w-35 flex flex-col items-center gap-2 border-r border-gray-200 py-5 hover:shadow-xs cursor-pointer">
+                     <div className="relative w-20 h-20">
+                        {category.image && (
+                           <Image
+                              src={category.image}
+                              alt={category.name}
+                              fill
+                              className="object-cover"
+                           />
+                        )}
+                     </div>
                      <span className="text-xs text-center">{category.name}</span>
                   </div>
                ))}
