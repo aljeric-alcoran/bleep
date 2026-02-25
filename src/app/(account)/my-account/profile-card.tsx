@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { formatDateWithOrdinal } from "@/lib/helpers";
 
 export default function ProfileCard() {
-   const { user } = useUserStore();
+   const user = useUserStore(state => state.user);
    const setShowEditProfile = useUserStore(state => state.setShowEditProfile);
    const loading = useUserStore(state => state.loading);
    return (
