@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Establishment, Product } from "@/@types";
-import { numberInputOnly, isObjectSharedKeyMatched, parseDecimalToString } from "@/lib/helpers";
+import { Category, Establishment, Product } from "@/@types";
+import { numberInputOnly, parseDecimalToString } from "@/lib/helpers";
 import { ProductFormSchema, useProductForm } from "@/schema/product.schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { fetchEstablishments } from "@/lib/api/establishment";
@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function ProductForm({ 
-   product, 
+   product,
 }: { 
    product?: Product;
 }) {
@@ -72,7 +72,7 @@ export default function ProductForm({
             description: product.description ?? "",
             price: parseDecimalToString(product.price) ?? "",
             stock: parseDecimalToString(product.stock) ?? "",
-            discount_price: parseDecimalToString(product.discount_price) ?? "",
+            discount_price: parseDecimalToString(product.discounted_price) ?? "",
             isAvailable: product.isAvailable ?? true,
             metadata: {
                keywords: product.metadata?.keywords?.join(" ") ?? "",
@@ -137,8 +137,8 @@ export default function ProductForm({
                                     </SelectTrigger>
                                     <SelectContent>
                                        {categories?.data
-                                       .filter(category => category.isActive)
-                                       .map(category => (
+                                       .filter((category: Category) => category.isActive)
+                                       .map((category: Category) => (
                                           <SelectItem
                                              key={category._id ?? category.name}
                                              value={String(category._id ?? "")}
