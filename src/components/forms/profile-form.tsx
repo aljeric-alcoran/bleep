@@ -10,9 +10,8 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useUserFormSchema, UserFormSchema } from "@/schema/user.schema";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import { toISOStringDateFormat } from "@/lib/helpers";
 import { updateUserDetails } from "@/lib/api/users";
 import { toast } from "sonner";
 
@@ -24,9 +23,10 @@ export default function UserProfileForm() {
    async function onSubmit(values: UserFormSchema): Promise<void> {
       const { birthday, ...data } = values;
       const payload = {
+         _id: user?._id!,
          ...data,
          phoneNumber: user?.phoneNumber,
-         email: user?.email,
+         email: user?.email!,
          birthday: values.birthday ? values.birthday : undefined
       }
       const response = await updateUserDetails(payload, user?._id);
