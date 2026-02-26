@@ -1,5 +1,4 @@
 import { jwtVerify, decodeJwt } from "jose";
-import { useUserStore } from "@/store/useUserStore";
 
 export const validateResetToken = async(token: string): Promise<boolean> => {
    try {
@@ -23,16 +22,35 @@ export const validateAccessToken = async(token: string): Promise<{ user: any, st
    }
 };
 
-export function scheduleRefresh(accessToken: string, callback?: () => void) {
+let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+
+export function scheduleRefresh(accessToken: string, onRefresh: () => void) {
+   //* Always clear any existing timer before scheduling a new one
+   if (refreshTimer) {
+      clearTimeout(refreshTimer);
+      refreshTimer = null;
+   }
+
    const { exp } = decodeJwt(accessToken);
    if (!exp) return;
-   const msUntilExpiry = exp * 1000 - Date.now() - 60_000; // refresh 1 min early
-   if (msUntilExpiry > 0) {
-      setTimeout(() => {
-        useUserStore.getState().refresh();
-      }, msUntilExpiry);
+
+   const refreshInMs = exp * 1000 - Date.now() - 60_000;
+
+   if (refreshInMs <= 0) {
+      onRefresh();
+      return;
    }
-   callback?.();
+
+   refreshTimer = setTimeout(() => {
+      onRefresh();
+   }, refreshInMs);
+}
+
+export function clearScheduledRefresh() {
+   if (refreshTimer) {
+      clearTimeout(refreshTimer);
+      refreshTimer = null;
+   }
 }
 
 export function getNameInitials(firstname?: string, lastname?: string): string {
