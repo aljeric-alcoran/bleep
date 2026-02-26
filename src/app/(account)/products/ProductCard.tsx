@@ -28,18 +28,16 @@ export default function ProductCard({
                            <span className="absolute text-xs top-0 right-0 bg-red-50 text-red-500 p-1 px-2">-{product.discount_label}</span>
                         )}
                      </div>
-                     <div className='p-3'>
+                     <div className='p-3 pt-2'>
                         <ItemTitle className="text-sm mb-2 line-clamp-2 font-normal">{product.item_name}</ItemTitle>
 
-                        <div className="h-[38px]">
-                           <div className='font-semibold'><small>₱</small> {parseDecimalToLocalString(product.discounted_price)}</div>
-                           {product.hasDiscount && (
-                              <div className='text-xs line-through text-gray-500'>₱ {parseDecimalToLocalString(product.price)}</div>
-                           )}
-                        </div>
-                        
-                        <div className='mt-6 text-xs flex items-center justify-between'>
-                           <div className='flex items-center gap-1'>{product.establishment?.name}</div>
+                        <div className='mt-6 text-xs flex items-end justify-between'>
+                           <div className="h-[30px] flex flex-col justify-end">
+                              {product.hasDiscount && (
+                                 <div className='text-xs line-through text-gray-500'>₱ {parseDecimalToLocalString(product.price)}</div>
+                              )}
+                              <div className='font-semibold text-sm'><small>₱</small> {parseDecimalToLocalString(product.discounted_price)}</div>
+                           </div>
                            <span>{product.stock} in stock</span>
                         </div>
                      </div>

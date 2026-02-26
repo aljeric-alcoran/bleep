@@ -21,7 +21,7 @@ export default function AppProductListings() {
 
          {!isLoading && hasProducts && (
             <>
-               <div className="mt-6 grid grid-cols-5 gap-4">
+               <div className="mt-6 grid grid-cols-6 gap-3">
                   {data?.data.map((product: Product) => (
                      <ProductCard key={product._id} product={product}/>
                   ))}
