@@ -100,7 +100,7 @@ export const columns: ColumnDef<Category>[] = [
                      <DropdownMenuItem onClick={() => setOpenEdit(true)}>
                         Edit
                      </DropdownMenuItem>
-                     <DropdownMenuItem onClick={() => setOpenDelete(true)}>
+                     <DropdownMenuItem className="text-primary" onClick={() => setOpenDelete(true)}>
                         Delete
                      </DropdownMenuItem>
                   </DropdownMenuContent>
