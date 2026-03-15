@@ -14,7 +14,7 @@ import { ChevronDown, CircleUserRound, Cog, LogOut, ShoppingBasket } from "lucid
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { getNameInitials } from "@/lib/helpers";
 import { User } from "@/@types";
-import { useLogout } from "@/hooks/use-logout";
+import { useLogout } from "@/hooks/useLogout";
 
 export default function UserProfileDropdown({ 
    user
