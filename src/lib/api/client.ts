@@ -1,4 +1,11 @@
-export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+import { 
+   buildUrl, 
+   parseBody, 
+   extractErrorMessage, 
+   anySignal
+} from "../helpers/apiHelpers";
+
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 export interface ApiRequestOptions extends Omit<RequestInit, "body" | "method"> {
    body?: unknown;
@@ -23,35 +30,6 @@ export class ApiError extends Error {
    get isNotFound() { return this.status === 404; }
    get isServerError() { return this.status >= 500; }
 }
-
-// ─── Helpers ────────────────────────────────────────────────────────────────
-
-function buildUrl(path: string, baseURL?: string): string {
-   if (!baseURL) return path;
-   return `${baseURL.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
-}
-
-async function parseBody(response: Response): Promise<unknown> {
-   const ct = response.headers.get("content-type") ?? "";
-   if (ct.includes("application/json")) {
-      try { return await response.json(); } catch { /* fall through */ }
-   }
-   if (ct.includes("text/")) {
-      try { return await response.text(); } catch { /* fall through */ }
-   }
-   return null;
-}
-
-function extractMessage(data: unknown): string {
-   if (data && typeof data === "object") {
-      const d = data as Record<string, unknown>;
-      const msg = d.message ?? d.error ?? d.detail;
-      if (typeof msg === "string") return msg;
-   }
-   return "Request failed";
-}
-
-// ─── Core ────────────────────────────────────────────────────────────────────
 
 export async function apiRequest<T = unknown>(
    path: string,
@@ -97,7 +75,7 @@ export async function apiRequest<T = unknown>(
    const data = await parseBody(response);
 
    if (!response.ok) {
-      throw new ApiError(extractMessage(data), response.status, data, url);
+      throw new ApiError(extractErrorMessage(data), response.status, data, url);
    }
 
    if (response.status === 204 || data === null) {
@@ -106,18 +84,6 @@ export async function apiRequest<T = unknown>(
 
    return data as T;
 }
-
-/** Aborts when ANY of the provided signals fires. */
-function anySignal(signals: AbortSignal[]): AbortSignal {
-   const controller = new AbortController();
-   for (const signal of signals) {
-      if (signal.aborted) { controller.abort(); break; }
-      signal.addEventListener("abort", () => controller.abort(), { once: true });
-   }
-   return controller.signal;
-}
-
-// ─── Convenience API ─────────────────────────────────────────────────────────
 
 type WithoutMethodAndBody = Omit<ApiRequestOptions, "method" | "body">;
 type WithoutMethod = Omit<ApiRequestOptions, "method">;
