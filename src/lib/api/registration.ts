@@ -1,17 +1,9 @@
 import { ApiError, api } from "./client";
+import { extractErrorMessage } from "../helpers/apiHelpers";
+import type { UseRegistrationObject } from "@/@types/user";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 
-function messageFromErrorData(data: unknown, status: number): string {
-   if (data && typeof data === "object") {
-      const d = data as Record<string, unknown>;
-      if (status === 429 && "error" in d && typeof d.error === "string")
-         return d.error;
-      const msg = d.message ?? d.error ?? d.detail;
-      if (typeof msg === "string") return msg;
-   }
-   return "Request failed";
-}
 
 export async function requestEmailVerification(email: string) {
    try {
@@ -25,13 +17,13 @@ export async function requestEmailVerification(email: string) {
       if (err instanceof ApiError)
          return {
             status: err.status,
-            message: messageFromErrorData(err.data, err.status),
+            message: extractErrorMessage(err.data),
          };
       throw err;
    }
 }
 
-export async function verifyEmail(email: string | null, otp: string) {
+export async function verifyEmail(email: string, otp: string) {
    try {
       const data = await api.post<{ message?: string }>(
          "/register/verify-otp",
@@ -43,22 +35,13 @@ export async function verifyEmail(email: string | null, otp: string) {
       if (err instanceof ApiError)
          return {
             status: err.status,
-            message: messageFromErrorData(err.data, err.status),
+            message: extractErrorMessage(err.data),
          };
       throw err;
    }
 }
 
-type UserObject = {
-   otp: string;
-   firstname: string;
-   lastname: string;
-   email: string;
-   password: string;
-   phoneNumber: string;
-};
-
-export async function registerUser(userObject: UserObject) {
+export async function registerUser(userObject: UseRegistrationObject) {
    try {
       const data = await api.post<{ message?: string }>(
          "/api/v1/register",
@@ -69,7 +52,7 @@ export async function registerUser(userObject: UserObject) {
       if (err instanceof ApiError)
          return {
             status: err.status,
-            message: messageFromErrorData(err.data, err.status),
+            message: extractErrorMessage(err.data),
          };
       throw err;
    }
