@@ -1,20 +1,19 @@
 "use client"
 
+import Link from "next/link";
 import EmptyProduct from "./EmptyProduct";
 import ProductCard from "./ProductCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 import FormDialog from "./FormDialog";
 import { Button } from "@/components/ui/button";
-import { fetchSellerProducts } from "@/lib/api/products";
-import { useQuery } from "@tanstack/react-query";
 import { Package, Plus } from "lucide-react";
 import { useState } from "react";
 import { Product } from "@/@types";
-import Link from "next/link";
+import { useFetchSellerProducts } from "@/hooks/useProducts";
 
 export default function Products() {
-   const { isLoading, isError, data, error } = useQuery({ queryKey:  ["sellers-products"], queryFn: fetchSellerProducts});
-   const hasProducts = data?.data.length > 0;
+   const { isLoading, isError, data, error } = useFetchSellerProducts();
+   const hasProducts = data?.data?.length && data?.data?.length > 0;
    const [open, setOpen] = useState<boolean>(false);
    const [selectedProduct, setSelectedProduct] = useState<Product | undefined>();
    

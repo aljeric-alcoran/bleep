@@ -1,6 +1,6 @@
 import { ApiError, api } from "./client";
 import { extractErrorMessage } from "../helpers/apiHelpers";
-import type { UseRegistrationPayload } from "@/@types/user";
+import type { UseRegistrationPayload } from "@/@types";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 

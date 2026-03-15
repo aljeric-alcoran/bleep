@@ -6,7 +6,7 @@ export async function fetchProducts() {
 }
 
 export async function fetchSellerProducts() {
-  return api.get("/api/v1/products/seller");
+  return api.get<ProductResponse>("/api/v1/products/seller");
 }
 
 export async function createProduct(productObject: Product) {
