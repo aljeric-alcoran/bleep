@@ -1,4 +1,4 @@
-export interface UseRegistrationObject {
+export interface UseRegistrationPayload {
    otp: string;
    firstname: string;
    lastname: string;

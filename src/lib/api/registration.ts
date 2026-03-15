@@ -1,6 +1,6 @@
 import { ApiError, api } from "./client";
 import { extractErrorMessage } from "../helpers/apiHelpers";
-import type { UseRegistrationObject } from "@/@types/user";
+import type { UseRegistrationPayload } from "@/@types/user";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 
@@ -41,7 +41,7 @@ export async function verifyEmail(email: string, otp: string) {
    }
 }
 
-export async function registerUser(userObject: UseRegistrationObject) {
+export async function registerUser(userObject: UseRegistrationPayload) {
    try {
       const data = await api.post<{ message?: string }>(
          "/api/v1/register",
