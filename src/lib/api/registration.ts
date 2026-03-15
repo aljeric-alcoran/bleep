@@ -1,38 +1,51 @@
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { ApiError, api } from "./client";
 
-export const requestEmailVerification = async (email: string) => {
-   const response = await fetch(`${baseURL}/register/request-otp`, {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-   });
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
 
-   if (!response.ok) {
-      const errorData = await response.json();
-      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
-   } else {
-      const data = await response.json();
-      return { status: response.status, message: data.message };
+function messageFromErrorData(data: unknown, status: number): string {
+   if (data && typeof data === "object") {
+      const d = data as Record<string, unknown>;
+      if (status === 429 && "error" in d && typeof d.error === "string")
+         return d.error;
+      const msg = d.message ?? d.error ?? d.detail;
+      if (typeof msg === "string") return msg;
+   }
+   return "Request failed";
+}
+
+export async function requestEmailVerification(email: string) {
+   try {
+      const data = await api.post<{ message?: string }>(
+         "/register/request-otp",
+         { email },
+         { baseURL }
+      );
+      return { status: 200, message: data?.message };
+   } catch (err) {
+      if (err instanceof ApiError)
+         return {
+            status: err.status,
+            message: messageFromErrorData(err.data, err.status),
+         };
+      throw err;
    }
 }
 
-export const verifyEmail = async (email: string | null, otp: string) => {
-   const response = await fetch(`${baseURL}/register/verify-otp`, {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, otp }),
-   });
-
-   if (!response.ok) {
-      const errorData = await response.json();
-      return { status: response.status, message: response.status === 429 ? errorData.error : errorData.message };
-   } else {
-      const data = await response.json();
-      return { status: response.status, message: data.message };
+export async function verifyEmail(email: string | null, otp: string) {
+   try {
+      const data = await api.post<{ message?: string }>(
+         "/register/verify-otp",
+         { email, otp },
+         { baseURL }
+      );
+      return { status: 200, message: data?.message };
+   } catch (err) {
+      if (err instanceof ApiError)
+         return {
+            status: err.status,
+            message: messageFromErrorData(err.data, err.status),
+         };
+      throw err;
    }
 }
 
@@ -43,14 +56,21 @@ type UserObject = {
    email: string;
    password: string;
    phoneNumber: string;
-}
+};
 
-export const registerUser = async (userObject: UserObject) => {
-   const response = await fetch("/api/v1/register", {
-      method: 'POST',
-      body: JSON.stringify(userObject),
-   });
-
-   const data = await response.json();
-   return { status: response.status, message: data.message, data };
+export async function registerUser(userObject: UserObject) {
+   try {
+      const data = await api.post<{ message?: string }>(
+         "/api/v1/register",
+         userObject
+      );
+      return { status: 200, message: (data as { message?: string })?.message, data };
+   } catch (err) {
+      if (err instanceof ApiError)
+         return {
+            status: err.status,
+            message: messageFromErrorData(err.data, err.status),
+         };
+      throw err;
+   }
 }

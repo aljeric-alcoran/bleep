@@ -1,58 +1,38 @@
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
-import { validateAccessToken } from "../helpers";
+import { api } from "./client";
 
-export async function loginUser({ 
-   email, 
-   password, 
-   remember 
-}: { 
-   email: string, 
-   password: string, 
-   remember?: boolean 
+export async function loginUser({
+   email,
+   password,
+   remember,
+}: {
+   email: string;
+   password: string;
+   remember?: boolean;
 }) {
-   const response = await fetch("/api/v1/auth/login", {
-      method: 'POST',
-      body: JSON.stringify({ email, password, remember }),
-   });
-
-   
-   if (!response.ok) throw new Error("Error: Failed to login user!");
-   return response.json();
+   return api.post("/api/v1/auth/login", { email, password, remember });
 }
 
 export async function logoutUser() {
-   const response = await fetch("/api/v1/auth/logout", {
-      method: 'POST',
-   });
-
-   if (response.ok) {
-      useUserStore.getState().clearUser();
-      redirect('/');
-   }
-   else throw new Error("Error: Logout failed!");
+   await api.post("/api/v1/auth/logout");
+   useUserStore.getState().clearUser();
+   redirect("/");
 }
 
 export async function redirectUser() {
-   const response = await fetch("/api/v1/auth/me", {
-      method: 'GET',
-   });
-   if (!response.ok) throw new Error("Unauthorized");
-
-   const data = await response.json();
-
-   return { ...data };
+   return api.get<Record<string, unknown>>("/api/v1/auth/me");
 }
 
-export async function requestAccessToken(baseURL: string = '', refreshToken: string) {
-   const response = await fetch(`${baseURL}/api/v1/auth/refresh`, {
-      method: 'GET',
+export async function requestAccessToken(
+   baseURL: string = "",
+   refreshToken: string
+) {
+   return api.get("/api/v1/auth/refresh", {
+      baseURL,
       headers: {
-         'Authorization': `Bearer ${refreshToken}`,
-         'Content-Type': 'application/json',
-      }
+         Authorization: `Bearer ${refreshToken}`,
+         "Content-Type": "application/json",
+      },
    });
- 
-   if (!response.ok) throw new Error("Error: Failed to get new access token!");
-   return response.json();
 }
