@@ -35,3 +35,15 @@ export interface CartItemProduct {
    stock: number;
    images: string[];
 }
+
+export interface UpdateCartItemPayload {
+   productId: string;
+   quantity?: number;
+   selected?: boolean;
+};
+
+
+export interface BulkItemPayload {
+   itemIds: string[];
+   selected: boolean;
+};

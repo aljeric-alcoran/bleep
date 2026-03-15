@@ -22,3 +22,9 @@ export interface Product {
    slug?: string;
    metadata?: Metadata;
 }
+
+export interface ProductResponse {
+   data: Product[];
+   results: number;
+   status: string;
+}
